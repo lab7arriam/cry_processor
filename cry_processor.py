@@ -87,19 +87,22 @@ class CryProcessor:
         new_records = list()
         new_ids=dict()
         un_count=0
+        total_count=0
         print("Annotating raw output with diamond")  
         cmd_pre_dia = subprocess.call('cd cry_extraction; cp ../data/diamond_data/cry_nomenclature.dmnd .; touch diamond.log', shell=True) 
         cmd_dia = subprocess.call('cd cry_extraction;../diamond blastp -d cry_nomenclature -q raw_processed_{0}.fasta -o diamond_matches_{0}.txt --al aligned_{0}.fa --un unaligned_{0}.fa --max-target-seqs 1 --log --verbose 2>> diamond.log; rm cry_nomenclature.dmnd; mv *.log logs/; mv *gned* logs/'.format(str(self.cry_quiery).split('.')[0]), shell=True)
         with open("cry_extraction/diamond_matches_{}.txt".format(str(self.cry_quiery).split('.')[0]), 'r') as csv_file:
             my_reader = csv.reader(csv_file, delimiter='\t') 
             for row in my_reader:
+                total_count+=1
                 if float(row[2])<100.0:
                     new_ids[row[0]]=row[1]+'|'+ str(row[2])
                     un_count+=1
         for init_rec in SeqIO.parse(open('cry_extraction/raw_processed_{}.fasta'.format(str(self.cry_quiery).split('.')[0])),"fasta"):
            if init_rec.id in new_ids.keys():
                new_records.append(SeqRecord(Seq(str(init_rec.seq),generic_protein),id=new_ids[init_rec.id],description=init_rec.description))
-        print('{} different from database toxins found'.format(un_count))
+        print('{} sequences matched with database'.format(total_count))
+        print('{} toxins different from database found'.format(un_count))
         SeqIO.write(new_records,'cry_extraction/unique_{}.fasta'.format(str(self.cry_quiery).split('.')[0]), "fasta")
        
 if __name__ == '__main__':
@@ -113,7 +116,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     fi,hm,pr = args.fi, args.hm, args.pr
     pr = CryProcessor(fi, hm,pr)
-    #pr.find_cry()
-    #pr.find_domains()
+    pr.find_cry()
+    pr.find_domains()
     pr.cry_digestor()
     pr.annotate_raw_output()

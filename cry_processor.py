@@ -13,29 +13,30 @@ import time
 
 
 class CryProcessor:
-    def __init__(self, cry_quiery, hmmer_dir, processing_flag):
+    def __init__(self, cry_quiery, hmmer_dir, processing_flag, hm_threads):
         cmd_sto = subprocess.call('if [ ! -d cry_extraction ]; then mkdir cry_extraction; fi; if [ ! -d cry_extraction/logs ]; then mkdir cry_extraction/logs; fi', shell=True)
         self.cry_quiery = cry_quiery
         self.hmmer_dir = hmmer_dir
         self.processing_flag = processing_flag
+        self.hm_threads = hm_threads
         self.init_count = len(list(SeqIO.parse(open(self.cry_quiery),"fasta")))
         self.one_dom_count = 0
         self.two_dom_count = 0
         self.three_dom_count = 0
 
-    def run_hmmer(self,queiry,out_index,model_type,dir_flag,log):
+    def run_hmmer(self,queiry,out_index,model_type,dir_flag,log,hm_threads):
         cmd_sto = subprocess.call('cd cry_extraction; if [ ! -d {0} ]; then mkdir {0}; fi'.format(dir_flag), shell=True)
-        cmd_sto = subprocess.call('{0}/binaries/hmmsearch -A {1} ./data/models/{2} {3} >> cry_extraction/logs/{4}.log'.format(self.hmmer_dir,'cry_extraction/'+dir_flag + '/'+queiry.split('.')[0]+out_index,model_type,queiry,log), shell=True) 
+        cmd_sto = subprocess.call('{0}/binaries/hmmsearch --cpu {5} -A {1} ./data/models/{2} {3} >> cry_extraction/logs/{4}.log'.format(self.hmmer_dir,'cry_extraction/'+dir_flag + '/'+queiry.split('.')[0]+out_index,model_type,queiry,log, hm_threads), shell=True) 
         cmd_fasta = subprocess.call('{0}/binaries/esl-reformat fasta {1} > {2}'.format(self.hmmer_dir,'cry_extraction/'+dir_flag+ '/'+queiry.split('.')[0]+out_index, 'cry_extraction/'+dir_flag+ '/'+queiry.split('.')[0]+out_index.replace('sto','fasta')), shell=True) 
 
     def find_cry(self):
         print('Searching for unprocessed cry toxins')
-        self.run_hmmer(str(self.cry_quiery),'_full_extracted.sto','Complete.hmm','full_toxins', 'full_extraction')
+        self.run_hmmer(str(self.cry_quiery),'_full_extracted.sto','Complete.hmm','full_toxins', 'full_extraction',self.hm_threads)
        
     def find_domains(self):
         for i in range(1,4):
             print('Searching for domain {} of cry toxins'.format(i))
-            self.run_hmmer(str(self.cry_quiery),'_D{}_extracted.sto'.format(i),'D{}.hmm'.format(i),'domains','domains_extraction')
+            self.run_hmmer(str(self.cry_quiery),'_D{}_extracted.sto'.format(i),'D{}.hmm'.format(i),'domains','domains_extraction',self.hm_threads)
 
     def cry_3D_ids_extractor(self):
         print('Exctracting cry toxins with 3 domains')
@@ -111,11 +112,12 @@ if __name__ == '__main__':
                         type=str, required=True)
     parser.add_argument('-hm', help='Please specify path to hmmer', metavar='Hmmer_directory',
                         type=str, required=True)
-    parser.add_argument('-pr', help='Please choose processig type: 1 for extracting all domains, 2 for extratins 2-3 domains', metavar='Int',type=str, default=2)
+    parser.add_argument('-pr', help='Please choose processig type: 1 for extracting all domains, 2 for extratins 2-3 domains', metavar='Int',type=str, default=1)
+    parser.add_argument('-th', help='Please number of threads for hmmer', metavar='Int',type=str, default=1)
     parser.set_defaults(feature=True)
     args = parser.parse_args()
-    fi,hm,pr = args.fi, args.hm, args.pr
-    pr = CryProcessor(fi, hm,pr)
+    fi,hm,pr,th = args.fi, args.hm, args.pr,args.th
+    pr = CryProcessor(fi, hm,pr, th)
     pr.find_cry()
     pr.find_domains()
     pr.cry_digestor()

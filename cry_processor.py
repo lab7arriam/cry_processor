@@ -115,7 +115,6 @@ class CryProcessor:
         for init_rec in SeqIO.parse(open('cry_extraction/raw_processed_{}.fasta'.format(str(self.cry_quiery).split('.')[0])),"fasta"):
            if init_rec.id in summary_dict.keys():
                summary_dict[init_rec.id]['init'].append(init_rec.description)
-        count=0
         for key in summary_dict:
            handle = Entrez.efetch(db="protein",rettype='ipg',retmode='text', id =key)
            handle_list=[el.split('\t') for el in handle.read().split('\n')]
@@ -125,10 +124,6 @@ class CryProcessor:
                   summary_dict[key]['hit'+str(hit_counter)]=handle_list[i+1]
                   hit_counter+=1
            time.sleep(3)
-           print count
-           if count>2:
-               break
-           count+=1
         with open("cry_extraction/annotation_table_{}.tsv".format(str(self.cry_quiery).split('.')[0]), 'w') as csv_file:
             my_writer = csv.writer(csv_file, delimiter='\t') 
             init_row = ['protein_id', 'initial_description', 'top_cry_hit', 'cry_identity', 'source', 'nucl_accession', 'start','stop', 'strand','ipg_prot_id','ipg_prot_name', 'organism', 'strain','assembly']

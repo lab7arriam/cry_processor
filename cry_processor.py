@@ -4,9 +4,7 @@ from Bio import SeqIO, Entrez
 from Bio.Seq import Seq
 from Bio.Alphabet import generic_protein
 from Bio.SeqRecord import SeqRecord
-from Bio.Blast import NCBIWWW, NCBIXML
 from collections import defaultdict
-import sys
 import csv
 import time
 
@@ -79,7 +77,7 @@ class CryProcessor:
                  new_rec_list.append(SeqRecord(Seq(str(record.seq[start:stop]),generic_protein),id=name.split('|')[0], description=" ".join(name.split('|')[1:])))
         SeqIO.write(new_rec_list,'cry_extraction/raw_processed_{}.fasta'.format(str(self.cry_quiery).split('.')[0]), "fasta")
         print('{} sequences recieved'.format(self.init_count))
-        print('{} potential cry-toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
+        print('{} potential cry toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
         print('{} toxins with one domain'.format(self.one_dom_count))
         print('{} toxins with two domains'.format(self.two_dom_count))
         print('{} toxins with three domains'.format(self.three_dom_count))
@@ -106,6 +104,44 @@ class CryProcessor:
         print('{} toxins different from database found'.format(un_count))
         SeqIO.write(new_records,'cry_extraction/unique_{}.fasta'.format(str(self.cry_quiery).split('.')[0]), "fasta")
        
+    def make_summary_table(self):
+        print('Searching for the metadata')
+        summary_dict=defaultdict(dict)
+        with open("cry_extraction/diamond_matches_{}.txt".format(str(self.cry_quiery).split('.')[0]), 'r') as csv_file:
+            my_reader = csv.reader(csv_file, delimiter='\t') 
+            for row in my_reader:
+                summary_dict[row[0]]=defaultdict(list)
+                summary_dict[row[0]]['init']=row[1:3]
+        for init_rec in SeqIO.parse(open('cry_extraction/raw_processed_{}.fasta'.format(str(self.cry_quiery).split('.')[0])),"fasta"):
+           if init_rec.id in summary_dict.keys():
+               summary_dict[init_rec.id]['init'].append(init_rec.description)
+        count=0
+        for key in summary_dict:
+           handle = Entrez.efetch(db="protein",rettype='ipg',retmode='text', id =key)
+           handle_list=[el.split('\t') for el in handle.read().split('\n')]
+           hit_counter=0
+           for i in range(len(handle_list)-1):
+              if len(handle_list[i+1])>2:
+                  summary_dict[key]['hit'+str(hit_counter)]=handle_list[i+1]
+                  hit_counter+=1
+           time.sleep(3)
+           print count
+           if count>2:
+               break
+           count+=1
+        with open("cry_extraction/annotation_table_{}.tsv".format(str(self.cry_quiery).split('.')[0]), 'w') as csv_file:
+            my_writer = csv.writer(csv_file, delimiter='\t') 
+            init_row = ['protein_id', 'initial_description', 'top_cry_hit', 'cry_identity', 'source', 'nucl_accession', 'start','stop', 'strand','ipg_prot_id','ipg_prot_name', 'organism', 'strain','assembly']
+            my_writer.writerow(init_row)
+            for key in summary_dict:
+                iter_num=len(summary_dict[key].keys())
+                for i in range(iter_num-1):
+                    if i==0:
+                        row=[key]+[summary_dict[key]['init'][2]]+[summary_dict[key]['init'][0]]+[summary_dict[key]['init'][1]]+summary_dict[key]['hit'+str(i)][1:]
+                    else:
+                        row=['--']*4+summary_dict[key]['hit'+str(i)][1:]
+                    my_writer.writerow(row)
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='cry_processor')
     parser.add_argument('-fi', help='Please enter full path to fasta file', metavar='File',
@@ -113,12 +149,13 @@ if __name__ == '__main__':
     parser.add_argument('-hm', help='Please specify path to hmmer', metavar='Hmmer_directory',
                         type=str, required=True)
     parser.add_argument('-pr', help='Please choose processig type: 1 for extracting all domains, 2 for extratins 2-3 domains', metavar='Int',type=str, default=1)
-    parser.add_argument('-th', help='Please number of threads for hmmer', metavar='Int',type=str, default=1)
+    parser.add_argument('-th', help='Please specify number of threads for hmmer', metavar='Int',type=str, default=1)
     parser.set_defaults(feature=True)
     args = parser.parse_args()
     fi,hm,pr,th = args.fi, args.hm, args.pr,args.th
     pr = CryProcessor(fi, hm,pr, th)
-    pr.find_cry()
-    pr.find_domains()
-    pr.cry_digestor()
-    pr.annotate_raw_output()
+    #pr.find_cry()
+    #pr.find_domains()
+    #pr.cry_digestor()
+    #pr.annotate_raw_output()
+    pr.make_summary_table()

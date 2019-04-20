@@ -7,40 +7,52 @@ from Bio.SeqRecord import SeqRecord
 from collections import defaultdict
 import csv
 import time
-
-
+import os
 
 class CryProcessor:
-    def __init__(self, cry_quiery, hmmer_dir, processing_flag, hm_threads):
-        cmd_sto = subprocess.call('if [ ! -d cry_extraction ]; then mkdir cry_extraction; fi; if [ ! -d cry_extraction/logs ]; then mkdir cry_extraction/logs; fi', shell=True)
+    def __init__(self,quiery_dir, cry_quiery, hmmer_dir, processing_flag, hm_threads, email):
+        self.home_dir = ('/').join(os.path.realpath(__file__).split('/')[0:len(os.path.realpath(__file__).split('/'))-1])
         self.cry_quiery = cry_quiery
         self.hmmer_dir = hmmer_dir
         self.processing_flag = processing_flag
         self.hm_threads = hm_threads
+        self.quiery_dir = quiery_dir
         self.init_count = len(list(SeqIO.parse(open(self.cry_quiery),"fasta")))
         self.one_dom_count = 0
         self.two_dom_count = 0
         self.three_dom_count = 0
+        self.email = email
+        cmd_init = subprocess.call('if [ ! -d $PWD/{0} ]; then mkdir $PWD/{0}; fi; if [ ! -d $PWD/{0}/cry_extraction ]; then mkdir $PWD/{0}/cry_extraction; fi; if [ ! -d $PWD/{0}/cry_extraction/logs ]; then mkdir $PWD/{0}/cry_extraction/logs; fi'.format(self.quiery_dir), shell=True)
 
-    def run_hmmer(self,queiry,out_index,model_type,dir_flag,log,hm_threads):
-        cmd_sto = subprocess.call('cd cry_extraction; if [ ! -d {0} ]; then mkdir {0}; fi'.format(dir_flag), shell=True)
-        cmd_sto = subprocess.call('{0}/binaries/hmmsearch --cpu {5} -A {1} ./data/models/{2} {3} >> cry_extraction/logs/{4}.log'.format(self.hmmer_dir,'cry_extraction/'+dir_flag + '/'+queiry.split('.')[0]+out_index,model_type,queiry,log, hm_threads), shell=True) 
-        cmd_fasta = subprocess.call('{0}/binaries/esl-reformat fasta {1} > {2}'.format(self.hmmer_dir,'cry_extraction/'+dir_flag+ '/'+queiry.split('.')[0]+out_index, 'cry_extraction/'+dir_flag+ '/'+queiry.split('.')[0]+out_index.replace('sto','fasta')), shell=True) 
+    def run_hmmer(self,queiry,out_index,model_type,dir_flag,log,hm_threads,quiery_dir):
+        if self.hmmer_dir:
+            cmd_make_dirs = subprocess.call('cd $PWD/{1}/cry_extraction; if [ ! -d {0} ]; then mkdir {0}; fi'.format(dir_flag, quiery_dir), shell=True)
+
+            cmd_search = subprocess.call('{0}/binaries/hmmsearch --cpu {5} -A {1} {6}/data/models/{2} {3} >> $PWD/{7}/cry_extraction/logs/{4}.log'.format(self.hmmer_dir,'$PWD/{0}/cry_extraction/'.format(self.quiery_dir)+dir_flag + '/'+queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+out_index,model_type,queiry,log, hm_threads, self.home_dir, self.quiery_dir), shell=True) 
+
+            cmd_fasta = subprocess.call('{0}/binaries/esl-reformat fasta {1} > {2}'.format(self.hmmer_dir,'$PWD/{0}/cry_extraction/'.format(self.quiery_dir)+dir_flag+ '/'+queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+out_index, '$PWD/{0}/cry_extraction/'.format(self.quiery_dir)+dir_flag+ '/'+queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+out_index.replace('sto','fasta')), shell=True) 
+
+        else:
+            cmd_make_dirs = subprocess.call('cd $PWD/{1}/cry_extraction; if [ ! -d {0} ]; then mkdir {0}; fi'.format(dir_flag, quiery_dir), shell=True)
+
+            cmd_search = subprocess.call('hmmsearch --cpu {4} -A {0} {5}/data/models/{1} {2} >> $PWD/{6}/cry_extraction/logs/{3}.log'.format('$PWD/{0}/cry_extraction/'.format(self.quiery_dir)+dir_flag + '/'+queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+out_index,model_type,queiry,log, hm_threads, self.home_dir, self.quiery_dir), shell=True) 
+
+            cmd_fasta = subprocess.call('esl-reformat fasta {0} > {1}'.format('$PWD/{0}/cry_extraction/'.format(self.quiery_dir)+dir_flag+ '/'+queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+out_index, '$PWD/{0}/cry_extraction/'.format(self.quiery_dir)+dir_flag+ '/'+queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+out_index.replace('sto','fasta')), shell=True) 
 
     def find_cry(self):
         print('Searching for unprocessed cry toxins')
-        self.run_hmmer(str(self.cry_quiery),'_full_extracted.sto','Complete.hmm','full_toxins', 'full_extraction',self.hm_threads)
+        self.run_hmmer(str(self.cry_quiery),'_full_extracted.sto','Complete.hmm','full_toxins', 'full_extraction',self.hm_threads, self.quiery_dir)
        
     def find_domains(self):
         for i in range(1,4):
             print('Searching for domain {} of cry toxins'.format(i))
-            self.run_hmmer(str(self.cry_quiery),'_D{}_extracted.sto'.format(i),'D{}.hmm'.format(i),'domains','domains_extraction',self.hm_threads)
+            self.run_hmmer(str(self.cry_quiery),'_D{}_extracted.sto'.format(i),'D{}.hmm'.format(i),'domains','domains_extraction', self.hm_threads, self.quiery_dir)
 
     def cry_3D_ids_extractor(self):
         print('Exctracting cry toxins with 3 domains')
         self.dom_dict=defaultdict(list)
         for i in range(1,4):
-            for record in SeqIO.parse(open('cry_extraction/{0}/{1}'.format('domains',self.cry_quiery.split('.')[0]+'_D{}_extracted.fasta'.format(i))),"fasta"):
+            for record in SeqIO.parse(open('{3}/{2}/cry_extraction/{0}/{1}'.format('domains',self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+'_D{}_extracted.fasta'.format(i),self.quiery_dir,subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip())),"fasta"):
                 if '|' in record.id:
                     name = record.id.split('|')[1].split('/')[0] + '|' +'|'.join('|'.join(record.description.split('] ')[1].split(' ')).split('_'))
                 else:
@@ -50,7 +62,6 @@ class CryProcessor:
         self.two_dom_count = len([key for key in self.dom_dict if len(set(self.dom_dict[key]))==2])
         return([key for key in self.dom_dict if len(set(self.dom_dict[key]))==3])
 
-
     def cry_digestor(self):
         self.id_list = self.cry_3D_ids_extractor()
         self.three_dom_count = len(self.id_list)
@@ -58,7 +69,7 @@ class CryProcessor:
         self.coordinate_dict = defaultdict(list)
         dom_start=int(self.processing_flag)
         for i in range(dom_start,4):
-            for record in SeqIO.parse(open('cry_extraction/{0}/{1}'.format('domains',self.cry_quiery.split('.')[0]+'_D{}_extracted.fasta'.format(i))),"fasta"):
+            for record in SeqIO.parse(open('{3}/{2}/cry_extraction/{0}/{1}'.format('domains',self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+'_D{}_extracted.fasta'.format(i),self.quiery_dir,subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip())),"fasta"):
                 if '|' in record.id:
                     name = record.id.split('|')[1].split('/')[0] + '|' +'|'.join('|'.join(record.description.split('] ')[1].split(' ')).split('_'))
                 else:
@@ -75,7 +86,7 @@ class CryProcessor:
                  start = min([int(x) for x in self.coordinate_dict[name]])-1
                  stop = max([int(x) for x in self.coordinate_dict[name]])-1
                  new_rec_list.append(SeqRecord(Seq(str(record.seq[start:stop]),generic_protein),id=name.split('|')[0], description=" ".join(name.split('|')[1:])))
-        SeqIO.write(new_rec_list,'cry_extraction/raw_processed_{}.fasta'.format(str(self.cry_quiery).split('.')[0]), "fasta")
+        SeqIO.write(new_rec_list,'/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
         print('{} sequences recieved'.format(self.init_count))
         print('{} potential cry toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
         print('{} toxins with one domain'.format(self.one_dom_count))
@@ -88,33 +99,35 @@ class CryProcessor:
         un_count=0
         total_count=0
         print("Annotating raw output with diamond")  
-        cmd_pre_dia = subprocess.call('cd cry_extraction; cp ../data/diamond_data/cry_nomenclature.dmnd .; touch diamond.log', shell=True) 
-        cmd_dia = subprocess.call('cd cry_extraction;../diamond blastp -d cry_nomenclature -q raw_processed_{0}.fasta -o diamond_matches_{0}.txt --al aligned_{0}.fa --un unaligned_{0}.fa --max-target-seqs 1 --log --verbose 2>> diamond.log; rm cry_nomenclature.dmnd; mv *.log logs/; mv *gned* logs/'.format(str(self.cry_quiery).split('.')[0]), shell=True)
-        with open("cry_extraction/diamond_matches_{}.txt".format(str(self.cry_quiery).split('.')[0]), 'r') as csv_file:
+        cmd_pre_dia = subprocess.call('cd /{0}/{1}/cry_extraction; cp {2}/data/diamond_data/cry_nomenclature.dmnd .; touch diamond.log'.format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.home_dir), shell=True) 
+        cmd_dia = subprocess.call('cd /{1}/{2}/cry_extraction;{3}/diamond blastp -d cry_nomenclature -q raw_processed_{0}.fasta -o diamond_matches_{0}.txt --al aligned_{0}.fa --un unaligned_{0}.fa --max-target-seqs 1 --log --verbose 2>> diamond.log; rm cry_nomenclature.dmnd; mv *.log logs/; mv *gned* logs/'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0],subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.home_dir), shell=True)
+        with open("/{0}/{1}/cry_extraction/diamond_matches_{2}.txt".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'r') as csv_file:
             my_reader = csv.reader(csv_file, delimiter='\t') 
             for row in my_reader:
                 total_count+=1
                 if float(row[2])<100.0:
                     new_ids[row[0]]=row[1]+'|'+ str(row[2])
                     un_count+=1
-        for init_rec in SeqIO.parse(open('cry_extraction/raw_processed_{}.fasta'.format(str(self.cry_quiery).split('.')[0])),"fasta"):
+        for init_rec in SeqIO.parse(open('/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),"fasta"):
            if init_rec.id in new_ids.keys():
                new_records.append(SeqRecord(Seq(str(init_rec.seq),generic_protein),id=new_ids[init_rec.id],description=init_rec.description))
         print('{} sequences matched with database'.format(total_count))
         print('{} toxins different from database found'.format(un_count))
-        SeqIO.write(new_records,'cry_extraction/unique_{}.fasta'.format(str(self.cry_quiery).split('.')[0]), "fasta")
+        SeqIO.write(new_records,'/{0}/{1}/cry_extraction/unique_{2}.fasta'.format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
        
     def make_summary_table(self):
         print('Searching for the metadata')
+        Entrez.email = "{}".format(self.email)
         summary_dict=defaultdict(dict)
-        with open("cry_extraction/diamond_matches_{}.txt".format(str(self.cry_quiery).split('.')[0]), 'r') as csv_file:
+        with open("/{0}/{1}/cry_extraction/diamond_matches_{2}.txt".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'r') as csv_file:
             my_reader = csv.reader(csv_file, delimiter='\t') 
             for row in my_reader:
                 summary_dict[row[0]]=defaultdict(list)
                 summary_dict[row[0]]['init']=row[1:3]
-        for init_rec in SeqIO.parse(open('cry_extraction/raw_processed_{}.fasta'.format(str(self.cry_quiery).split('.')[0])),"fasta"):
+        for init_rec in SeqIO.parse(open('/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),"fasta"):
            if init_rec.id in summary_dict.keys():
                summary_dict[init_rec.id]['init'].append(init_rec.description)
+        print(summary_dict)
         for key in summary_dict:
            handle = Entrez.efetch(db="protein",rettype='ipg',retmode='text', id =key)
            handle_list=[el.split('\t') for el in handle.read().split('\n')]
@@ -124,7 +137,8 @@ class CryProcessor:
                   summary_dict[key]['hit'+str(hit_counter)]=handle_list[i+1]
                   hit_counter+=1
            time.sleep(3)
-        with open("cry_extraction/annotation_table_{}.tsv".format(str(self.cry_quiery).split('.')[0]), 'w') as csv_file:
+        print(summary_dict)
+        with open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'w') as csv_file:
             my_writer = csv.writer(csv_file, delimiter='\t') 
             init_row = ['protein_id', 'initial_description', 'top_cry_hit', 'cry_identity', 'source', 'nucl_accession', 'start','stop', 'strand','ipg_prot_id','ipg_prot_name', 'organism', 'strain','assembly']
             my_writer.writerow(init_row)
@@ -141,16 +155,19 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='cry_processor')
     parser.add_argument('-fi', help='Please enter full path to fasta file', metavar='File',
                         type=str, required=True)
-    parser.add_argument('-hm', help='Please specify path to hmmer', metavar='Hmmer_directory',
-                        type=str, required=True)
+    parser.add_argument('-hm', help='Please specify path to hmmer if your hmmer is installed locally', metavar='Hmmer_directory',
+                        type=str, default='')
     parser.add_argument('-pr', help='Please choose processig type: 1 for extracting all domains, 2 for extratins 2-3 domains', metavar='Int',type=str, default=1)
     parser.add_argument('-th', help='Please specify number of threads for hmmer', metavar='Int',type=str, default=1)
+    parser.add_argument('-ma', help='Please enter e-mail address for NCBI annotation', metavar='Str',type=str, default='')
+    parser.add_argument('-od', help='Please specify output directory', metavar='Str',type=str, required=True)
     parser.set_defaults(feature=True)
     args = parser.parse_args()
-    fi,hm,pr,th = args.fi, args.hm, args.pr,args.th
-    pr = CryProcessor(fi, hm,pr, th)
-    #pr.find_cry()
-    #pr.find_domains()
-    #pr.cry_digestor()
-    #pr.annotate_raw_output()
+    od,fi,hm,pr,th, ma = args.od, args.fi, args.hm, args.pr,args.th, args.ma
+    pr = CryProcessor(od, fi, hm,pr, th, ma)
+    pr.find_cry()
+    pr.find_domains()
+    pr.cry_3D_ids_extractor()
+    pr.cry_digestor()
+    pr.annotate_raw_output()
     pr.make_summary_table()

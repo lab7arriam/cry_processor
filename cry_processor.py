@@ -8,9 +8,10 @@ from collections import defaultdict
 import csv
 import time
 import os
+import sys
 
 class CryProcessor:
-    def __init__(self,quiery_dir, cry_quiery, hmmer_dir, processing_flag, hm_threads, email):
+    def __init__(self,quiery_dir, cry_quiery, hmmer_dir, processing_flag, hm_threads, email, regime):
         self.home_dir = ('/').join(os.path.realpath(__file__).split('/')[0:len(os.path.realpath(__file__).split('/'))-1])
         self.cry_quiery = cry_quiery
         self.hmmer_dir = hmmer_dir
@@ -22,6 +23,7 @@ class CryProcessor:
         self.two_dom_count = 0
         self.three_dom_count = 0
         self.email = email
+        self.regime = regime
         cmd_init = subprocess.call('if [ ! -d $PWD/{0} ]; then mkdir $PWD/{0}; fi; if [ ! -d $PWD/{0}/cry_extraction ]; then mkdir $PWD/{0}/cry_extraction; fi; if [ ! -d $PWD/{0}/cry_extraction/logs ]; then mkdir $PWD/{0}/cry_extraction/logs; fi'.format(self.quiery_dir), shell=True)
 
     def run_hmmer(self,queiry,out_index,model_type,dir_flag,log,hm_threads,quiery_dir):
@@ -39,14 +41,14 @@ class CryProcessor:
 
             cmd_fasta = subprocess.call('esl-reformat fasta {0} > {1}'.format('$PWD/{0}/cry_extraction/'.format(self.quiery_dir)+dir_flag+ '/'+queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+out_index, '$PWD/{0}/cry_extraction/'.format(self.quiery_dir)+dir_flag+ '/'+queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+out_index.replace('sto','fasta')), shell=True) 
 
-    def find_cry(self):
+    def find_cry(self, qiuery):
         print('Searching for unprocessed cry toxins')
-        self.run_hmmer(str(self.cry_quiery),'_full_extracted.sto','Complete.hmm','full_toxins', 'full_extraction',self.hm_threads, self.quiery_dir)
+        self.run_hmmer(str(qiuery),'_full_extracted.sto','Complete.hmm','full_toxins', 'full_extraction',self.hm_threads, self.quiery_dir)
        
-    def find_domains(self):
+    def find_domains(self, qiuery):
         for i in range(1,4):
             print('Searching for domain {} of cry toxins'.format(i))
-            self.run_hmmer(str(self.cry_quiery),'_D{}_extracted.sto'.format(i),'D{}.hmm'.format(i),'domains','domains_extraction', self.hm_threads, self.quiery_dir)
+            self.run_hmmer(str(qiuery),'_D{}_extracted.sto'.format(i),'D{}.hmm'.format(i),'domains','domains_extraction', self.hm_threads, self.quiery_dir)
 
     def cry_3D_ids_extractor(self):
         print('Exctracting cry toxins with 3 domains')
@@ -63,35 +65,74 @@ class CryProcessor:
         return([key for key in self.dom_dict if len(set(self.dom_dict[key]))==3])
 
     def cry_digestor(self):
-        self.id_list = self.cry_3D_ids_extractor()
-        self.three_dom_count = len(self.id_list)
-        print("Performing cry toxins processing")
-        self.coordinate_dict = defaultdict(list)
-        dom_start=int(self.processing_flag)
-        for i in range(dom_start,4):
-            for record in SeqIO.parse(open('{3}/{2}/cry_extraction/{0}/{1}'.format('domains',self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+'_D{}_extracted.fasta'.format(i),self.quiery_dir,subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip())),"fasta"):
-                if '|' in record.id:
-                    name = record.id.split('|')[1].split('/')[0] + '|' +'|'.join('|'.join(record.description.split('] ')[1].split(' ')).split('_'))
+        if self.regime == 'do':
+            self.find_domains(self.cry_quiery)
+            self.id_list = self.cry_3D_ids_extractor()
+            self.three_dom_count = len(self.id_list)
+            print("Performing cry toxins processing")
+            self.coordinate_dict = defaultdict(list)
+            dom_start=int(self.processing_flag)
+            for i in range(dom_start,4):
+                for record in SeqIO.parse(open('{3}/{2}/cry_extraction/{0}/{1}'.format('domains',self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+'_D{}_extracted.fasta'.format(i),self.quiery_dir,subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip())),"fasta"):
+                    if '|' in record.id:
+                        name = record.id.split('|')[1].split('/')[0] + '|' +'|'.join('|'.join(record.description.split('] ')[1].split(' ')).split('_'))
+                    else:
+                        name = record.id.split('/')[0] + '|' +'|'.join('|'.join(record.description.split('] ')[1].split(' ')).split('_'))
+                    if name in self.id_list:
+                        self.coordinate_dict[name].extend(record.id.split('/')[1].split('-'))
+            new_rec_list=list()        
+            for record in SeqIO.parse(open(self.cry_quiery),"fasta"):
+                if record.description != record.id:
+                    name = record.id + '|' +'|'.join('|'.join(record.description.split(' ')[1:]).split('_'))
                 else:
-                    name = record.id.split('/')[0] + '|' +'|'.join('|'.join(record.description.split('] ')[1].split(' ')).split('_'))
+                    name= record.id + '|' +'|'.join('|'.join(record.description.split(' ')[0:]).split('_'))
                 if name in self.id_list:
-                    self.coordinate_dict[name].extend(record.id.split('/')[1].split('-'))
-        new_rec_list=list()        
-        for record in SeqIO.parse(open(self.cry_quiery),"fasta"):
-            if record.description != record.id:
-                name = record.id + '|' +'|'.join('|'.join(record.description.split(' ')[1:]).split('_'))
-            else:
-                name= record.id + '|' +'|'.join('|'.join(record.description.split(' ')[0:]).split('_'))
-            if name in self.id_list:
-                 start = min([int(x) for x in self.coordinate_dict[name]])-1
-                 stop = max([int(x) for x in self.coordinate_dict[name]])-1
-                 new_rec_list.append(SeqRecord(Seq(str(record.seq[start:stop]),generic_protein),id=name.split('|')[0], description=" ".join(name.split('|')[1:])))
-        SeqIO.write(new_rec_list,'/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
-        print('{} sequences recieved'.format(self.init_count))
-        print('{} potential cry toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
-        print('{} toxins with one domain'.format(self.one_dom_count))
-        print('{} toxins with two domains'.format(self.two_dom_count))
-        print('{} toxins with three domains'.format(self.three_dom_count))
+                     start = min([int(x) for x in self.coordinate_dict[name]])-1
+                     stop = max([int(x) for x in self.coordinate_dict[name]])-1
+                     new_rec_list.append(SeqRecord(Seq(str(record.seq[start:stop]),generic_protein),id=name.split('|')[0], description=" ".join(name.split('|')[1:])))
+            
+            SeqIO.write(new_rec_list,'/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
+            print('{} sequences recieved'.format(self.init_count))
+            print('{} potential cry toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
+            print('{} toxins with one domain'.format(self.one_dom_count))
+            print('{} toxins with two domains'.format(self.two_dom_count))
+            print('{} toxins with three domains'.format(self.three_dom_count))
+
+        if self.regime == 'fd':
+            self.find_cry(self.cry_quiery)
+            cmd_take_file = subprocess.call("cp {0}/{1}/cry_extraction/full_toxins/{2}_full_extracted.fasta {0}/{1}/cry_extraction/; mv {0}/{1}/cry_extraction/{2}_full_extracted.fasta {0}/{1}/cry_extraction/{2}.fasta; sed -i 's/[0-9]*|//g' {0}/{1}/cry_extraction/{2}.fasta; sed -i 's/\/[0-9]*-[0-9]*//g' {0}/{1}/cry_extraction/{2}.fasta; sed -i 's/ \[subseq from]\ / /g' {0}/{1}/cry_extraction/{2}.fasta".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),shell=True)
+            self.find_domains('{0}/{1}/cry_extraction/{2}.fasta'.format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))
+            self.id_list = self.cry_3D_ids_extractor()
+            self.three_dom_count = len(self.id_list)
+            print("Performing cry toxins processing")
+            self.coordinate_dict = defaultdict(list)
+            self.first_filter_count = len(list(SeqIO.parse(open("{0}/{1}/cry_extraction/{2}.fasta".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),"fasta")))
+            dom_start=int(self.processing_flag)
+            for i in range(dom_start,4):
+                for record in SeqIO.parse(open('{3}/{2}/cry_extraction/{0}/{1}'.format('domains',self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+'_D{}_extracted.fasta'.format(i),self.quiery_dir,subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip())),"fasta"):
+                    if '|' in record.id:
+                        name = record.id.split('|')[1].split('/')[0] + '|' +'|'.join('|'.join(record.description.split('] ')[1].split(' ')).split('_'))
+                    else:
+                        name = record.id.split('/')[0] + '|' +'|'.join('|'.join(record.description.split('] ')[1].split(' ')).split('_'))
+                    if name in self.id_list:
+                        self.coordinate_dict[name].extend(record.id.split('/')[1].split('-'))
+            new_rec_list=list()      
+            for record in SeqIO.parse(open(self.cry_quiery),"fasta"):
+                if record.description != record.id:
+                    name = record.id + '|' +'|'.join('|'.join(record.description.split(' ')[1:]).split('_'))
+                else:
+                    name= record.id + '|' +'|'.join('|'.join(record.description.split(' ')[0:]).split('_'))
+                if name in self.id_list:
+                     start = min([int(x) for x in self.coordinate_dict[name]])-1
+                     stop = max([int(x) for x in self.coordinate_dict[name]])-1
+                     new_rec_list.append(SeqRecord(Seq(str(record.seq[start:stop]),generic_protein),id=name.split('|')[0], description=" ".join(name.split('|')[1:])))
+            SeqIO.write(new_rec_list,'/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
+            print('{} sequences recieved'.format(self.init_count))
+            print('{} sequences after first search'.format(self.first_filter_count))
+            print('{} potential cry toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
+            print('{} toxins with one domain'.format(self.one_dom_count))
+            print('{} toxins with two domains'.format(self.two_dom_count))
+            print('{} toxins with three domains'.format(self.three_dom_count))
 
     def annotate_raw_output(self):
         new_records = list()
@@ -114,6 +155,8 @@ class CryProcessor:
         print('{} sequences matched with database'.format(total_count))
         print('{} toxins different from database found'.format(un_count))
         SeqIO.write(new_records,'/{0}/{1}/cry_extraction/unique_{2}.fasta'.format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
+        if self.regime == 'fd':
+            cmd_clean_up = subprocess.call("rm {0}/{1}/cry_extraction/{2}.fasta".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),shell=True)
        
     def make_summary_table(self):
         print('Searching for the metadata')
@@ -124,32 +167,47 @@ class CryProcessor:
             for row in my_reader:
                 summary_dict[row[0]]=defaultdict(list)
                 summary_dict[row[0]]['init']=row[1:3]
+        making_smb = subprocess.call("touch /{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), shell = True)
         for init_rec in SeqIO.parse(open('/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),"fasta"):
            if init_rec.id in summary_dict.keys():
                summary_dict[init_rec.id]['init'].append(init_rec.description)
-        print(summary_dict)
+        init_row = ['protein_id', 'initial_description', 'top_cry_hit', 'cry_identity', 'source', 'nucl_accession', 'start','stop', 'strand','ipg_prot_id','ipg_prot_name', 'organism', 'strain','assembly\n']
+        #sys.stdout=open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),"w")
+        f = open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),"w")
+        f.write('\t'.join(init_row))
+        f.close() 
         for key in summary_dict:
-           handle = Entrez.efetch(db="protein",rettype='ipg',retmode='text', id =key)
-           handle_list=[el.split('\t') for el in handle.read().split('\n')]
-           hit_counter=0
-           for i in range(len(handle_list)-1):
-              if len(handle_list[i+1])>2:
-                  summary_dict[key]['hit'+str(hit_counter)]=handle_list[i+1]
-                  hit_counter+=1
-           time.sleep(3)
-        print(summary_dict)
-        with open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'w') as csv_file:
-            my_writer = csv.writer(csv_file, delimiter='\t') 
-            init_row = ['protein_id', 'initial_description', 'top_cry_hit', 'cry_identity', 'source', 'nucl_accession', 'start','stop', 'strand','ipg_prot_id','ipg_prot_name', 'organism', 'strain','assembly']
-            my_writer.writerow(init_row)
-            for key in summary_dict:
-                iter_num=len(summary_dict[key].keys())
-                for i in range(iter_num-1):
-                    if i==0:
-                        row=[key]+[summary_dict[key]['init'][2]]+[summary_dict[key]['init'][0]]+[summary_dict[key]['init'][1]]+summary_dict[key]['hit'+str(i)][1:]
-                    else:
-                        row=['--']*4+summary_dict[key]['hit'+str(i)][1:]
-                    my_writer.writerow(row)
+            handle = Entrez.efetch(db="protein",rettype='ipg',retmode='text', id =key)
+            handle_list=[el.split('\t') for el in handle.read().split('\n')]
+            hit_counter=0
+            for i in range(len(handle_list)-1):
+               if len(handle_list[i+1])>2:
+                   summary_dict[key]['hit'+str(hit_counter)]=handle_list[i+1]
+                   hit_counter+=1
+            iter_num=len(summary_dict[key].keys())
+            for i in range(iter_num-1):
+                if i==0:
+                    row=[key]+[summary_dict[key]['init'][2]]+[summary_dict[key]['init'][0]]+[summary_dict[key]['init'][1]]+summary_dict[key]['hit'+str(i)][1:]
+                else:
+                    row=['--']*4+summary_dict[key]['hit'+str(i)][1:]
+            f = open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),"w")
+            f.write('\t'.join(row) + '\n') 
+            f.close()
+            time.sleep(3)
+        #print(summary_dict)
+        #with open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'w') as csv_file:
+         #   my_writer = csv.writer(csv_file, delimiter='\t') 
+            #init_row = ['protein_id', 'initial_description', 'top_cry_hit', 'cry_identity', 'source', 'nucl_accession', 'start','stop', 'strand','ipg_prot_id','ipg_prot_name', 'organism', 'strain','assembly']
+           # my_writer.writerow(init_row)
+            #for key in summary_dict:
+             #   iter_num=len(summary_dict[key].keys())
+              #  for i in range(iter_num-1):
+               #     if i==0:
+                #        row=[key]+[summary_dict[key]['init'][2]]+[summary_dict[key]['init'][0]]+[summary_dict[key]['init'][1]]+summary_dict[key]['hit'+str(i)][1:]
+                 #   else:
+                  #      row=['--']*4+summary_dict[key]['hit'+str(i)][1:]
+                    #print(row)
+                   # my_writer.writerow(row)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='cry_processor')
@@ -157,17 +215,18 @@ if __name__ == '__main__':
                         type=str, required=True)
     parser.add_argument('-hm', help='Please specify path to hmmer if your hmmer is installed locally', metavar='Hmmer_directory',
                         type=str, default='')
-    parser.add_argument('-pr', help='Please choose processig type: 1 for extracting all domains, 2 for extratins 2-3 domains', metavar='Int',type=str, default=1)
+    parser.add_argument('-pr', help='Please choose processig type: 1 for extracting all domains, 2 for extrating 2-3 domains', metavar='Int',type=str, default=1)
     parser.add_argument('-th', help='Please specify number of threads for hmmer', metavar='Int',type=str, default=1)
     parser.add_argument('-ma', help='Please enter e-mail address for NCBI annotation', metavar='Str',type=str, default='')
     parser.add_argument('-od', help='Please specify output directory', metavar='Str',type=str, required=True)
+    parser.add_argument('-r', help='Please choose pipeline type: do - domain only search with subsequent unioning; fd - searching for potential cry-toxins with subsequent processing', metavar='Str',type=str, default='do')
     parser.set_defaults(feature=True)
     args = parser.parse_args()
-    od,fi,hm,pr,th, ma = args.od, args.fi, args.hm, args.pr,args.th, args.ma
-    pr = CryProcessor(od, fi, hm,pr, th, ma)
-    pr.find_cry()
-    pr.find_domains()
-    pr.cry_3D_ids_extractor()
-    pr.cry_digestor()
-    pr.annotate_raw_output()
+    od,fi,hm,pr,th, ma, r = args.od, args.fi, args.hm, args.pr,args.th, args.ma, args.r
+    pr = CryProcessor(od, fi, hm,pr, th, ma, r)
+    #pr.find_cry(fi)
+    #pr.find_domains()
+    #pr.cry_3D_ids_extractor()
+    #pr.cry_digestor()
+    #pr.annotate_raw_output()
     pr.make_summary_table()

@@ -136,7 +136,7 @@ class CryProcessor:
 
     def annotate_raw_output(self):
         new_records = list()
-        new_ids=dict()
+        self.new_ids=dict()
         un_count=0
         total_count=0
         print("Annotating raw output with diamond")  
@@ -147,11 +147,11 @@ class CryProcessor:
             for row in my_reader:
                 total_count+=1
                 if float(row[2])<100.0:
-                    new_ids[row[0]]=row[1]+'|'+ str(row[2])
+                    self.new_ids[row[0]]=row[1]+'|'+ str(row[2])
                     un_count+=1
         for init_rec in SeqIO.parse(open('/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),"fasta"):
-           if init_rec.id in new_ids.keys():
-               new_records.append(SeqRecord(Seq(str(init_rec.seq),generic_protein),id=new_ids[init_rec.id],description=init_rec.description))
+           if init_rec.id in self.new_ids.keys():
+               new_records.append(SeqRecord(Seq(str(init_rec.seq),generic_protein),id=self.new_ids[init_rec.id],description=init_rec.description))
         print('{} sequences matched with database'.format(total_count))
         print('{} toxins different from database found'.format(un_count))
         SeqIO.write(new_records,'/{0}/{1}/cry_extraction/unique_{2}.fasta'.format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
@@ -172,7 +172,6 @@ class CryProcessor:
            if init_rec.id in summary_dict.keys():
                summary_dict[init_rec.id]['init'].append(init_rec.description)
         init_row = ['protein_id', 'initial_description', 'top_cry_hit', 'cry_identity', 'source', 'nucl_accession', 'start','stop', 'strand','ipg_prot_id','ipg_prot_name', 'organism', 'strain','assembly\n']
-        #sys.stdout=open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),"w")
         f = open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),"w")
         f.write('\t'.join(init_row))
         f.close() 
@@ -190,24 +189,22 @@ class CryProcessor:
                     row=[key]+[summary_dict[key]['init'][2]]+[summary_dict[key]['init'][0]]+[summary_dict[key]['init'][1]]+summary_dict[key]['hit'+str(i)][1:]
                 else:
                     row=['--']*4+summary_dict[key]['hit'+str(i)][1:]
-            f = open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),"w")
-            f.write('\t'.join(row) + '\n') 
-            f.close()
+                f = open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),"a+")
+                f.write('\t'.join(row) + '\n') 
+                f.close()
             time.sleep(3)
-        #print(summary_dict)
-        #with open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'w') as csv_file:
-         #   my_writer = csv.writer(csv_file, delimiter='\t') 
-            #init_row = ['protein_id', 'initial_description', 'top_cry_hit', 'cry_identity', 'source', 'nucl_accession', 'start','stop', 'strand','ipg_prot_id','ipg_prot_name', 'organism', 'strain','assembly']
-           # my_writer.writerow(init_row)
-            #for key in summary_dict:
-             #   iter_num=len(summary_dict[key].keys())
-              #  for i in range(iter_num-1):
-               #     if i==0:
-                #        row=[key]+[summary_dict[key]['init'][2]]+[summary_dict[key]['init'][0]]+[summary_dict[key]['init'][1]]+summary_dict[key]['hit'+str(i)][1:]
-                 #   else:
-                  #      row=['--']*4+summary_dict[key]['hit'+str(i)][1:]
-                    #print(row)
-                   # my_writer.writerow(row)
+
+    def upload_nucl(self):
+        print('uploading nucleotide sequences')
+        Entrez.email = "{}".format(self.email)
+        keys_for_nucl= []
+        for rec in list(SeqIO.parse(open(self.cry_quiery),"fasta")):
+            if rec.id in self.new_ids.keys():
+                keys_for_nucl.append(rec.id +'|' + '|'.join('|'.join((rec.description).split(' ')[1:]).split('_')))
+        for key in keys_for_nucl:
+            print(key)
+            handle = Entrez.efetch(db="nucleotide",rettype='gb',retmode='text', id =key.split('|')[0])
+            print(handle.read())
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='cry_processor')
@@ -220,13 +217,13 @@ if __name__ == '__main__':
     parser.add_argument('-ma', help='Please enter e-mail address for NCBI annotation', metavar='Str',type=str, default='')
     parser.add_argument('-od', help='Please specify output directory', metavar='Str',type=str, required=True)
     parser.add_argument('-r', help='Please choose pipeline type: do - domain only search with subsequent unioning; fd - searching for potential cry-toxins with subsequent processing', metavar='Str',type=str, default='do')
+    parser.add_argument('--annotate', '-a',action='store_true',help='make final NCBI annotation')
     parser.set_defaults(feature=True)
     args = parser.parse_args()
-    od,fi,hm,pr,th, ma, r = args.od, args.fi, args.hm, args.pr,args.th, args.ma, args.r
+    od,fi,hm,pr,th, ma, r, a = args.od, args.fi, args.hm, args.pr,args.th, args.ma, args.r, args.annotate
     pr = CryProcessor(od, fi, hm,pr, th, ma, r)
-    #pr.find_cry(fi)
-    #pr.find_domains()
-    #pr.cry_3D_ids_extractor()
-    #pr.cry_digestor()
-    #pr.annotate_raw_output()
-    pr.make_summary_table()
+    pr.cry_digestor()
+    pr.annotate_raw_output()
+    if a: 
+        pr.make_summary_table()
+    pr.upload_nucl()

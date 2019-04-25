@@ -9,6 +9,7 @@ import csv
 import time
 import os
 import sys
+import re
 
 class CryProcessor:
     def __init__(self,quiery_dir, cry_quiery, hmmer_dir, processing_flag, hm_threads, email, regime):
@@ -197,14 +198,25 @@ class CryProcessor:
     def upload_nucl(self):
         print('uploading nucleotide sequences')
         Entrez.email = "{}".format(self.email)
-        keys_for_nucl= []
-        for rec in list(SeqIO.parse(open(self.cry_quiery),"fasta")):
-            if rec.id in self.new_ids.keys():
-                keys_for_nucl.append(rec.id +'|' + '|'.join('|'.join((rec.description).split(' ')[1:]).split('_')))
+        keys_for_nucl = defaultdict(list)
+        with open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'r') as csvfile:
+             my_reader = csv.reader(csvfile, delimiter='\t') 
+             for row in my_reader:
+                 if row[0] in self.new_ids.keys():
+                     keys_for_nucl[row[0]].append('|'.join('|'.join((row[1]).split(' ')).split('_')))
+                     keys_for_nucl[row[0]].extend([row[5], row[6], row[7], row[8]])
+        print(keys_for_nucl)
         for key in keys_for_nucl:
-            print(key)
-            handle = Entrez.efetch(db="nucleotide",rettype='gb',retmode='text', id =key.split('|')[0])
-            print(handle.read())
+            handle = Entrez.efetch(db="nucleotide",rettype='fasta',retmode='text', id = keys_for_nucl[key][1])
+            fasta_rec = SeqIO.read(handle, "fasta")
+            handle.close()
+            if keys_for_nucl[key][4] == '+':
+                print(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])])
+                print(len(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])]),len(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])])/3)
+            elif keys_for_nucl[key][4] == '-':
+                print(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])].reverse_complement())
+                print(len(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])].reverse_complement()),len(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])].reverse_complement())/3)
+            print(fasta_rec.id)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='cry_processor')
@@ -218,12 +230,14 @@ if __name__ == '__main__':
     parser.add_argument('-od', help='Please specify output directory', metavar='Str',type=str, required=True)
     parser.add_argument('-r', help='Please choose pipeline type: do - domain only search with subsequent unioning; fd - searching for potential cry-toxins with subsequent processing', metavar='Str',type=str, default='do')
     parser.add_argument('--annotate', '-a',action='store_true',help='make final NCBI annotation')
+    parser.add_argument('-nu', help='Please specify the way to upload nucleotide records: fn - uploading full sequences, pn - uploading processed subsequences', metavar='Nucl_uploading_type', type=str, default='')
     parser.set_defaults(feature=True)
     args = parser.parse_args()
-    od,fi,hm,pr,th, ma, r, a = args.od, args.fi, args.hm, args.pr,args.th, args.ma, args.r, args.annotate
+    od,fi,hm,pr,th, ma, r, a, nu = args.od, args.fi, args.hm, args.pr,args.th, args.ma, args.r, args.annotate, args.nu
     pr = CryProcessor(od, fi, hm,pr, th, ma, r)
     pr.cry_digestor()
     pr.annotate_raw_output()
-    if a: 
-        pr.make_summary_table()
-    pr.upload_nucl()
+    #if a: 
+    #    pr.make_summary_table()
+    if nu:
+        pr.upload_nucl()

@@ -2,7 +2,7 @@ import subprocess
 import argparse
 from Bio import SeqIO, Entrez
 from Bio.Seq import Seq
-from Bio.Alphabet import generic_protein
+from Bio.Alphabet import generic_protein, generic_dna
 from Bio.SeqRecord import SeqRecord
 from collections import defaultdict
 import csv
@@ -12,7 +12,7 @@ import sys
 import re
 
 class CryProcessor:
-    def __init__(self,quiery_dir, cry_quiery, hmmer_dir, processing_flag, hm_threads, email, regime):
+    def __init__(self,quiery_dir, cry_quiery, hmmer_dir, processing_flag, hm_threads, email, regime, nucl_type):
         self.home_dir = ('/').join(os.path.realpath(__file__).split('/')[0:len(os.path.realpath(__file__).split('/'))-1])
         self.cry_quiery = cry_quiery
         self.hmmer_dir = hmmer_dir
@@ -25,6 +25,7 @@ class CryProcessor:
         self.three_dom_count = 0
         self.email = email
         self.regime = regime
+        self.nucl_type = nucl_type
         cmd_init = subprocess.call('if [ ! -d $PWD/{0} ]; then mkdir $PWD/{0}; fi; if [ ! -d $PWD/{0}/cry_extraction ]; then mkdir $PWD/{0}/cry_extraction; fi; if [ ! -d $PWD/{0}/cry_extraction/logs ]; then mkdir $PWD/{0}/cry_extraction/logs; fi'.format(self.quiery_dir), shell=True)
 
     def run_hmmer(self,queiry,out_index,model_type,dir_flag,log,hm_threads,quiery_dir):
@@ -128,12 +129,18 @@ class CryProcessor:
                      stop = max([int(x) for x in self.coordinate_dict[name]])-1
                      new_rec_list.append(SeqRecord(Seq(str(record.seq[start:stop]),generic_protein),id=name.split('|')[0], description=" ".join(name.split('|')[1:])))
             SeqIO.write(new_rec_list,'/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
+            
             print('{} sequences recieved'.format(self.init_count))
             print('{} sequences after first search'.format(self.first_filter_count))
             print('{} potential cry toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
             print('{} toxins with one domain'.format(self.one_dom_count))
             print('{} toxins with two domains'.format(self.two_dom_count))
             print('{} toxins with three domains'.format(self.three_dom_count))
+
+        with open("/{0}/{1}/cry_extraction/coordinate_matches_{2}.txt".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'w') as csv_file:
+            my_writer = csv.writer(csv_file, delimiter='\t') 
+            for key in self.coordinate_dict:
+                my_writer.writerow([key]+self.coordinate_dict[key])
 
     def annotate_raw_output(self):
         new_records = list()
@@ -196,27 +203,53 @@ class CryProcessor:
             time.sleep(3)
 
     def upload_nucl(self):
-        print('uploading nucleotide sequences')
+        print('Uploading nucleotide sequences')
         Entrez.email = "{}".format(self.email)
         keys_for_nucl = defaultdict(list)
+        domain_coord_dict = defaultdict(list)
+        with open("/{0}/{1}/cry_extraction/coordinate_matches_{2}.txt".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'r') as csv_file:
+            my_reader = csv.reader(csv_file, delimiter='\t')
+            for row in my_reader:
+                 domain_coord_dict[row[0]]=row[1:]
         with open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'r') as csvfile:
              my_reader = csv.reader(csvfile, delimiter='\t') 
              for row in my_reader:
-                 if row[0] in self.new_ids.keys():
-                     keys_for_nucl[row[0]].append('|'.join('|'.join((row[1]).split(' ')).split('_')))
-                     keys_for_nucl[row[0]].extend([row[5], row[6], row[7], row[8]])
-        print(keys_for_nucl)
-        for key in keys_for_nucl:
-            handle = Entrez.efetch(db="nucleotide",rettype='fasta',retmode='text', id = keys_for_nucl[key][1])
-            fasta_rec = SeqIO.read(handle, "fasta")
-            handle.close()
-            if keys_for_nucl[key][4] == '+':
-                print(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])])
-                print(len(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])]),len(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])])/3)
-            elif keys_for_nucl[key][4] == '-':
-                print(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])].reverse_complement())
-                print(len(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])].reverse_complement()),len(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])].reverse_complement())/3)
-            print(fasta_rec.id)
+                 if row[0]!= '--' and row[0]!='protein_id':
+                     if float(row[3])!=100.0:
+                         keys_for_nucl[row[0]].append('|'.join((row[1]).split(' ')))
+                         keys_for_nucl[row[0]].extend([row[5], row[6], row[7], row[8], row[2], row[3]])
+        f_nuc_recs = []
+        p_nuc_recs = []
+        if self.nucl_type == 'fn' or self.nucl_type == 'an':
+            for key in keys_for_nucl:
+                handle = Entrez.efetch(db="nucleotide",rettype='fasta',retmode='text', id = keys_for_nucl[key][1])
+                fasta_rec = SeqIO.read(handle, "fasta")
+                handle.close()
+                if keys_for_nucl[key][4] == '+':
+                    f_nuc_recs.append(SeqRecord(Seq(str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])]),generic_dna),id=keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], description=" ".join(keys_for_nucl[key][0].split('|'))))
+                elif keys_for_nucl[key][4] == '-':
+                    f_nuc_recs.append(SeqRecord(Seq(str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])].reverse_complement()),generic_dna),id=keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], description=" ".join(keys_for_nucl[key][0].split('|'))))
+            SeqIO.write(f_nuc_recs,"/{0}/{1}/cry_extraction/{2}_full_nucl.fna".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
+        if self.nucl_type == 'pn' or self.nucl_type == 'an':
+            for key in keys_for_nucl:
+                handle = Entrez.efetch(db="nucleotide",rettype='fasta',retmode='text', id = keys_for_nucl[key][1])
+                fasta_rec = SeqIO.read(handle, "fasta")
+                handle.close()
+                if keys_for_nucl[key][4] == '+':
+                    dum_seq = str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])])
+                    p_nuc_recs.append(SeqRecord(Seq(dum_seq[(min([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])-1)*3:max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3-1],generic_dna),id=keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], description=" ".join(keys_for_nucl[key][0].split('|'))))
+                elif keys_for_nucl[key][4] == '-':
+                    dum_seq = str(Seq(str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])].reverse_complement()),generic_dna))
+                    p_nuc_recs.append(SeqRecord(Seq(dum_seq[(min([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])-1)*3:max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3-1],generic_dna),id=keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], description=" ".join(keys_for_nucl[key][0].split('|'))))
+            SeqIO.write(p_nuc_recs,"/{0}/{1}/cry_extraction/{2}_processed_nucl.fna".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
+        with open("/{0}/{1}/cry_extraction/domain_coordinates_nucl_table_{2}.tsv".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'w') as csvfile:
+             my_writer = csv.writer(csvfile, delimiter='\t') 
+             init_row = ['id', 'description', 'D1 start', 'D1 stop', 'D2 start', 'D2 stop','D3 start', 'D3 stop']
+             my_writer.writerow(init_row)
+             for key in keys_for_nucl:
+                 row = [keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], " ".join(keys_for_nucl[key][0].split('|')), (int(domain_coord_dict[keys_for_nucl[key][0]][0])-1)*3+1, int(domain_coord_dict[keys_for_nucl[key][0]][1])*3, (int(domain_coord_dict[keys_for_nucl[key][0]][2])-1)*3+1, int(domain_coord_dict[keys_for_nucl[key][0]][3])*3,(int(domain_coord_dict[keys_for_nucl[key][0]][4])-1)*3+1, int(domain_coord_dict[keys_for_nucl[key][0]][5])*3]
+                 my_writer.writerow(row)
+        print('{} nucleotide sequences downloaded'.format(max([len(p_nuc_recs), len(f_nuc_recs)])))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='cry_processor')
@@ -230,14 +263,14 @@ if __name__ == '__main__':
     parser.add_argument('-od', help='Please specify output directory', metavar='Str',type=str, required=True)
     parser.add_argument('-r', help='Please choose pipeline type: do - domain only search with subsequent unioning; fd - searching for potential cry-toxins with subsequent processing', metavar='Str',type=str, default='do')
     parser.add_argument('--annotate', '-a',action='store_true',help='make final NCBI annotation')
-    parser.add_argument('-nu', help='Please specify the way to upload nucleotide records: fn - uploading full sequences, pn - uploading processed subsequences', metavar='Nucl_uploading_type', type=str, default='')
+    parser.add_argument('-nu', help='Please specify the way to upload nucleotide records: fn - uploading full sequences, pn - uploading processed subsequences, an - both processed and unprocesed', metavar='Nucl_uploading_type', type=str, default='')
     parser.set_defaults(feature=True)
     args = parser.parse_args()
     od,fi,hm,pr,th, ma, r, a, nu = args.od, args.fi, args.hm, args.pr,args.th, args.ma, args.r, args.annotate, args.nu
-    pr = CryProcessor(od, fi, hm,pr, th, ma, r)
+    pr = CryProcessor(od, fi, hm,pr, th, ma, r, nu)
     pr.cry_digestor()
     pr.annotate_raw_output()
-    #if a: 
-    #    pr.make_summary_table()
+    if a: 
+        pr.make_summary_table()
     if nu:
         pr.upload_nucl()

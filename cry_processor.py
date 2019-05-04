@@ -90,7 +90,7 @@ class CryProcessor:
                     name= record.id + '|' +'|'.join('|'.join(record.description.split(' ')[0:]).split('_'))
                 if name in self.id_list:
                      start = min([int(x) for x in self.coordinate_dict[name]])-1
-                     stop = max([int(x) for x in self.coordinate_dict[name]])-1
+                     stop = max([int(x) for x in self.coordinate_dict[name]])
                      new_rec_list.append(SeqRecord(Seq(str(record.seq[start:stop]),generic_protein),id=name.split('|')[0], description=" ".join(name.split('|')[1:])))
             
             SeqIO.write(new_rec_list,'/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
@@ -119,15 +119,15 @@ class CryProcessor:
                     if name in self.id_list:
                         self.coordinate_dict[name].extend(record.id.split('/')[1].split('-'))
             new_rec_list=list()      
-            for record in SeqIO.parse(open(self.cry_quiery),"fasta"):
+            for record in SeqIO.parse(open("{0}/{1}/cry_extraction/{2}.fasta".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),"fasta"):
                 if record.description != record.id:
                     name = record.id + '|' +'|'.join('|'.join(record.description.split(' ')[1:]).split('_'))
                 else:
                     name= record.id + '|' +'|'.join('|'.join(record.description.split(' ')[0:]).split('_'))
                 if name in self.id_list:
                      start = min([int(x) for x in self.coordinate_dict[name]])-1
-                     stop = max([int(x) for x in self.coordinate_dict[name]])-1
-                     new_rec_list.append(SeqRecord(Seq(str(record.seq[start:stop]),generic_protein),id=name.split('|')[0], description=" ".join(name.split('|')[1:])))
+                     stop = max([int(x) for x in self.coordinate_dict[name]])
+                     new_rec_list.append(SeqRecord(Seq(str(record.seq[start:stop].upper()),generic_protein),id=name.split('|')[0], description=" ".join(name.split('|')[1:])))
             SeqIO.write(new_rec_list,'/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
             
             print('{} sequences recieved'.format(self.init_count))
@@ -136,6 +136,22 @@ class CryProcessor:
             print('{} toxins with one domain'.format(self.one_dom_count))
             print('{} toxins with two domains'.format(self.two_dom_count))
             print('{} toxins with three domains'.format(self.three_dom_count))
+
+        with open("/{0}/{1}/cry_extraction/proteins_domain_mapping_{2}.bed".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'w') as csv_file:
+            my_writer = csv.writer(csv_file, delimiter='\t') 
+            init_row = ['id','domain' ,'start', 'stop', 'description']
+            my_writer.writerow(init_row)
+            for key in self.coordinate_dict:
+                for i in range(0,5,2):
+                    if i==0:
+                        row=[key.split('|')[0],'domain {}'.format(1),int(self.coordinate_dict[key][i])-int(self.coordinate_dict[key][0]),int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1, " ".join(key.split('|')[1:])] 
+                    else:
+                        if i==2:
+                            dn=2
+                        else:
+                            dn=3
+                        row=[key.split('|')[0],'domain {}'.format(dn),int(self.coordinate_dict[key][i])-int(self.coordinate_dict[key][0])-1,int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1, " ".join(key.split('|')[1:])] 
+                    my_writer.writerow(row)
 
         with open("/{0}/{1}/cry_extraction/coordinate_matches_{2}.txt".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'w') as csv_file:
             my_writer = csv.writer(csv_file, delimiter='\t') 
@@ -164,7 +180,7 @@ class CryProcessor:
         print('{} toxins different from database found'.format(un_count))
         SeqIO.write(new_records,'/{0}/{1}/cry_extraction/unique_{2}.fasta'.format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
         if self.regime == 'fd':
-            cmd_clean_up = subprocess.call("rm {0}/{1}/cry_extraction/{2}.fasta".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),shell=True)
+            cmd_clean_up = subprocess.call("mv {0}/{1}/cry_extraction/{2}.fasta mv {0}/{1}/cry_extraction/first_search_{2}.fasta".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),shell=True)
        
     def make_summary_table(self):
         print('Searching for the metadata')
@@ -211,13 +227,14 @@ class CryProcessor:
             my_reader = csv.reader(csv_file, delimiter='\t')
             for row in my_reader:
                  domain_coord_dict[row[0]]=row[1:]
+        init_count=0
         with open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'r') as csvfile:
              my_reader = csv.reader(csvfile, delimiter='\t') 
              for row in my_reader:
                  if row[0]!= '--' and row[0]!='protein_id':
-                     if float(row[3])!=100.0:
-                         keys_for_nucl[row[0]].append('|'.join((row[1]).split(' ')))
-                         keys_for_nucl[row[0]].extend([row[5], row[6], row[7], row[8], row[2], row[3]])
+                     init_count+=1
+                     keys_for_nucl[row[0]].append('|'.join((row[1]).split(' ')))
+                     keys_for_nucl[row[0]].extend([row[5], row[6], row[7], row[8], row[2], row[3]])
         f_nuc_recs = []
         p_nuc_recs = []
         if self.nucl_type == 'fn' or self.nucl_type == 'an':
@@ -237,20 +254,30 @@ class CryProcessor:
                 handle.close()
                 if keys_for_nucl[key][4] == '+':
                     dum_seq = str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])])
-                    p_nuc_recs.append(SeqRecord(Seq(dum_seq[(min([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])-1)*3:max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3-1],generic_dna),id=keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], description=" ".join(keys_for_nucl[key][0].split('|'))))
+                    p_nuc_recs.append(SeqRecord(Seq(dum_seq[(min([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])-1)*3:max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3],generic_dna),id=keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], description=" ".join(keys_for_nucl[key][0].split('|'))))
                 elif keys_for_nucl[key][4] == '-':
                     dum_seq = str(Seq(str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])].reverse_complement()),generic_dna))
-                    p_nuc_recs.append(SeqRecord(Seq(dum_seq[(min([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])-1)*3:max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3-1],generic_dna),id=keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], description=" ".join(keys_for_nucl[key][0].split('|'))))
+                    p_nuc_recs.append(SeqRecord(Seq(dum_seq[(min([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])-1)*3:max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3],generic_dna),id=keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], description=" ".join(keys_for_nucl[key][0].split('|'))))
             SeqIO.write(p_nuc_recs,"/{0}/{1}/cry_extraction/{2}_processed_nucl.fna".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
-        with open("/{0}/{1}/cry_extraction/domain_coordinates_nucl_table_{2}.tsv".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'w') as csvfile:
+        with open("/{0}/{1}/cry_extraction/nucl_domain_mapping_{2}.bed".format(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip(),self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'w') as csvfile:
              my_writer = csv.writer(csvfile, delimiter='\t') 
-             init_row = ['id', 'description', 'D1 start', 'D1 stop', 'D2 start', 'D2 stop','D3 start', 'D3 stop']
+             init_row = ['id','domain', 'start', 'stop', 'description']
              my_writer.writerow(init_row)
              for key in keys_for_nucl:
-                 row = [keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], " ".join(keys_for_nucl[key][0].split('|')), (int(domain_coord_dict[keys_for_nucl[key][0]][0])-1)*3+1, int(domain_coord_dict[keys_for_nucl[key][0]][1])*3, (int(domain_coord_dict[keys_for_nucl[key][0]][2])-1)*3+1, int(domain_coord_dict[keys_for_nucl[key][0]][3])*3,(int(domain_coord_dict[keys_for_nucl[key][0]][4])-1)*3+1, int(domain_coord_dict[keys_for_nucl[key][0]][5])*3]
-                 my_writer.writerow(row)
+                 for i in range(0,5,2):
+                     if i==0:
+                        row=[keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6],'domain {}'.format(1),(int(domain_coord_dict[keys_for_nucl[key][0]][i])-1)*3-(int(domain_coord_dict[keys_for_nucl[key][0]][0])-1)*3,int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-(int(domain_coord_dict[keys_for_nucl[key][0]][0])-1)*3-1, " ".join(keys_for_nucl[key][0].split('|'))]  
+                     else:
+                        if i==2:
+                            dn=2
+                        else:
+                            dn=3
+                        row=[keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6],'domain {}'.format(dn),(int(domain_coord_dict[keys_for_nucl[key][0]][i])-1)*3-(int(domain_coord_dict[keys_for_nucl[key][0]][0])-1)*3-1,int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-(int(domain_coord_dict[keys_for_nucl[key][0]][0])-1)*3-1, " ".join(keys_for_nucl[key][0].split('|'))]      
+                     my_writer.writerow(row)
+        cmd_clean_up = subprocess.call('cd $PWD/{0}/cry_extraction; mv *coordinate_matches* logs/'.format(self.quiery_dir), shell=True)
         print('{} nucleotide sequences downloaded'.format(max([len(p_nuc_recs), len(f_nuc_recs)])))
 
+  
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='cry_processor')
     parser.add_argument('-fi', help='Please enter full path to fasta file', metavar='File',

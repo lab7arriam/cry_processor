@@ -84,7 +84,8 @@ class CryProcessor:
                         name = record.id.split('/')[0] + '|' +'|'.join('|'.join(record.description.split('] ')[1].split(' ')).split('_'))
                     if name in self.id_list:
                         self.coordinate_dict[name].extend(record.id.split('/')[1].split('-'))
-            new_rec_list=list()        
+            new_rec_list=list()   
+            full_rec_list=list()     
             for record in SeqIO.parse(open(self.cry_quiery),"fasta"):
                 if record.description != record.id:
                     name = record.id + '|' +'|'.join('|'.join(record.description.split(' ')[1:]).split('_'))
@@ -93,9 +94,12 @@ class CryProcessor:
                 if name in self.id_list:
                      start = min([int(x) for x in self.coordinate_dict[name]])-1
                      stop = max([int(x) for x in self.coordinate_dict[name]])
+                     full_rec_list.append(SeqRecord(Seq(str(record.seq),generic_protein),id=name.split('|')[0], description=" ".join(name.split('|')[1:])))
                      new_rec_list.append(SeqRecord(Seq(str(record.seq[start:stop]),generic_protein),id=name.split('|')[0], description=" ".join(name.split('|')[1:])))
             
             SeqIO.write(new_rec_list,'/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(self.main_dir,self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
+            SeqIO.write(full_rec_list,'/{0}/{1}/cry_extraction/raw_full_{2}.fasta'.format(self.main_dir,self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
+
             print('{} sequences recieved'.format(self.init_count))
             print('{} potential cry toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
             print('{} toxins with one domain'.format(self.one_dom_count))
@@ -120,7 +124,8 @@ class CryProcessor:
                         name = record.id.split('/')[0] + '|' +'|'.join('|'.join(record.description.split('] ')[1].split(' ')).split('_'))
                     if name in self.id_list:
                         self.coordinate_dict[name].extend(record.id.split('/')[1].split('-'))
-            new_rec_list=list()      
+            new_rec_list=list()   
+            full_rec_list=list()    
             for record in SeqIO.parse(open("{0}/{1}/cry_extraction/{2}.fasta".format(self.main_dir,self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),"fasta"):
                 if record.description != record.id:
                     name = record.id + '|' +'|'.join('|'.join(record.description.split(' ')[1:]).split('_'))
@@ -130,7 +135,9 @@ class CryProcessor:
                      start = min([int(x) for x in self.coordinate_dict[name]])-1
                      stop = max([int(x) for x in self.coordinate_dict[name]])
                      new_rec_list.append(SeqRecord(Seq(str(record.seq[start:stop].upper()),generic_protein),id=name.split('|')[0], description=" ".join(name.split('|')[1:])))
+                     full_rec_list.append(SeqRecord(Seq(str(record.seq),generic_protein),id=name.split('|')[0], description=" ".join(name.split('|')[1:])))
             SeqIO.write(new_rec_list,'/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(self.main_dir,self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
+            SeqIO.write(full_rec_list,'/{0}/{1}/cry_extraction/raw_full_{2}.fasta'.format(self.main_dir,self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
             
             print('{} sequences recieved'.format(self.init_count))
             print('{} sequences after first search'.format(self.first_filter_count))
@@ -167,7 +174,7 @@ class CryProcessor:
         total_count=0
         print("Annotating raw output with diamond")  
         cmd_pre_dia = subprocess.call('cd /{0}/{1}/cry_extraction; cp {2}/data/diamond_data/cry_nomenclature.dmnd .; touch diamond.log'.format(self.main_dir,self.quiery_dir,self.home_dir), shell=True) 
-        cmd_dia = subprocess.call('cd /{1}/{2}/cry_extraction;{3}/diamond blastp -d cry_nomenclature -q raw_processed_{0}.fasta -o diamond_matches_{0}.txt --al aligned_{0}.fa --un unaligned_{0}.fa --max-target-seqs 1 --log --verbose 2>> diamond.log; rm cry_nomenclature.dmnd; mv *.log logs/; mv *gned* logs/'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0],self.main_dir,self.quiery_dir,self.home_dir), shell=True)
+        cmd_dia = subprocess.call('cd /{1}/{2}/cry_extraction;{3}/diamond blastp -d cry_nomenclature -q raw_full_{0}.fasta -o diamond_matches_{0}.txt --al aligned_{0}.fa --un unaligned_{0}.fa --max-target-seqs 1 --log --verbose 2>> diamond.log; rm cry_nomenclature.dmnd; mv *.log logs/; mv *gned* logs/'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0],self.main_dir,self.quiery_dir,self.home_dir), shell=True)
         with open("/{0}/{1}/cry_extraction/diamond_matches_{2}.txt".format(self.main_dir,self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'r') as csv_file:
             my_reader = csv.reader(csv_file, delimiter='\t') 
             for row in my_reader:
@@ -241,25 +248,34 @@ class CryProcessor:
         p_nuc_recs = []
         if self.nucl_type == 'fn' or self.nucl_type == 'an':
             for key in keys_for_nucl:
-                handle = Entrez.efetch(db="nucleotide",rettype='fasta',retmode='text', id = keys_for_nucl[key][1])
-                fasta_rec = SeqIO.read(handle, "fasta")
-                handle.close()
-                if keys_for_nucl[key][4] == '+':
-                    f_nuc_recs.append(SeqRecord(Seq(str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])]),generic_dna),id=keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], description=" ".join(keys_for_nucl[key][0].split('|'))))
-                elif keys_for_nucl[key][4] == '-':
-                    f_nuc_recs.append(SeqRecord(Seq(str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])].reverse_complement()),generic_dna),id=keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], description=" ".join(keys_for_nucl[key][0].split('|'))))
+                try:
+                    handle = Entrez.efetch(db="nucleotide",rettype='fasta',retmode='text', id = keys_for_nucl[key][1])
+                    fasta_rec = SeqIO.read(handle, "fasta")
+                    handle.close()
+                    if keys_for_nucl[key][4] == '+':
+                        f_nuc_recs.append(SeqRecord(Seq(str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])]),generic_dna),id=keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], description=" ".join(keys_for_nucl[key][0].split('|'))))
+                    elif keys_for_nucl[key][4] == '-':
+                        f_nuc_recs.append(SeqRecord(Seq(str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])].reverse_complement()),generic_dna),id=keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], description=" ".join(keys_for_nucl[key][0].split('|'))))
+                except:
+                    print(keys_for_nucl[key][1], ' download error')
+
             SeqIO.write(f_nuc_recs,"/{0}/{1}/cry_extraction/{2}_full_nucl.fna".format(self.main_dir,self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
+
         if self.nucl_type == 'pn' or self.nucl_type == 'an':
             for key in keys_for_nucl:
-                handle = Entrez.efetch(db="nucleotide",rettype='fasta',retmode='text', id = keys_for_nucl[key][1])
-                fasta_rec = SeqIO.read(handle, "fasta")
-                handle.close()
-                if keys_for_nucl[key][4] == '+':
-                    dum_seq = str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])])
-                    p_nuc_recs.append(SeqRecord(Seq(dum_seq[(min([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])-1)*3:max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3],generic_dna),id=keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], description=" ".join(keys_for_nucl[key][0].split('|'))))
-                elif keys_for_nucl[key][4] == '-':
-                    dum_seq = str(Seq(str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])].reverse_complement()),generic_dna))
-                    p_nuc_recs.append(SeqRecord(Seq(dum_seq[(min([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])-1)*3:max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3],generic_dna),id=keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], description=" ".join(keys_for_nucl[key][0].split('|'))))
+                try:
+                    handle = Entrez.efetch(db="nucleotide",rettype='fasta',retmode='text', id = keys_for_nucl[key][1])
+                    fasta_rec = SeqIO.read(handle, "fasta")
+                    handle.close()
+                    if keys_for_nucl[key][4] == '+':
+                        dum_seq = str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])])
+                        p_nuc_recs.append(SeqRecord(Seq(dum_seq[(min([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])-1)*3:max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3],generic_dna),id=keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], description=" ".join(keys_for_nucl[key][0].split('|'))))
+                    elif keys_for_nucl[key][4] == '-':
+                        dum_seq = str(Seq(str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])].reverse_complement()),generic_dna))
+                        p_nuc_recs.append(SeqRecord(Seq(dum_seq[(min([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])-1)*3:max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3],generic_dna),id=keys_for_nucl[key][5]+'|'+keys_for_nucl[key][6], description=" ".join(keys_for_nucl[key][0].split('|'))))
+                except:
+                    print(keys_for_nucl[key][1], ' download error')
+
             SeqIO.write(p_nuc_recs,"/{0}/{1}/cry_extraction/{2}_processed_nucl.fna".format(self.main_dir,self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), "fasta")
         with open("/{0}/{1}/cry_extraction/nucl_domain_mapping_{2}.bed".format(self.main_dir,self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'w') as csvfile:
              my_writer = csv.writer(csvfile, delimiter='\t') 

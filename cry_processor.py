@@ -12,21 +12,26 @@ import sys
 import re
 
 class CryProcessor:
-    def __init__(self,quiery_dir, cry_quiery, hmmer_dir, processing_flag, hm_threads, email, regime, nucl_type, annot_flag):
+    def __init__(self,quiery_dir, cry_quiery, hmmer_dir, processing_flag, hm_threads, email, regime, nucl_type, annot_flag,kmer_size,meta_flag,forw,rev):
         self.home_dir = ('/').join(os.path.realpath(__file__).split('/')[0:len(os.path.realpath(__file__).split('/'))-1])
         self.cry_quiery = cry_quiery
         self.hmmer_dir = hmmer_dir
         self.processing_flag = processing_flag
         self.hm_threads = hm_threads
         self.quiery_dir = quiery_dir
-        self.init_count = re.sub("b",'',re.sub("\'",'',str(subprocess.check_output("grep '>' {} | wc -l".format(self.cry_quiery), shell =True).strip())))
-        self.one_dom_count = 0
-        self.two_dom_count = 0
-        self.three_dom_count = 0
+        if self.cry_quiery:
+            self.init_count = re.sub("b",'',re.sub("\'",'',str(subprocess.check_output("grep '>' {} | wc -l".format(self.cry_quiery), shell =True).strip())))
+            self.one_dom_count = 0
+            self.two_dom_count = 0
+            self.three_dom_count = 0
         self.email = email
         self.regime = regime
         self.nucl_type = nucl_type
         self.annot_flag = annot_flag
+        self.kmer_size = kmer_size
+        self.meta_flag = meta_flag
+        self.forw = forw
+        self.rev = rev
         cmd_init = subprocess.call('if [ ! -d $PWD/{0} ]; then mkdir $PWD/{0}; fi; if [ ! -d $PWD/{0}/cry_extraction ]; then mkdir $PWD/{0}/cry_extraction; fi; if [ ! -d $PWD/{0}/cry_extraction/logs ]; then mkdir $PWD/{0}/cry_extraction/logs; fi'.format(self.quiery_dir), shell=True)
         self.main_dir = re.sub("b",'',re.sub("\'",'',str(subprocess.Popen(['pwd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip())))
 
@@ -80,7 +85,7 @@ class CryProcessor:
             dom_start=int(self.processing_flag)
             pre_dict=defaultdict(dict)
             ids_check_set=set()
-            chek_flag=0
+            check_flag=0
             for i in range(dom_start,4):
                 for record in SeqIO.parse(open('{3}/{2}/cry_extraction/{0}/{1}'.format('domains',self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+'_D{}_extracted.fasta'.format(i),self.quiery_dir,self.main_dir)),"fasta"):
                     dom_list=list()
@@ -394,41 +399,76 @@ class CryProcessor:
                      pass
         cmd_clean_up = subprocess.call('cd $PWD/{0}/cry_extraction; mv *coordinate_matches* logs/;mv *diamond_matches* logs/'.format(self.quiery_dir), shell=True)
 
-    def launch_racer(self):
+    def launch_racer(self,kmer):
+      print('Searching sequences from gfa file')
+      cmd_race = subprocess.call('{0}/pathracer {6}/data/models/D1.hmm {1} {5} --output $PWD/{3}/cry_extraction/pathracer_output -t {2}  > /dev/null'.format(self.home_dir+'/include',self.cry_quiery,self.hm_threads,self.quiery_dir,'pathracer',kmer,self.home_dir), shell=True) 
+      cmd_merge = subprocess.call('cd $PWD/{3}/cry_extraction/pathracer_output; cat *seqs.fa >> mearged.fasta; cp pathracer.log ../logs/'.format(self.home_dir+'/include',self.cry_quiery,self.hm_threads,self.quiery_dir,'pathracer',kmer,self.home_dir), shell=True) 
 
- /shared/lab_7/pathracer/pathracer bla_all.hmm assembly_graph_with_scaffolds.gfa 25 --output out_dir  -t 72
-       cmd_race = subprocess.call('{0}/pathracer {1} 25 --output $PWD/{3}/cry_extraction/pathracer_output --t {2}  &>> $PWD/{3}/cry_extraction/logs/{4}.log'.format(self.home_dir+'/include/',self.queiry,self.hm_threads,self.quiery_dir,'pathracer'), shell=True) 
-       #cmd_race = subprocess.call('{0}/binaries/pathracer --t {5} -A {1} {6}/data/models/{2} {3} >> $PWD/{7}/cry_extraction/logs/{4}.log'.format(self.hmmer_dir,'$PWD/{0}/cry_extraction/'.format(self.quiery_dir)+dir_flag + '/'+queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+out_index,model_type,queiry,log, hm_threads, self.home_dir, self.quiery_dir), shell=True) 
 
+    def use_spades(self):
+        print('Building assembly graph')
+        if self.meta_flag:
+            cmd_spades = subprocess.call('{0}/SPAdes-3.13.1-Linux/bin/spades.py --meta -1 {1} -2 {2} -o $PWD/{3}/cry_extraction/assembly -t {4} > /dev/null'.format(self.home_dir+'/include', self.forw, self.rev, self.quiery_dir, self.hm_threads), shell=True) 
+            cmd_merge = subprocess.call('cd $PWD/{0}/cry_extraction/assembly; cp *.log ../logs/'.format(self.quiery_dir), shell=True)
+        else:
+            cmd_spades = subprocess.call('{0}/SPAdes-3.13.1-Linux/bin/spades.py -1 {1} -2 {2} -o $PWD/{3}/cry_extraction/assembly -t {4} > /dev/null'.format(self.home_dir+'/include', self.forw, self.rev,self.quiery_dir, self.hm_threads), shell=True) 
+            cmd_merge = subprocess.call('cd $PWD/{0}/cry_extraction/assembly; cp *.log ../logs/'.format(self.quiery_dir), shell=True)       
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='cry_processor')
-    parser.add_argument('-fi', help='Enter input file: fasta file or gfa file', metavar='Fasta file/',
-                        type=str, required=True)
+    parser.add_argument('-fi', help='Enter input file: fasta file or gfa file', metavar='Fasta file/GFA file',
+                        type=str, default=None)
     parser.add_argument('-hm', help='Path to hmmer if hmmer is installed locally', metavar='Hmmer_directory',
                         type=str, default='')
     parser.add_argument('-pr', help='Processig type: 1 for extracting all domains, 2 for extrating 2-3 domains only', metavar='Int',type=str, default=1)
-    parser.add_argument('-th', help='Number of threads for hmmer and pathracer', metavar='Int',type=str, default=1)
+    parser.add_argument('-th', help='Number of threads for hmmer and pathracer', metavar='Int',type=str, default=8)
     parser.add_argument('-ma', help='e-mail address for NCBI annotation', metavar='Str',type=str, default='')
     parser.add_argument('-od', help='Output directory', metavar='Str',type=str, required=True)
     parser.add_argument('-r', help='Pipeline type: do - domain only search with subsequent unioning; fd - searching for potential cry-toxins with subsequent processing', metavar='Str',type=str, default='do')
     parser.add_argument('--annotate', '-a',action='store_true',help='make final output annotation with ipg')
     parser.add_argument('-nu', help='Uploading nucleotide records: fn - uploading full sequences, pn - uploading processed subsequences, an - both processed and unprocessed', metavar='Nucl_uploading_type', type=str, default='')
-    parser.add_argument('--meta_racer', '-m',action='store_true',help='make final output annotation with ipg')
+    parser.add_argument('--path_racer', '-pa',action='store_true',help='Searching for cry toxins from gfa file with pathracer')
+    parser.add_argument('-fo', help='Forward illumina reads', metavar='Fasta file',type=str, default=None)
+    parser.add_argument('-re', help='Reverse illumina reads', metavar='Fasta file',type=str, default=None)
+    parser.add_argument('--meta','-m', action='store_true',help='Metagenomic regime for spades')
+    parser.add_argument('-k', help='k-mer size for pathracer', metavar='Int',type=str, default=21)
     parser.set_defaults(feature=True)
     args = parser.parse_args()
-    od,fi,hm,pr,th, ma, r, a, nu, mra = args.od, args.fi, args.hm, args.pr,args.th, args.ma, args.r, args.annotate, args.nu,args.meta_racer
-    pr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a)
-    if not mra:
-        pr.cry_digestor()
-        pr.annotate_raw_output()
+    od,fi,hm,pr,th, ma, r, a, nu, mra,k,fr,rr,meta = args.od, args.fi, args.hm, args.pr,args.th, args.ma, args.r, args.annotate, args.nu,args.path_racer,args.k,args.fo,args.re,args.meta
+    cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr)
+    if not mra and not fr:
+        cr.cry_digestor()
+        cr.annotate_raw_output()
         if a: 
-            pr.make_summary_table()
+            cr.make_summary_table()
         if nu:
-            pr.upload_nucl()
-            pr.map_nucl()
-    elif mra:
-        pr.launch_racer()
-        #fi = od + '/pathracer_output'
-        #pr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a)
-        #print(fi)
+            cr.upload_nucl()
+            cr.map_nucl()
+    elif mra and not fr:
+        cr.launch_racer(k)
+        fi = od + '/cry_extraction/pathracer_output/mearged.fasta'
+        cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr)
+        cr.cry_digestor()
+        cr.annotate_raw_output()
+        if a: 
+            cr.make_summary_table()
+        if nu:
+            cr.upload_nucl()
+            cr.map_nucl()
+    elif fr:
+        cr.use_spades()
+        fi = od + '/cry_extraction/assembly/assembly_graph_with_scaffolds.gfa'
+        cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr)
+        cr.launch_racer(k)
+        fi = od + '/cry_extraction/pathracer_output/mearged.fasta'
+        cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr)
+        cr.cry_digestor()
+        cr.annotate_raw_output()
+        if a: 
+            cr.make_summary_table()
+        if nu:
+            cr.upload_nucl()
+            cr.map_nucl()
+        
+   
+

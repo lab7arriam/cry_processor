@@ -1,15 +1,15 @@
 # CryProcessor
-CryProcessor is a high-troughtput tool for cry-toxins mining from fasta-files or directly from illumina reads.
+CryProcessor is a high-troughtput tool for the cry-toxins mining from fasta-files or directly from illumina reads.
 
 ## About CryProcessor
 
-CryProcessor is a python-written tool for searching and extracting cry toxins from illumina sequence data or from protein fasta files. It includes several parts: hmm-based searching of potential cry-toxins, obtaining information about domains, extracting cry-toxins only with 3 domains and comparing found toxins with btnomenclature. A regime for performing toxins search directly from illumina reads implies building assembly graph, using  <i> SPAdes </i>, and subsequent mining toxin directly from obtained assebmly graph. 
+CryProcessor is a python-written tool for searching and extracting cry toxins from illumina sequence data or from protein fasta files. It includes several parts: hmm-based searching of potential cry-toxins, obtaining information about domains, extracting cry-toxins only with 3 domains and comparing found toxins with BT nomenclature. A regime for the performing toxins search directly from illumina reads implies building an assembly graph (using  <i> SPAdes </i>) and the subsequent mining toxins directly from the obtained assebmly graph. 
 
-## CryProcessor pipeline
+## CryProcessor Pipeline
 
-The fololowing text stands for full pipeline (for illumina reads). To start, <i>SPAdes</i> or <i>metaSPAdes</i> are implemented to get assembly graph from the fastq-files. After that, potential cry toxins (with at least 30% identity to the hmm-consensus) are extracted from assembly paths via <i>PathRacer</i>. Then <i>hmmsearch</i> is used to find cry toxins domains in the obtained sequences.In the next step results of <i>hmmsearch</i> are combined to get toxins that posses all three domains. <br> Coordinates of the domains are used to cut flanking sequences and save domains with corresponding linkers. Full sequences (without processing procedure) are used to compare obtained toxins with Bt nomenclature database via </i>diamond blastp</i>. Non-identical sequences are extracted and marked as the potentially new toxins. For all the found sequences (both identical to presented in Bt nomenclature and novel) an online ipg(Identical Protein Group)-annotation is performed (to see the annotation output reed the annotation output section below). Finally, nucleotide sequences, corresponding to protein sequences of the found toxins, are downloaded. Metadata could be uploaded only if accession numbers are present in the quiery.
+The following text stands for the full pipeline description (for illumina reads). To start, <i>SPAdes</i> or <i>metaSPAdes</i> are implemented to get assembly graph from the fastq-files. After that, potential cry toxins (with at least 30% identity to the hmm-consensus) are extracted from assembly paths via <i>PathRacer</i>. Then <i>hmmsearch</i> is used to find cry toxins domains in the obtained sequences. In the next step, results of <i>hmmsearch</i> are combined to get toxins that posses all three domains. <br> <br>Coordinates of the domains are used to cut flanking sequences and save domains with corresponding linkers. Full sequences (without processing procedure) are used to compare obtained toxins with Bt nomenclature database via </i>diamond blastp</i>. Non-identical sequences are extracted and marked as the potentially new toxins. For all the found sequences (both identical to presented in Bt nomenclature and novel) an online ipg(Identical Protein Group)-annotation is performed (to see the annotation output reed the annotation output section below). Finally, nucleotide sequences, corresponding to protein sequences of the found toxins, are downloaded. Metadata could be uploaded only if accession numbers are present in the quiery.
 
-## Installation and usage
+## Installation and Usage
 ### Prerequisites
 <ul>
   <li>python (3.7 or higher) </li>
@@ -32,16 +32,16 @@ To install CryProcessor clone git repository to your PC.
 ```
 After downloading CryProcessor is ready to use.
 
-## Running and using tool
+## Running and Using Tool
 
-### Quick usage
+### Quick Usage
 To extract cry toxins from the protein fasta file simply execute the following command:
 ```
 ~$ python3 cry_processor.py -fi input.faa  -od output_dir
 ```
 This command will automatically search for cry-toxins in fasta-file with amino acid sequences.
 
-### Supported input formats
+### Supported Input Formats
 
 <ul>
   <li>fasta files with protein sequences </li>
@@ -49,7 +49,7 @@ This command will automatically search for cry-toxins in fasta-file with amino a
   <li>forward and reverse illumina reads</li>
 </ul>
 
-### Tool options: 
+### Tool Options: 
 Full list of tool options:
 ```
 -fi <input.fasta> or <input.gfa> input file in fasta-format of in gfa-format
@@ -69,7 +69,7 @@ Full list of tool options:
 -s (--silent) - disable console output
 ```
 
-### Using tool for fasta files
+### Using Tool for Fasta Files
 To use tool for fasta file execute the command, presented in quick usage, you can also specify annotation (writing e-nail ):
 ```
 ~$ python3 cry_processor.py -fi input.faa  -od output_dir -ma <e-mail address> --annotate
@@ -85,13 +85,13 @@ Pipeline of searching could be performed in two regimes:
   <li>fd - find domains regime. At the begining hmmsearch using full cry toxin model is performed. Domains are extracted next, this regime is quicker as far as domain search is performed on already extracted sequences </li>
 </ul>
 
-### Using tool for gfa files
+### Using Tool for .gfa Files
 You can apply cry toxins search directly from assembly graph in gfa format with the following commad:
 
 ```
 ~$ python3 cry_processor.py -fi input.gfa  -od output_dir --path_racer
 ```
-### Using tool for illumina reads
+### Using Tool for Illumina Reads
 This regime includes read assembly with SPades and subsequent hmm-based toxins mining, to impliment this use thw following command:
 
 ```
@@ -100,8 +100,8 @@ This regime includes read assembly with SPades and subsequent hmm-based toxins m
 If you want to search for cry-toxins from metagenomic reads specify --meta flag
 Note that you cannot mix regimes. Do not use --pathracer flag with illumina fastq-files quiery, do not mix -fi agrument with -fo and -re arguments for the correct working.
 
-### Annotation output
-Using --annotate flag would perform NCBI-search in ipg(identical protein group) database for submitted accession numbers within quiery and would return information in tsv-format with the following structure:
+### Annotation Output
+Using <i>--annotate flag</i> would perform NCBI-search in ipg(identical protein group) database for submitted accession numbers within quiery and would return information in tsv-format with the following structure:
 <table>
   <tr>
     <td>protein_id</td>
@@ -176,7 +176,7 @@ Rows possesing first 4 coloums fefer to initial sequences (those found in quiery
 </table>
 Note that all rows marked with -- in first four coloumns are identical to initial sequense in queiry with full coloumns located above.
 
-### Output files structure
+### Output Files Structure
 
 
 

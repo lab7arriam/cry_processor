@@ -9,7 +9,7 @@ Cry processor is a python-written tool for searching cry toxins from sequence da
 
 Here full pipeline is described (from illumina reads). By first spades or metaspades is performed to get assembly from fastq-files. After that potential cry toxins (with at least 30% identity to hmm-consensus) are extracted from assembly paths via pathracer. Then hmmsearch is implemented to find cry toxins domains in obtained sequences. Searching result are than combined to get toxins possesing all three domains. Coordinates of domains are used to cut flanking sequences and save domains and linkers bertween domains. Full sequences are used to compare obtained toxins with btnomenclature database using diamond blastp. Non-identical sequences then are extracted as pitenial new toxins. For all found sequences (both identical to presented in bt_nomenclature and novel) online ipg-annotation is performed (to see anotation output watch sections below). Finally, nucleotide sequences corresponding to protein sequences of found toxins are downloaded. Metadata is upload only if accession numbers are present in the quiery.
 
-##Installation and usage
+## Installation and usage
 ### Prerequisites
 <ul>
   <li>python (3.7 or higher) </li>
@@ -17,7 +17,7 @@ Here full pipeline is described (from illumina reads). By first spades or metasp
   </li>
 </ul>
 
-To install Biopython use the following comand
+To install Biopython use the following command:
 
 ```
 ~$ pip install biopython
@@ -55,26 +55,53 @@ Full list of tool options:
 ```
 -fi <input.fasta> or <input.gfa> Input file in fasta-format of in gfa-format
 -hm <path to hmmer directory> Path to hmmemer directory if you want to use local hmmer
--pr <1 or 2> Processig type: 1 for extracting all domains, 2 for extrating 2-3 domains only
--th Nubmer of threads for hmmer/spades/pathracer
+-pr <1 or 2> Processig type: 1 for extracting all domains, 2 for extrating 2-3 domains only (default 1)
+-th Nubmer of threads for hmmer/spades/pathracer (default 8)
 -ma <e-mail> e-mail address for connecting to NCBI
 -od <output dir> output directory
 -r <do or fd> Working regime: do - domain only search only; fd full toxins mining with subsequent domain search
 -a (--annotate) Perform data anotation with ipg (only if accession numbers are present)
 -nu <fn or pn or an> Upload nucleotide sequences: fn - full sequences, pn -processed sequences, an - both variants
--pa (--path_racer) - Launching pathracer on gfa file
+-pa (--pathracer) - Launching pathracer on gfa file
 -fo <input_1.fastq> - forward illumina reads
 -re <input_2.fastq> - reverse illumina reads
 -n (--meta) - flag for  specifying metagenomic spades regime
--k <number> - K-mer size for pathracer
+-k <number> - K-mer size for pathracer (default 21)
 ```
 
-## Using tool for fasta files
-## Using tool for gfa files
-## Using tool for illumina reads
+### Using tool for fasta files
+To use tool for fasta file execite command, presented in quick usache, you can also specify annotation:
+```
+~$ python3 cry_processor.py -fi input.faa  -od output_dir -ma <e-mail address> --annotate
+```
+Use -nu flag to download nucleotide sequences:
+
+```
+~$ python3 cry_processor.py -fi input.faa  -od output_dir -ma <e-mail address> --annotate -nu pn
+```
+Pipeline of searching could be performed in two regimes:
+<ul>
+  <li>do - domain only regime. Searches cry-toxin domains from full queiry, then combines this data to extract toxins with 3 domains </li>
+  <li>fd - find domains regime. Firctly hmmsearch usind full cry toxin model is performed. Domains are extracted next, this regime is quicker as far as doman search is performed on extracted sequences </li>
+</ul>
+
+### Using tool for gfa files
+You can apply cry toxins search directly from assembly graph in gfa format with the following commad:
+
+```
+~$ python3 cry_processor.py -fi input.gfa  -od output_dir --path_racer
+```
+### Using tool for illumina reads
+This regime includes read assembly with spades and subsequent hmm-based toxins mining, to impliment this use thw followinng command:
+
+```
+~$ python3 cry_processor.py -fo forward_reads.fastq -re reverse_reads.fastq -od output_dir 
+```
+If you want to search for cry-toxins from metagenomic reads specify -meta flag
+Note that you cannot mix regimes. Do not use --pathracer flag with fasta quiery, do not mix -fi agrument with -fo and -re arduments for the correct working.
 
 ### Annotation output
-Using --annotating flag would perform NCBI-search in ipg(identical protein group) database for submitted accession number and would return information in tsv-format with the following structure:
+Using --annotate flag would perform NCBI-search in ipg(identical protein group) database for submitted accession number and would return information in tsv-format with the following structure:
 <table>
   <tr>
     <td>protein_id</td>
@@ -110,7 +137,7 @@ Using --annotating flag would perform NCBI-search in ipg(identical protein group
   </tr>
 </table>
 
-Coloums description:
+Coloumns description:
 <ul>
   <li>protein_id - initial id in quiery </li>
   <li>initial_description - protein description in quiery </li>

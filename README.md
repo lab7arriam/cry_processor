@@ -1,13 +1,13 @@
-# Cry Processor
-Cry processor is a high-troughtput tool for cry-toxins mining from fasta-files or directly from illumina reads.
+# CryProcessor
+CryProcessor is a high-troughtput tool for cry-toxins mining from fasta-files or directly from illumina reads.
 
-## About Cry processor
+## About CryProcessor
 
-Cry processor is a python-written tool for searching and extracting cry toxins from illumina sequence data or from protein fasta files. It includes hmm-based searching of potential cry-toxins, obtaining information about domains, extracting cry-toxins with 3 domains only and comparing found toxins with btnomenclature. A regime for performing toxins search directly from illumina reads implies building asembly graph using spades and subsequent toxin mining directly from assebmly graph. 
+CryProcessor is a python-written tool for searching and extracting cry toxins from illumina sequence data or from protein fasta files. It includes several parts: hmm-based searching of potential cry-toxins, obtaining information about domains, extracting cry-toxins only with 3 domains and comparing found toxins with btnomenclature. A regime for performing toxins search directly from illumina reads implies building assembly graph, using  <i> SPAdes <i>, and subsequent mining toxin directly from obtained assebmly graph. 
 
-## Cry processor pipeline
+## CryProcessor pipeline
 
-Here full pipeline is described (for illumina reads). At first spades or metaspades is implemented to get assembly graph from fastq-files. After that potential cry toxins (with at least 30% identity to hmm-consensus) are extracted from assembly paths via pathracer. Then hmmsearch is used to find cry toxins domains in obtained sequences. Searching results are then combined to get toxins possesing all three domains. Coordinates of domains are used to cut flanking sequences and save domains with linkers between them. Full sequences are used to compare obtained toxins with btnomenclature database using diamond blastp. Non-identical sequences are then extracted as potenial new toxins. For all found sequences (both identical to presented in bt nomenclature and novel) online ipg-annotation is performed (to see anotation output watch sections below). Finally, nucleotide sequences corresponding to protein sequences of found toxins are downloaded. Metadata could be uploaded only if accession numbers are present in the quiery.
+The fololowing text stands for full pipeline (for illumina reads). To start, <i>SPAdes<i> or <i>metaSPAdes<i> are implemented to get assembly graph from the fastq-files. After that, potential cry toxins (with at least 30% identity to the hmm-consensus) are extracted from assembly paths via <i>PathRacer<i>. Then <i>hmmsearch<i> is used to find cry toxins domains in the obtained sequences.In the next step results of <i>hmmsearch<i> are combined to get toxins that posses all three domains. <br> Coordinates of the domains are used to cut flanking sequences and save domains with corresponding linkers. Full sequences (without processing procedure) are used to compare obtained toxins with Bt nomenclature database via <i>diamond blastp<i>. Non-identical sequences are extracted and marked as the potentially new toxins. For all the found sequences (both identical to presented in Bt nomenclature and novel) an online ipg(Identical Protein Group)-annotation is performed (to see the annotation output reed the annotation output section below). Finally, nucleotide sequences, corresponding to protein sequences of the found toxins, are downloaded. Metadata could be uploaded only if accession numbers are present in the quiery.
 
 ## Installation and usage
 ### Prerequisites
@@ -25,12 +25,12 @@ To install Biopython use the following command:
 
 ### Installing
 
-To install Cry processor clone git repository to your PC.
+To install CryProcessor clone git repository to your PC.
 
 ```
 ~$ git clone https://github.com/cry_Processor
 ```
-After downloading cry processor is ready to use.
+After downloading CryProcessor is ready to use.
 
 ## Running and using tool
 

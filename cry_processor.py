@@ -84,7 +84,7 @@ class CryProcessor:
         hm_threads: number of threads to use
         quiery_dir: directory where quiery file is located
         """
-        #if self.hmmer_dir is not specified hmmsearch inside \include dir is used
+        #if self.hmmer_dir is not specified use hmmsearch from include dir 
         if self.hmmer_dir:
             #check output directory structure
             cmd_make_dirs = subprocess.call('cd $PWD/{1}/cry_extraction; \
@@ -207,7 +207,7 @@ class CryProcessor:
 
     def cry_3D_ids_extractor(self):
         """
-        Extracts ids from quiery for sequnces posesing 3 domains of cry toxins
+        Extracts ids from quiery for sequences possesing 3 domains of cry toxins
         """
         print('Exctracting cry toxins with 3 domains')
         #dictionary of ids is used for further extraction and processing
@@ -237,7 +237,7 @@ class CryProcessor:
 
     def cry_digestor(self):
         """
-        Performs processing toxins with 3 domains: cuts left oan right flanking sequences 
+        Performs processing toxins with 3 domains: cuts left and right flanking sequences 
         with saving only domains and linkers between domains
         """
         if self.regime == 'do':
@@ -451,7 +451,7 @@ class CryProcessor:
                 print('{} toxins with two domains'.format(self.two_dom_count))
                 print('{} toxins with three domains'.format(self.three_dom_count))
 
-        #create file with domains mappind for each cry-toxin posessing 3 domains
+        #create file with domain mappings for each cry-toxin posessing 3 domains
         if self.hmmer_result_flag !=1:
             #create mapping file only if hmmsearch output is not empty
             with open("/{0}/{1}/cry_extraction/proteins_domain_mapping_{2}.bed".format(self.main_dir,
@@ -459,7 +459,7 @@ class CryProcessor:
                    self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                    'w') as csv_file:
                 my_writer = csv.writer(csv_file, delimiter='\t') 
-                #create bad-file for mapping specifying start and stop coordinates, id and description
+                #create bed-file for mapping to specify start and stop coordinates, id and description
                 init_row = ['id','domain' ,'start', 'stop', 'description']
                 my_writer.writerow(init_row)
                 for key in self.coordinate_dict:
@@ -496,20 +496,20 @@ class CryProcessor:
         Performs annotating raw sequences with diamond ocer database from btnomenclature
         Uses full records for annotation to get potentially new toxins
         """
-        #ids fir toxins differ from btnomenclature
+        #ids for toxins differ from btnomenclature
         new_records = list()
         self.new_ids=dict()
         un_count=0
         total_count=0
         print("Annotating raw output with diamond")  
-        #diamond shuld have database file in one directory with quiery, copyng database for pefrorming vlast
+        #diamond should have database file in one directory with the quiery, copyng database for pefrorming blastp
         cmd_pre_dia = subprocess.call('cd /{0}/{1}/cry_extraction; \
                                        cp {2}/data/diamond_data/cry_nomenclature.dmnd .; \
                                        touch diamond.log'.format(self.main_dir,
                                        self.quiery_dir,
                                        self.home_dir), 
                                        shell=True) 
-        #performing diamond blastp; save only the first target hit
+        #performing diamond blastp, save only the first hit
         cmd_dia = subprocess.call('cd /{1}/{2}/cry_extraction;\
                                    {3}/diamond blastp \
                                     -d cry_nomenclature \
@@ -528,7 +528,7 @@ class CryProcessor:
                                     self.quiery_dir,
                                     self.home_dir+'/include'), 
                                     shell=True)
-        #analyse diamind matcehs to get new toxins
+        #analyse diamond matches to get new toxins
         with open("/{0}/{1}/cry_extraction/diamond_matches_{2}.txt".format(self.main_dir,
                    self.quiery_dir,
                    self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
@@ -559,7 +559,7 @@ class CryProcessor:
                      self.quiery_dir,
                      self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
                      "fasta")
-        #move intermediate fils to log directory if annotation is not specified
+        #move intermediate files to log directory if annotation is not specified
         if self.regime == 'fd':
             cmd_clean_up = subprocess.call("mv {0}/{1}/cry_extraction/{2}.fasta \
                                     {0}/{1}/cry_extraction/first_search_{2}.fasta".format(self.main_dir,
@@ -574,13 +574,13 @@ class CryProcessor:
        
     def make_summary_table(self):
         """
-        Annotates raw sequences by searching metadata from NCBI ipg
+        Annotates raw sequences by searching metadata from NCBI ipg database
         """
         print('Searching for the metadata')
         #it is better to specify e-mail address for correct ncbi searching
         Entrez.email = "{}".format(self.email)
         summary_dict=defaultdict(dict)
-       #load information from diamind annotation
+        #load information from diamond blastp search
         with open("/{0}/{1}/cry_extraction/diamond_matches_{2}.txt".format(self.main_dir,
                   self.quiery_dir,
                   self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
@@ -603,7 +603,7 @@ class CryProcessor:
           #save initial information about sequence
            if init_rec.id in summary_dict.keys():
                summary_dict[init_rec.id]['init'].append(init_rec.description)
-        #save header ov tsv-file
+        #save header of tsv-file
         init_row = ['protein_id', 
                     'initial_description', 
                     'top_cry_hit', 
@@ -628,7 +628,7 @@ class CryProcessor:
         for key in summary_dict: 
             #checking if id is in ipg
             try:
-                #getting ipg-table for quiery
+                #getting ipg-table for the quiery
                 handle = Entrez.efetch(db="protein",
                                        rettype='ipg',
                                        retmode='text',
@@ -636,7 +636,7 @@ class CryProcessor:
                 #parse ipg output
                 handle_list=[el.split('\t') for el in handle.read().split('\n')]
                 hit_counter=0
-                #iterate over nits from ipg
+                #iterate over hits from ipg
                 for i in range(len(handle_list)-1):
                    if len(handle_list[i+1])>2:
                        summary_dict[key]['hit'+str(hit_counter)]=handle_list[i+1]
@@ -650,7 +650,7 @@ class CryProcessor:
                             [summary_dict[key]['init'][1]]+\
                             summary_dict[key]['hit'+str(i)][1:]
                     else:
-                        #mark other hits as aditional
+                        #mark other hits as additional
                         row=['--']*4+summary_dict[key]['hit'+str(i)][1:]
                     f = open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(self.main_dir,
                              self.quiery_dir,
@@ -673,7 +673,7 @@ class CryProcessor:
         Entrez.email = "{}".format(self.email)
         #dictionary for start and stop positions of nucleotide sequences from annotation tsv-file
         keys_for_nucl = defaultdict(list)
-        #dictionary for domains positions from proteins domain mapping
+        #dictionary for domain positions from protein domain mappings
         domain_coord_dict = defaultdict(list)
         with open("/{0}/{1}/cry_extraction/coordinate_matches_{2}.txt".format(self.main_dir,self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'r') as csv_file:
             my_reader = csv.reader(csv_file, delimiter='\t')
@@ -687,7 +687,7 @@ class CryProcessor:
                  if row[0]!= '--' and row[0]!='protein_id':
                      init_count+=1
                      keys_for_nucl[row[0]].append('|'.join((row[1]).split(' ')))
-                     #add info about accession, start,stop an strand orientation
+                     #add info about accession, start, stop an strand orientation
                      keys_for_nucl[row[0]].extend([row[5], row[6], row[7], row[8], row[2], row[3]])
         if keys_for_nucl[list(keys_for_nucl.keys())[0]][0] not in domain_coord_dict:
             for key in keys_for_nucl:
@@ -697,7 +697,7 @@ class CryProcessor:
         p_nuc_recs = []
         if self.nucl_type == 'fn':
             for key in keys_for_nucl:
-                #twsting link from annotation table
+                #checking link from annotation table
                 try:
                     #search fasta file 
                     handle = Entrez.efetch(db="nucleotide",
@@ -743,9 +743,9 @@ class CryProcessor:
                     fasta_rec = SeqIO.read(handle, "fasta")
                     handle.close()
                     if keys_for_nucl[key][4] == '+':
-                        #dum_seq is full nucleotide sequence
+                        #dum_seq is a full nucleotide sequence
                         dum_seq = str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:int(keys_for_nucl[key][3])])
-                        #cut left and rigth flanking sequenses from duf_seq according to protain domains mapping
+                        #cut left and rigth flanking sequenses from duf_seq according to protein domain mappings
                         #transform to nucleotide coordinates by substracting 1 and multiplying by 3
                         p_nuc_recs.append(SeqRecord(
                                         Seq(dum_seq[(
@@ -775,7 +775,7 @@ class CryProcessor:
                            keys_for_nucl[key][2],
                           '(' + keys_for_nucl[key][1]+ ')')
 
-         #upload both full and processed records if an flag is specified
+        #upload both full and processed records if an flag is specified
         elif self.nucl_type == 'an':
             for key in keys_for_nucl:
                 try:
@@ -969,7 +969,7 @@ class CryProcessor:
             #rename ids from pathracer output
             #double {} is used in awk to exclude it from string formating
             cmd_rename = subprocess.call("cd $PWD/{}/cry_extraction/pathracer_output; \
-                                   if [  -s mearged.fasta ]; \ 
+                                   if [  -s mearged.fasta ]; \
                                    then awk \'/^>/{{print \">seq\" ++i; next}}{{print}}\' mearged.fasta > tmp ;\
                                    rm mearged.fasta;\
                                    mv tmp mearged.fasta;\
@@ -984,7 +984,8 @@ class CryProcessor:
         launches spades on illumina reads, usese mrtaspades if --meta flag is specified
         """
         print('Building assembly graph')
-        if self.meta_flag:
+        if str(self.meta_flag)=='True': 
+            #ese mataspades if --meta flag is specified
             cmd_spades = subprocess.call('{0}/SPAdes-3.13.1-Linux/bin/spades.py \
                                          --meta \
                                          -1 {1} -2 {2} \
@@ -1013,7 +1014,7 @@ class CryProcessor:
                                          shell=True)       
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='An hmm-based tool for mining and processing cry-toxins\nExample usage:\n')
+    parser = argparse.ArgumentParser(description='Example usage: pyhton3 cry_processor.py -fi <input.fasta> -od <output directory>')
     parser.add_argument('-fi', 
                         help='Enter input file: fasta file or gfa file', 
                         metavar='Fasta file/GFA file',
@@ -1089,9 +1090,10 @@ if __name__ == '__main__':
     od,fi,hm,pr,th, ma, r, a, nu, mra,k,fr,rr,meta = args.od, args.fi, args.hm, args.pr,args.th, args.ma, args.r, args.annotate, args.nu,args.path_racer,args.k,args.fo,args.re,args.meta
     cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr)
     if not mra and not fr:
-        
+        #pipeline for protein fasta file
         cr.cry_digestor()
         if cr.hmmer_result_flag != 1:
+            #go to next steps only if hmmsearch result is not empty
             cr.annotate_raw_output()
             if a: 
                 cr.make_summary_table()
@@ -1099,8 +1101,10 @@ if __name__ == '__main__':
                 cr.upload_nucl()
                 cr.map_nucl()
     elif mra and not fr:
+        #pipeline for gfa file
         cr.launch_racer(k)
         if cr.racer_flag != 1:
+            #go to next step only if pathracer output is not empty
             fi = od + '/cry_extraction/pathracer_output/mearged.fasta'
             cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr)
             cr.cry_digestor()
@@ -1115,6 +1119,7 @@ if __name__ == '__main__':
             print('No toxins found in assembly graph')
 
     elif fr:
+        #full pipeline for with spades assembly
         cr.use_spades()
         fi = od + '/cry_extraction/assembly/assembly_graph_with_scaffolds.gfa'
         cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr)
@@ -1132,4 +1137,3 @@ if __name__ == '__main__':
                     cr.map_nucl()
         else:
             print('No toxins found in assembly graph')
-

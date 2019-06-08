@@ -7,13 +7,13 @@ CryProcessor is a python-written tool for searching and extracting cry toxins fr
 
 ## CryProcessor Pipeline
 
-The following text stands for the full pipeline description (for illumina reads). To start, <i>SPAdes</i> or <i>metaSPAdes</i> are implemented to get assembly graph from the fastq-files. After that, potential cry toxins (with at least 30% identity to the hmm-consensus) are extracted from assembly paths via <i>PathRacer</i>. Then <i>hmmsearch</i> is used to find cry toxins domains in the obtained sequences. In the next step, results of <i>hmmsearch</i> are combined to get toxins that posses all three domains. <br> <br>Coordinates of the domains are used to cut flanking sequences and save domains with corresponding linkers. Full sequences (without processing procedure) are used to compare obtained toxins with Bt nomenclature database via <i>diamond blastp</i>. Non-identical sequences are extracted and marked as the potentially new toxins. For all the found sequences (both identical to presented in Bt nomenclature and novel sequences) an online ipg (Identical Protein Group) annotation is performed (to see the annotation output reed the annotation output section below). Finally, nucleotide sequences, corresponding to protein sequences of the found toxins, are downloaded. Metadata could be uploaded only if accession numbers are present in the quiery.
+The following text stands for the full pipeline description (for illumina reads). To start, <i>SPAdes</i> or <i>metaSPAdes</i> are implemented to get assembly graph from the fastq-files. After that, potential cry toxins (with at least 30% identity to the hmm-consensus) are extracted from assembly paths via <i>PathRacer</i>. Then <i>hmmsearch</i> is used to find cry toxins domains in the obtained sequences. In the next step, results of <i>hmmsearch</i> are combined to get toxins that posses all three domains. <br> <br>Coordinates of the domains are used to cut flanking sequences and save domains with corresponding linkers. Full sequences (without processing procedure) are used to compare obtained toxins with Bt nomenclature database via <i>diamond blastp</i>. Non-identical sequences are extracted and marked as the potentially new toxins. For all the found sequences (both identical to presented in Bt nomenclature and novel sequences) an online ipg-annotation (Identical Protein Group) is performed (to see the annotation output reed the annotation output section below). Finally, nucleotide sequences, corresponding to the protein sequences of the found toxins, are downloaded. Metadata will be uploaded only if accession numbers are present in the quiery.
 
 ## Installation and Usage
 ### Prerequisites
 <ul>
-  <li>python (3.7 or higher) </li>
-  <li>Biopython (1.66 or higher)
+  <li>python (3.7 or higher); </li>
+  <li>Biopython (1.66 or higher).
   </li>
 </ul>
 
@@ -25,12 +25,12 @@ To install Biopython use the following command:
 
 ### Installing
 
-To install CryProcessor clone git repository to your PC.
+To install CryProcessor clone git repository to your PC:
 
 ```
 ~$ git clone https://github.com/cry_Processor
 ```
-After downloading CryProcessor is ready to use.
+After downloading, CryProcessor is ready to use.
 
 ## Running and Using Tool
 
@@ -39,18 +39,18 @@ To extract cry toxins from the protein fasta file simply execute the following c
 ```
 ~$ python3 cry_processor.py -fi input.faa  -od output_dir
 ```
-This command will automatically search for cry-toxins in fasta-file with amino acid sequences.
+This command will automatically search for cry-toxins in the fasta file with amino acid sequences.
 
 ### Supported Input Formats
 
 <ul>
-  <li>fasta files with protein sequences </li>
-  <li>gfa file (genome assebly graph)</li>
-  <li>forward and reverse illumina reads</li>
+  <li>fasta files with protein sequences; </li>
+  <li>gfa file (genome assebly graph);</li>
+  <li>forward and reverse illumina reads.</li>
 </ul>
 
 ### Tool Options: 
-Full list of tool options:
+The full list of tool options:
 ```
 -fi <input.fasta> or <input.gfa> input file in fasta-format of in gfa-format
 -hm <path to hmmer directory> path to hmmemer directory if you want to use local hmmer
@@ -70,7 +70,7 @@ Full list of tool options:
 ```
 
 ### Using Tool for Fasta Files
-To use tool for fasta file execute the command, presented in quick usage, you can also specify annotation (writing e-nail ):
+To use tool for fasta file execute the command, presented in quick usage, you can also specify annotation (writing e-mail is strongly recommended):
 ```
 ~$ python3 cry_processor.py -fi input.faa  -od output_dir -ma <e-mail address> --annotate
 ```
@@ -79,10 +79,10 @@ Use -nu flag to download nucleotide sequences:
 ```
 ~$ python3 cry_processor.py -fi input.faa  -od output_dir -ma <e-mail address> --annotate -nu pn
 ```
-Pipeline of searching could be performed in two regimes:
+The pipeline of searching could be performed in two regimes:
 <ul>
-  <li>do - domain only regime. Searches cry-toxin domains from full queiry, then combines this data to extract toxins with 3 domains </li>
-  <li>fd - find domains regime. At the begining hmmsearch using full cry toxin model is performed. Domains are extracted next, this regime is quicker as far as domain search is performed on already extracted sequences </li>
+  <li>do - domain only regime. Searches cry-toxin domains from the full queiry, then combines this data to extract toxins with 3 domains; </li>
+  <li>fd - find domains regime. At the begining, <i>hmmsearch</i> with the full cry-toxin model is performed. Next, domains are extracted and combined. this regime is quicker as far as domain search is performed on already extracted sequences. </li>
 </ul>
 
 ### Using Tool for .gfa Files
@@ -146,7 +146,7 @@ Columns description:
   <li>source - database source of the sequence </li>
   <li>nucl_accession - accession number for nucleotide sequence </li>
   <li>start - starting position in full nucleotide sequence </li>
-  <li>stop - ending position in full nucleotide sequence </li>
+  <li>stop - ending position in full nucleotide sequence </li>the 
   <li>strand - DNA strand orientation for nucleotide sequence </li>
   <li>ipg_prot_id - protein id according to ipg database </li>
   <li>ipg_prot_name - protein description to ipg database </li>
@@ -154,7 +154,7 @@ Columns description:
   <li>strain - strain of the organism </li>
   <li>assembly - assembly id where nucleotide sequence is present</li>
 </ul>
-Rows possesing first 4 coloums fefer to initial sequences (those found in quiery), results for all identical proteins are marked with --. Here is an expamle of such rows:
+Rows possesing first 4 coloums refer to the initial sequences (those found in the quiery), results for all the identical proteins are marked with --. Here is an expamle of such rows:
 
 <table>
   <tr>

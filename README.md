@@ -1,13 +1,13 @@
 # Cry Processor
-Cry processor is high-troughtput tool for mining cry-toxins from fasta-files or directly from illumina reads.
+Cry processor is a high-troughtput tool for cry-toxins mining from fasta-files or directly from illumina reads.
 
 ## About Cry processor
 
-Cry processor is a python-written tool for searching cry toxins from illumina sequence data or from protein fasta files. It includes hmm-based searching of potential cry-toxins,  obtaining information about domains, extracting cry-toxins with 3 domains only and comparing founded toxins with btnomenclature. A regime for performing toxins search directly from Illumina reads implies  building asembly graph using spades and subsequent toxin mining directly from assebmly graph. 
+Cry processor is a python-written tool for searching and extracting cry toxins from illumina sequence data or from protein fasta files. It includes hmm-based searching of potential cry-toxins, obtaining information about domains, extracting cry-toxins with 3 domains only and comparing found toxins with btnomenclature. A regime for performing toxins search directly from illumina reads implies building asembly graph using spades and subsequent toxin mining directly from assebmly graph. 
 
 ## Cry processor pipeline
 
-Here full pipeline is described (for illumina reads). At first spades or metaspades is implemented to get assembly graph from fastq-files. After that potential cry toxins (with at least 30% identity to hmm-consensus) are extracted from assembly paths via pathracer. Then hmmsearch is used to find cry toxins domains in obtained sequences. Searching results are then combined to get toxins possesing all three domains. Coordinates of domains are used to cut flanking sequences and save domains with linkers between them. Full sequences are used to compare obtained toxins with btnomenclature database using diamond blastp. Non-identical sequences then are extracted as potenial new toxins. For all found sequences (both identical to presented in bt_nomenclature and novel) online ipg-annotation is performed (to see anotation output watch sections below). Finally, nucleotide sequences corresponding to protein sequences of found toxins are downloaded. Metadata coulde uploaded only if accession numbers are present in the quiery.
+Here full pipeline is described (for illumina reads). At first spades or metaspades is implemented to get assembly graph from fastq-files. After that potential cry toxins (with at least 30% identity to hmm-consensus) are extracted from assembly paths via pathracer. Then hmmsearch is used to find cry toxins domains in obtained sequences. Searching results are then combined to get toxins possesing all three domains. Coordinates of domains are used to cut flanking sequences and save domains with linkers between them. Full sequences are used to compare obtained toxins with btnomenclature database using diamond blastp. Non-identical sequences are then extracted as potenial new toxins. For all found sequences (both identical to presented in bt nomenclature and novel) online ipg-annotation is performed (to see anotation output watch sections below). Finally, nucleotide sequences corresponding to protein sequences of found toxins are downloaded. Metadata could be uploaded only if accession numbers are present in the quiery.
 
 ## Installation and usage
 ### Prerequisites
@@ -21,7 +21,6 @@ To install Biopython use the following command:
 
 ```
 ~$ pip install biopython
-
 ```
 
 ### Installing
@@ -140,11 +139,11 @@ Using --annotate flag would perform NCBI-search in ipg(identical protein group) 
 
 Columns description:
 <ul>
-  <li>protein_id - initial sequence id in quiery </li>
+  <li>protein_id - initial sequence id in the quiery </li>
   <li>initial_description - protein description in quiery </li>
   <li>top_cry_hit - cry-protein from btnomenclature with the best identity score according to diamond</li>
   <li>cry_identity - identity score with the closest cry-protein from btnomenclature </li>
-  <li>source - database source of sequence </li>
+  <li>source - database source of the sequence </li>
   <li>nucl_accession - accession number for nucleotide sequence </li>
   <li>start - starting position in full nucleotide sequence </li>
   <li>stop - ending position in full nucleotide sequence </li>
@@ -175,10 +174,9 @@ Rows possesing first 4 coloums fefer to initial sequences (those found in quiery
     <td>GCF_001183785.1</td>
   </tr>
 </table>
-Note that all rows marked with -- in first four rows are identical to initial sequense in queiry with full rows located above.
+Note that all rows marked with -- in first four coloumns are identical to initial sequense in queiry with full coloumns located above.
 
 ### Output files structure
-
 
 
 

@@ -12,6 +12,8 @@ import os.path
 import sys
 import re
 import logging
+import copy
+
  
 class CryProcessor:
     def __init__(self, 
@@ -267,7 +269,7 @@ class CryProcessor:
             #obtainind id list with cry_3D_ids_extractor function
             else:
                 self.id_list = self.cry_3D_ids_extractor()
-                self.three_dom_count = len(self.id_list)
+                final_id_list=list()
                 if not self.silent_mode:
                     print("Performing cry toxins processing")
                 self.logger.info('Performing cry toxins processing')
@@ -319,15 +321,24 @@ class CryProcessor:
                                     d=int(pre_dict[name_key]['D'+str(i)][j+1]) - int(pre_dict[name_key]['D'+str(i)][j])
                                     ind=j
                             self.coordinate_dict[name_key].extend(pre_dict[name_key]['D'+str(i)][ind:ind+2])
+                for key in self.coordinate_dict:
+                    #check if sequece has all domains in monotonic grow
+                    if all(int(x)<int(y) for x, y in zip(self.coordinate_dict[key], self.coordinate_dict[key][1:])):
+                        final_id_list.append(key)
                 #create records for full and processed sequences with 3 domains
                 new_rec_list=list()   
-                full_rec_list=list()     
+                full_rec_list=list()
+                dummy_dict = copy.deepcopy(self.coordinate_dict)
+                self.coordinate_dict = defaultdict(list)
+                for key in final_id_list:
+                    self.coordinate_dict[key]=dummy_dict[key]  
+                self.three_dom_count = len(final_id_list)
                 for record in SeqIO.parse(open(self.cry_quiery),"fasta"):
                     if record.description != record.id:
                         name = record.id + '|' +'|'.join('|'.join(record.description.split(' ')[1:]).split('_'))
                     else:
                         name= record.id + '|' +'|'.join('|'.join(record.description.split(' ')[0:]).split('_'))
-                    if name in self.id_list:
+                    if name in final_id_list:
                          #check if multiple identical ids are in quiery to get warning
                          if record.id in ids_check_set:
                              check_flag=1
@@ -397,7 +408,7 @@ class CryProcessor:
                                   self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))
                 #further teps are identical to do regime and are described above
                 self.id_list = self.cry_3D_ids_extractor()
-                self.three_dom_count = len(self.id_list)
+                final_id_list=list()
                 if not self.silent_mode:
                     print("Performing cry toxins processing")
                 self.logger.info("Performing cry toxins processing")
@@ -441,8 +452,16 @@ class CryProcessor:
                                     d=int(pre_dict[name_key]['D'+str(i)][j+1]) - int(pre_dict[name_key]['D'+str(i)][j])
                                     ind=j
                             self.coordinate_dict[name_key].extend(pre_dict[name_key]['D'+str(i)][ind:ind+2])
+                for key in self.coordinate_dict:
+                    if all(int(x)<int(y) for x, y in zip(self.coordinate_dict[key], self.coordinate_dict[key][1:])):
+                        final_id_list.append(key)
                 new_rec_list=list()   
-                full_rec_list=list()    
+                full_rec_list=list()
+                dummy_dict = copy.deepcopy(self.coordinate_dict)
+                self.coordinate_dict = defaultdict(list)
+                for key in final_id_list:
+                    self.coordinate_dict[key]=dummy_dict[key] 
+                self.three_dom_count = len(final_id_list)
                 for record in SeqIO.parse(open("{0}/{1}/cry_extraction/{2}.fasta".format(self.main_dir,
                                        self.quiery_dir,
                                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
@@ -451,7 +470,7 @@ class CryProcessor:
                         name = record.id + '|' +'|'.join('|'.join(record.description.split(' ')[1:]).split('_'))
                     else:
                         name= record.id + '|' +'|'.join('|'.join(record.description.split(' ')[0:]).split('_'))
-                    if name in self.id_list:
+                    if name in final_id_list:
                          if record.id in ids_check_set:
                              check_flag=1
                          ids_check_set.add(record.id)
@@ -1121,7 +1140,7 @@ class CryProcessor:
         """
         if not self.silent_mode:
             print('Building assembly graph')
-        self.logger.info('Searching sequences from gfa file')
+        self.logger.info('Building assembly graph')
         if str(self.meta_flag)=='True': 
             #ese mataspades if --meta flag is specified
             cmd_spades = subprocess.call('{0}/SPAdes-3.13.1-Linux/bin/spades.py \

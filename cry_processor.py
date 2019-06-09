@@ -67,15 +67,15 @@ class CryProcessor:
         self.hmmer_result_flag = 0 
         self.silent_mode = silent_mode
         #creating output directories
-        cmd_init = subprocess.call('if [ ! -d $PWD/{0} ]; \
-                                     then mkdir $PWD/{0}; \
+        cmd_init = subprocess.call('if [ ! -d {0} ]; \
+                                     then mkdir {0}; \
                                                       fi; \
-                     if [ ! -d $PWD/{0}/cry_extraction ]; \
-                      then mkdir $PWD/{0}/cry_extraction; \
+                     if [ ! -d {0}/cry_extraction ]; \
+                      then mkdir {0}/cry_extraction; \
                                                       fi; \
-                if [ ! -d $PWD/{0}/cry_extraction/logs ]; \
-                 then mkdir $PWD/{0}/cry_extraction/logs; \
-                                                      fi'.format(self.quiery_dir), shell=True)
+                if [ ! -d {0}/cry_extraction/logs ]; \
+                 then mkdir {0}/cry_extraction/logs; \
+                                                      fi'.format(os.path.join(os.path.dirname(__file__),self.quiery_dir)), shell=True)
         #current working directory
         self.main_dir = re.sub("b",'',
                         re.sub("\'",'',
@@ -100,10 +100,10 @@ class CryProcessor:
         #if self.hmmer_dir is not specified use hmmsearch from the include directory
         if self.hmmer_dir:
             #check the output directory structure
-            cmd_make_dirs = subprocess.call('cd $PWD/{1}/cry_extraction; \
-                                            if [ ! -d {0} ]; \
-                                            then mkdir {0}; \
-                                            fi'.format(dir_flag, quiery_dir), 
+            cmd_make_dirs = subprocess.call('cd {0}; \
+                                            if [ ! -d {1} ]; \
+                                            then mkdir {1}; \
+                                            fi'.format(os.path.join(os.path.dirname(__file__),quiery_dir,"cry_extraction"),dir_flag), 
                                             shell=True)
             #perform hmmsearch
             cmd_search = subprocess.call('{0}/binaries/hmmsearch \
@@ -137,10 +137,10 @@ class CryProcessor:
                                          shell=True) 
 
         else:
-            cmd_make_dirs = subprocess.call('cd $PWD/{1}/cry_extraction; \
-                                            if [ ! -d {0} ]; \
-                                            then mkdir {0}; \
-                                            fi'.format(dir_flag, quiery_dir), 
+            cmd_make_dirs = subprocess.call('cd {0}; \
+                                            if [ ! -d {1} ]; \
+                                            then mkdir {1}; \
+                                            fi'.format(os.path.join(os.path.dirname(__file__),quiery_dir,"cry_extraction"),dir_flag), 
                                             shell=True)
 
             cmd_search = subprocess.call('{7}hmmsearch \
@@ -282,11 +282,9 @@ class CryProcessor:
                 check_flag=0
                 for i in range(dom_start,4):
                     #iterate over fasta fles with domains
-                    for record in SeqIO.parse('{3}/{2}/cry_extraction/{0}/{1}'.format('domains',
+                    for record in SeqIO.parse(os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','domains',
                                            self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+
-                                           '_D{}_extracted.fasta'.format(i),
-                                           self.quiery_dir,
-                                           self.main_dir),
+                                           '_D{}_extracted.fasta'.format(i)),
                                            "fasta"):
                         dom_list=list()
                         if '|' in record.id:
@@ -354,13 +352,12 @@ class CryProcessor:
                                             description=" ".join(name.split('|')[1:])))
                 #save full and processed sequences
                 SeqIO.write(new_rec_list,
-                        '/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(self.main_dir,
-                        self.quiery_dir,
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
+                        os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'raw_processed_{}.fasta'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
                         "fasta")
                 SeqIO.write(full_rec_list,
-                        '/{0}/{1}/cry_extraction/raw_full_{2}.fasta'.format(self.main_dir,
-                        self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
+                        os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'raw_full_{}.fasta'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
                         "fasta")
                 if check_flag==1:
                     if not self.silent_mode:
@@ -389,21 +386,20 @@ class CryProcessor:
                 #launch the search for the full potential cry-toxins
                 #extract the fasta-file after hmmsearch and use it as a quiery for the domain search 
                 #process the hmmsearch output with sed
-                cmd_take_file = subprocess.call("cp {0}/{1}/cry_extraction/full_toxins/{2}_full_extracted.fasta \
-                                            {0}/{1}/cry_extraction/; \
-                                            mv {0}/{1}/cry_extraction/{2}_full_extracted.fasta \
-                                            {0}/{1}/cry_extraction/{2}.fasta; \
-                                            sed -i 's/[0-9]*|//g' {0}/{1}/cry_extraction/{2}.fasta; \
-                                            sed -i 's/\/[0-9]*-[0-9]*//g' {0}/{1}/cry_extraction/{2}.fasta; \
+#os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','full_toxins',
+#                                           '{}_full_extracted.fasta'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])
+                cmd_take_file = subprocess.call("cp {0} \
+                                            {1}; \
+                                            mv {2} \
+                                            {3}; \
+                                            sed -i 's/[0-9]*|//g' {3}; \
+                                            sed -i 's/\/[0-9]*-[0-9]*//g' {3}; \
                                             sed -i 's/ \[subseq from]\ / /g' \
-                                            {0}/{1}/cry_extraction/{2}.fasta".format(self.main_dir,
-                                            self.quiery_dir,
-                                            self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
-                                            shell=True)
+                                            {3}".format(os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','full_toxins',
+                                           '{}_full_extracted.fasta'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction/'), os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','{}_full_extracted.fasta'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','{}.fasta'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))),shell=True)
+
                 #lauch the domain search
-                self.find_domains('{0}/{1}/cry_extraction/{2}.fasta'.format(self.main_dir,
-                                  self.quiery_dir,
-                                  self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))
+                self.find_domains('{}'.format(os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','{}.fasta'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))))
                 #further steps are identical to do_regime and are described above
                 self.id_list = self.cry_3D_ids_extractor()
                 final_id_list=list()
@@ -414,10 +410,7 @@ class CryProcessor:
                 pre_dict=defaultdict(dict)
                 ids_check_set=set()
                 check_flag=0
-                self.first_filter_count = len(list(SeqIO.parse(
-                                           "{0}/{1}/cry_extraction/{2}.fasta".format(self.main_dir,
-                                           self.quiery_dir,
-                                           self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
+                self.first_filter_count = len(list(SeqIO.parse('{}'.format(os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','{}.fasta'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))),
                                            "fasta")))
                 dom_start=int(self.processing_flag)
                 for i in range(dom_start,4):
@@ -483,15 +476,13 @@ class CryProcessor:
                                           id=name.split('|')[0], 
                                           description=" ".join(name.split('|')[1:])))
                 SeqIO.write(new_rec_list,
-                         '/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(self.main_dir,
-                         self.quiery_dir,
-                         self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
-                         "fasta")
+                        os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'raw_processed_{}.fasta'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
+                        "fasta")
                 SeqIO.write(full_rec_list,
-                         '/{0}/{1}/cry_extraction/raw_full_{2}.fasta'.format(self.main_dir,
-                         self.quiery_dir,
-                         self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
-                         "fasta")
+                        os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'raw_full_{}.fasta'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
+                        "fasta")
                 if check_flag==1:
                     if not self.silent_mode:
                         print('Warning! Identical ids in the queiry, the uncertain mapping can occur')

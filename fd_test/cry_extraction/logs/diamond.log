@@ -20,7 +20,7 @@ Aligned file format: Aligned file format: fastafasta
 
 Temporary directory: Temporary directory: 
 
-Opening the databaseOpening the database... ...  [ [0.0002570.000257s]s]
+Opening the databaseOpening the database... ...  [ [0.000180.00018s]s]
 
 #Target sequences to report alignments for: #Target sequences to report alignments for: 11
 
@@ -32,17 +32,17 @@ Letters = Letters = 664269664269
 
 Block size = Block size = 20000000002000000000
 
-Opening the input fileOpening the input file... ...  [ [0.0001980.000198s]s]
+Opening the input fileOpening the input file... ...  [ [0.0001570.000157s]s]
 
-Opening the output fileOpening the output file... ...  [ [0.0002930.000293s]s]
+Opening the output fileOpening the output file... ...  [ [0.0002080.000208s]s]
 
-Loading query sequencesLoading query sequences... ...  [ [0.0002560.000256s]s]
+Loading query sequencesLoading query sequences... ...  [ [0.0001840.000184s]s]
 
 Sequences = Sequences = 33, letters = , letters = 30093009, average length = , average length = 10031003
 
-Masking queriesMasking queries... ...  [ [0.0027320.002732s]s]
+Masking queriesMasking queries... ...  [ [0.0022910.002291s]s]
 
-Building query seed setBuilding query seed set... ...  [ [0.0044620.004462s]s]
+Building query seed setBuilding query seed set... ...  [ [0.0034240.003424s]s]
 
 Seed space coverage = Seed space coverage = 0.0001724360.000172436
 
@@ -58,41 +58,41 @@ Building query histogramsBuilding query histograms... ... Query len bounds Query
 
 Search parameters Search parameters 4848  2929  00
 
- [ [0.0028720.002872s]s]
+ [ [0.0010740.001074s]s]
 
-Allocating buffersAllocating buffers... ...  [ [0.0003490.000349s]s]
+Allocating buffersAllocating buffers... ...  [ [0.0001320.000132s]s]
 
-Loading reference sequencesLoading reference sequences... ...  [ [0.0084730.008473s]s]
+Loading reference sequencesLoading reference sequences... ...  [ [0.0030260.003026s]s]
 
 Sequences = Sequences = 724724, letters = , letters = 664269664269, average length = , average length = 917917
 
 Masked letters = Masked letters = 1544615446
 
-Building reference histogramsBuilding reference histograms... ...  [ [0.0431590.043159s]s]
+Building reference histogramsBuilding reference histograms... ...  [ [0.0409090.040909s]s]
 
-Allocating buffersAllocating buffers... ...  [ [0.0001990.000199s]s]
+Allocating buffersAllocating buffers... ...  [ [0.000220.00022s]s]
 
 Initializing temporary storageInitializing temporary storage... ... Async_buffer() Async_buffer() 33,,11
 
- [ [0.0030070.003007s]s]
+ [ [0.0146830.014683s]s]
 
 Processing query chunk Processing query chunk 00, reference chunk , reference chunk 00, shape , shape 00, index chunk , index chunk 00..
 
-Building reference indexBuilding reference index... ... Computing limitsComputing limits... ...  [ [0.0002310.000231s]s]
+Building reference indexBuilding reference index... ... Computing limitsComputing limits... ...  [ [0.0001640.000164s]s]
 
-Building seed listBuilding seed list... ...  [ [0.0281440.028144s]s]
+Building seed listBuilding seed list... ...  [ [0.0323980.032398s]s]
 
-Sorting seed listSorting seed list... ...  [ [0.0071750.007175s]s]
+Sorting seed listSorting seed list... ...  [ [0.0048780.004878s]s]
 
- [ [0.0367850.036785s]s]
+ [ [0.0419210.041921s]s]
 
-Building query indexBuilding query index... ... Computing limitsComputing limits... ...  [ [0.0001630.000163s]s]
+Building query indexBuilding query index... ... Computing limitsComputing limits... ...  [ [0.0001290.000129s]s]
 
-Building seed listBuilding seed list... ...  [ [0.0008610.000861s]s]
+Building seed listBuilding seed list... ...  [ [0.0012750.001275s]s]
 
-Sorting seed listSorting seed list... ...  [ [0.0005030.000503s]s]
+Sorting seed listSorting seed list... ...  [ [0.0003510.000351s]s]
 
- [ [0.0024760.002476s]s]
+ [ [0.0025040.002504s]s]
 
 Building seed filterBuilding seed filter... ... Seed frequency mean (reference) = Seed frequency mean (reference) = 3.838023.83802, SD = , SD = 10.81310.813
 
@@ -100,27 +100,27 @@ Seed frequency mean (query) = Seed frequency mean (query) = 0.9978050.997805, SD
 
 Masked positions = Masked positions = 00
 
- [ [0.0042110.004211s]s]
+ [ [0.0039850.003985s]s]
 
-Searching alignmentsSearching alignments... ...  [ [0.0110690.011069s]s]
+Searching alignmentsSearching alignments... ...  [ [0.0087770.008777s]s]
 
 Processing query chunk Processing query chunk 00, reference chunk , reference chunk 00, shape , shape 00, index chunk , index chunk 11..
 
-Building reference indexBuilding reference index... ... Computing limitsComputing limits... ...  [ [0.0001570.000157s]s]
+Building reference indexBuilding reference index... ... Computing limitsComputing limits... ...  [ [0.0001270.000127s]s]
 
-Building seed listBuilding seed list... ...  [ [0.0233440.023344s]s]
+Building seed listBuilding seed list... ...  [ [0.019390.01939s]s]
 
-Sorting seed listSorting seed list... ...  [ [0.0069830.006983s]s]
+Sorting seed listSorting seed list... ...  [ [0.0049460.004946s]s]
 
- [ [0.0315550.031555s]s]
+ [ [0.025310.02531s]s]
 
-Building query indexBuilding query index... ... Computing limitsComputing limits... ...  [ [0.0001710.000171s]s]
+Building query indexBuilding query index... ... Computing limitsComputing limits... ...  [ [0.0001280.000128s]s]
 
-Building seed listBuilding seed list... ...  [ [0.0007230.000723s]s]
+Building seed listBuilding seed list... ...  [ [0.0007420.000742s]s]
 
-Sorting seed listSorting seed list... ...  [ [0.0005780.000578s]s]
+Sorting seed listSorting seed list... ...  [ [0.0060120.006012s]s]
 
- [ [0.0023570.002357s]s]
+ [ [0.0107840.010784s]s]
 
 Building seed filterBuilding seed filter... ... Seed frequency mean (reference) = Seed frequency mean (reference) = 3.92293.9229, SD = , SD = 11.201311.2013
 
@@ -128,27 +128,27 @@ Seed frequency mean (query) = Seed frequency mean (query) = 0.998330.99833, SD =
 
 Masked positions = Masked positions = 00
 
- [ [0.0043960.004396s]s]
+ [ [0.009230.00923s]s]
 
-Searching alignmentsSearching alignments... ...  [ [0.0112270.011227s]s]
+Searching alignmentsSearching alignments... ...  [ [0.011170.01117s]s]
 
 Processing query chunk Processing query chunk 00, reference chunk , reference chunk 00, shape , shape 00, index chunk , index chunk 22..
 
-Building reference indexBuilding reference index... ... Computing limitsComputing limits... ...  [ [0.0002390.000239s]s]
+Building reference indexBuilding reference index... ... Computing limitsComputing limits... ...  [ [0.0001580.000158s]s]
 
-Building seed listBuilding seed list... ...  [ [0.0236270.023627s]s]
+Building seed listBuilding seed list... ...  [ [0.0235120.023512s]s]
 
-Sorting seed listSorting seed list... ...  [ [0.0070550.007055s]s]
+Sorting seed listSorting seed list... ...  [ [0.0046090.004609s]s]
 
- [ [0.0319490.031949s]s]
+ [ [0.0293840.029384s]s]
 
-Building query indexBuilding query index... ... Computing limitsComputing limits... ...  [ [0.0001680.000168s]s]
+Building query indexBuilding query index... ... Computing limitsComputing limits... ...  [ [0.0001610.000161s]s]
 
-Building seed listBuilding seed list... ...  [ [0.0006250.000625s]s]
+Building seed listBuilding seed list... ...  [ [0.000630.00063s]s]
 
-Sorting seed listSorting seed list... ...  [ [0.0006480.000648s]s]
+Sorting seed listSorting seed list... ...  [ [0.000360.00036s]s]
 
- [ [0.0023770.002377s]s]
+ [ [0.0020980.002098s]s]
 
 Building seed filterBuilding seed filter... ... Seed frequency mean (reference) = Seed frequency mean (reference) = 4.033284.03328, SD = , SD = 11.738211.7382
 
@@ -156,27 +156,27 @@ Seed frequency mean (query) = Seed frequency mean (query) = 1.002971.00297, SD =
 
 Masked positions = Masked positions = 00
 
- [ [0.0037690.003769s]s]
+ [ [0.0043270.004327s]s]
 
-Searching alignmentsSearching alignments... ...  [ [0.0112770.011277s]s]
+Searching alignmentsSearching alignments... ...  [ [0.007490.00749s]s]
 
 Processing query chunk Processing query chunk 00, reference chunk , reference chunk 00, shape , shape 00, index chunk , index chunk 33..
 
-Building reference indexBuilding reference index... ... Computing limitsComputing limits... ...  [ [0.0001660.000166s]s]
+Building reference indexBuilding reference index... ... Computing limitsComputing limits... ...  [ [0.0001260.000126s]s]
 
-Building seed listBuilding seed list... ...  [ [0.0248680.024868s]s]
+Building seed listBuilding seed list... ...  [ [0.0436220.043622s]s]
 
-Sorting seed listSorting seed list... ...  [ [0.0069260.006926s]s]
+Sorting seed listSorting seed list... ...  [ [0.00440.0044s]s]
 
- [ [0.0329950.032995s]s]
+ [ [0.0490090.049009s]s]
 
-Building query indexBuilding query index... ... Computing limitsComputing limits... ...  [ [0.0001660.000166s]s]
+Building query indexBuilding query index... ... Computing limitsComputing limits... ...  [ [0.0001320.000132s]s]
 
-Building seed listBuilding seed list... ...  [ [0.0006230.000623s]s]
+Building seed listBuilding seed list... ...  [ [0.0005440.000544s]s]
 
-Sorting seed listSorting seed list... ...  [ [0.0004790.000479s]s]
+Sorting seed listSorting seed list... ...  [ [0.0003140.000314s]s]
 
- [ [0.0021910.002191s]s]
+ [ [0.0017280.001728s]s]
 
 Building seed filterBuilding seed filter... ... Seed frequency mean (reference) = Seed frequency mean (reference) = 3.927263.92726, SD = , SD = 11.272211.2722
 
@@ -184,27 +184,27 @@ Seed frequency mean (query) = Seed frequency mean (query) = 0.9955350.995535, SD
 
 Masked positions = Masked positions = 00
 
- [ [0.0039510.003951s]s]
+ [ [0.0036480.003648s]s]
 
-Searching alignmentsSearching alignments... ...  [ [0.0105610.010561s]s]
+Searching alignmentsSearching alignments... ...  [ [0.0063960.006396s]s]
 
 Processing query chunk Processing query chunk 00, reference chunk , reference chunk 00, shape , shape 11, index chunk , index chunk 00..
 
-Building reference indexBuilding reference index... ... Computing limitsComputing limits... ...  [ [0.0001640.000164s]s]
+Building reference indexBuilding reference index... ... Computing limitsComputing limits... ...  [ [0.0001260.000126s]s]
 
-Building seed listBuilding seed list... ...  [ [0.0227450.022745s]s]
+Building seed listBuilding seed list... ...  [ [0.0142780.014278s]s]
 
-Sorting seed listSorting seed list... ...  [ [0.0069630.006963s]s]
+Sorting seed listSorting seed list... ...  [ [0.0045610.004561s]s]
 
- [ [0.0308940.030894s]s]
+ [ [0.0198020.019802s]s]
 
-Building query indexBuilding query index... ... Computing limitsComputing limits... ...  [ [0.0001680.000168s]s]
+Building query indexBuilding query index... ... Computing limitsComputing limits... ...  [ [0.0001310.000131s]s]
 
-Building seed listBuilding seed list... ...  [ [0.0006180.000618s]s]
+Building seed listBuilding seed list... ...  [ [0.000460.00046s]s]
 
-Sorting seed listSorting seed list... ...  [ [0.0005140.000514s]s]
+Sorting seed listSorting seed list... ...  [ [0.0004730.000473s]s]
 
- [ [0.0021950.002195s]s]
+ [ [0.0017870.001787s]s]
 
 Building seed filterBuilding seed filter... ... Seed frequency mean (reference) = Seed frequency mean (reference) = 3.775343.77534, SD = , SD = 10.630810.6308
 
@@ -212,27 +212,27 @@ Seed frequency mean (query) = Seed frequency mean (query) = 0.9886430.988643, SD
 
 Masked positions = Masked positions = 00
 
- [ [0.0044960.004496s]s]
+ [ [0.0029220.002922s]s]
 
-Searching alignmentsSearching alignments... ...  [ [0.0075860.007586s]s]
+Searching alignmentsSearching alignments... ...  [ [0.0105780.010578s]s]
 
 Processing query chunk Processing query chunk 00, reference chunk , reference chunk 00, shape , shape 11, index chunk , index chunk 11..
 
-Building reference indexBuilding reference index... ... Computing limitsComputing limits... ...  [ [0.000160.00016s]s]
+Building reference indexBuilding reference index... ... Computing limitsComputing limits... ...  [ [0.0001260.000126s]s]
 
-Building seed listBuilding seed list... ...  [ [0.0233350.023335s]s]
+Building seed listBuilding seed list... ...  [ [0.0212640.021264s]s]
 
-Sorting seed listSorting seed list... ...  [ [0.007090.00709s]s]
+Sorting seed listSorting seed list... ...  [ [0.0046140.004614s]s]
 
- [ [0.0316010.031601s]s]
+ [ [0.0268640.026864s]s]
 
-Building query indexBuilding query index... ... Computing limitsComputing limits... ...  [ [0.0001740.000174s]s]
+Building query indexBuilding query index... ... Computing limitsComputing limits... ...  [ [0.0001290.000129s]s]
 
-Building seed listBuilding seed list... ...  [ [0.0006110.000611s]s]
+Building seed listBuilding seed list... ...  [ [0.0006480.000648s]s]
 
-Sorting seed listSorting seed list... ...  [ [0.0004270.000427s]s]
+Sorting seed listSorting seed list... ...  [ [0.0003560.000356s]s]
 
- [ [0.0020980.002098s]s]
+ [ [0.0018630.001863s]s]
 
 Building seed filterBuilding seed filter... ... Seed frequency mean (reference) = Seed frequency mean (reference) = 3.879863.87986, SD = , SD = 11.178711.1787
 
@@ -240,27 +240,27 @@ Seed frequency mean (query) = Seed frequency mean (query) = 0.9913380.991338, SD
 
 Masked positions = Masked positions = 00
 
- [ [0.0039130.003913s]s]
+ [ [0.0028590.002859s]s]
 
-Searching alignmentsSearching alignments... ...  [ [0.0095640.009564s]s]
+Searching alignmentsSearching alignments... ...  [ [0.006850.00685s]s]
 
 Processing query chunk Processing query chunk 00, reference chunk , reference chunk 00, shape , shape 11, index chunk , index chunk 22..
 
-Building reference indexBuilding reference index... ... Computing limitsComputing limits... ...  [ [0.0001650.000165s]s]
+Building reference indexBuilding reference index... ... Computing limitsComputing limits... ...  [ [0.0001270.000127s]s]
 
-Building seed listBuilding seed list... ...  [ [0.0239380.023938s]s]
+Building seed listBuilding seed list... ...  [ [0.0260560.026056s]s]
 
-Sorting seed listSorting seed list... ...  [ [0.0070840.007084s]s]
+Sorting seed listSorting seed list... ...  [ [0.0090860.009086s]s]
 
- [ [0.0321970.032197s]s]
+ [ [0.0361640.036164s]s]
 
-Building query indexBuilding query index... ... Computing limitsComputing limits... ...  [ [0.0001680.000168s]s]
+Building query indexBuilding query index... ... Computing limitsComputing limits... ...  [ [0.0001290.000129s]s]
 
-Building seed listBuilding seed list... ...  [ [0.00060.0006s]s]
+Building seed listBuilding seed list... ...  [ [0.0006170.000617s]s]
 
-Sorting seed listSorting seed list... ...  [ [0.0004680.000468s]s]
+Sorting seed listSorting seed list... ...  [ [0.000380.00038s]s]
 
- [ [0.0021880.002188s]s]
+ [ [0.0018420.001842s]s]
 
 Building seed filterBuilding seed filter... ... Seed frequency mean (reference) = Seed frequency mean (reference) = 3.970783.97078, SD = , SD = 11.362411.3624
 
@@ -268,27 +268,27 @@ Seed frequency mean (query) = Seed frequency mean (query) = 0.9930740.993074, SD
 
 Masked positions = Masked positions = 00
 
- [ [0.0039820.003982s]s]
+ [ [0.0036460.003646s]s]
 
-Searching alignmentsSearching alignments... ...  [ [0.0103030.010303s]s]
+Searching alignmentsSearching alignments... ...  [ [0.0127740.012774s]s]
 
 Processing query chunk Processing query chunk 00, reference chunk , reference chunk 00, shape , shape 11, index chunk , index chunk 33..
 
-Building reference indexBuilding reference index... ... Computing limitsComputing limits... ...  [ [0.0002090.000209s]s]
+Building reference indexBuilding reference index... ... Computing limitsComputing limits... ...  [ [0.0001580.000158s]s]
 
-Building seed listBuilding seed list... ...  [ [0.022430.02243s]s]
+Building seed listBuilding seed list... ...  [ [0.025330.02533s]s]
 
-Sorting seed listSorting seed list... ...  [ [0.0092440.009244s]s]
+Sorting seed listSorting seed list... ...  [ [0.0076830.007683s]s]
 
- [ [0.0329210.032921s]s]
+ [ [0.0341950.034195s]s]
 
-Building query indexBuilding query index... ... Computing limitsComputing limits... ...  [ [0.0001690.000169s]s]
+Building query indexBuilding query index... ... Computing limitsComputing limits... ...  [ [0.0001620.000162s]s]
 
-Building seed listBuilding seed list... ...  [ [0.0007870.000787s]s]
+Building seed listBuilding seed list... ...  [ [0.0006240.000624s]s]
 
-Sorting seed listSorting seed list... ...  [ [0.0004510.000451s]s]
+Sorting seed listSorting seed list... ...  [ [0.0003420.000342s]s]
 
- [ [0.0022990.002299s]s]
+ [ [0.002250.00225s]s]
 
 Building seed filterBuilding seed filter... ... Seed frequency mean (reference) = Seed frequency mean (reference) = 3.820453.82045, SD = , SD = 10.67210.672
 
@@ -296,19 +296,19 @@ Seed frequency mean (query) = Seed frequency mean (query) = 1.003951.00395, SD =
 
 Masked positions = Masked positions = 00
 
- [ [0.0037210.003721s]s]
+ [ [0.0083740.008374s]s]
 
-Searching alignmentsSearching alignments... ...  [ [0.0104380.010438s]s]
+Searching alignmentsSearching alignments... ...  [ [0.0056820.005682s]s]
 
-Deallocating buffersDeallocating buffers... ...  [ [0.0023910.002391s]s]
+Deallocating buffersDeallocating buffers... ...  [ [0.0001410.000141s]s]
 
 Computing alignmentsComputing alignments... ... Loading trace pointsLoading trace points... ... Async_buffer.load() Async_buffer.load() 73497349((8.89758e-058.89758e-05 GB) GB)
 
- [ [0.0027270.002727s]s]
+ [ [0.0021460.002146s]s]
 
-Sorting trace pointsSorting trace points... ...  [ [0.0007360.000736s]s]
+Sorting trace pointsSorting trace points... ...  [ [0.0006130.000613s]s]
 
-Computing alignmentsComputing alignments... ...  [ [0.0608350.060835s]s]
+Computing alignmentsComputing alignments... ...  [ [0.0406330.040633s]s]
 
 Gross cells = Gross cells = 00
 
@@ -322,35 +322,35 @@ Net GCUPS = Net GCUPS = 00
 
 Net GCUPS/thread = Net GCUPS/thread = 00
 
-Deallocating buffersDeallocating buffers... ...  [ [0.0001480.000148s]s]
+Deallocating buffersDeallocating buffers... ...  [ [0.0001580.000158s]s]
 
-Loading trace pointsLoading trace points... ...  [ [0.0001440.000144s]s]
+Loading trace pointsLoading trace points... ...  [ [0.0005150.000515s]s]
 
- [ [0.0674830.067483s]s]
+ [ [0.0493490.049349s]s]
 
-Deallocating referenceDeallocating reference... ...  [ [0.0001460.000146s]s]
+Deallocating referenceDeallocating reference... ...  [ [0.0001180.000118s]s]
 
-Loading reference sequencesLoading reference sequences... ...  [ [0.0001860.000186s]s]
+Loading reference sequencesLoading reference sequences... ...  [ [0.0001410.000141s]s]
 
-Deallocating buffersDeallocating buffers... ...  [ [0.0001350.000135s]s]
+Deallocating buffersDeallocating buffers... ...  [ [0.0001110.000111s]s]
 
-Writing unaligned queriesWriting unaligned queries... ...  [ [0.0001360.000136s]s]
+Writing unaligned queriesWriting unaligned queries... ...  [ [0.0005030.000503s]s]
 
-Writing aligned queriesWriting aligned queries... ...  [ [0.0001660.000166s]s]
+Writing aligned queriesWriting aligned queries... ...  [ [0.0001320.000132s]s]
 
-Deallocating queriesDeallocating queries... ...  [ [0.0001390.000139s]s]
+Deallocating queriesDeallocating queries... ...  [ [0.0001140.000114s]s]
 
-Loading query sequencesLoading query sequences... ...  [ [0.0001690.000169s]s]
+Loading query sequencesLoading query sequences... ...  [ [0.0001340.000134s]s]
 
-Closing the input fileClosing the input file... ...  [ [0.0001480.000148s]s]
+Closing the input fileClosing the input file... ...  [ [0.0001180.000118s]s]
 
-Closing the output fileClosing the output file... ...  [ [0.0002630.000263s]s]
+Closing the output fileClosing the output file... ...  [ [0.0002160.000216s]s]
 
-Closing the database fileClosing the database file... ...  [ [0.0001460.000146s]s]
+Closing the database fileClosing the database file... ...  [ [0.0001180.000118s]s]
 
-Deallocating taxonomyDeallocating taxonomy... ...  [ [0.0001370.000137s]s]
+Deallocating taxonomyDeallocating taxonomy... ...  [ [0.0001110.000111s]s]
 
-Total time = Total time = 0.5574550.557455ss
+Total time = Total time = 0.5418610.541861ss
 
 Low complexity seeds  = Low complexity seeds  = 00
 

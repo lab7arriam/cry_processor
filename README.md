@@ -195,15 +195,38 @@ Note that all the rows, marked with -- in the first four coloumns, are identical
 In the output directory, specified with <i>-od</i> flag the <i>cry_extraction</i> directory is created. It can contain the following subdirectories with the following files:
 
 <ul>
-  <li>cry_extraction/assembly. This directory is created if the assembly regime is enabled. It contains files and directories that refer to the <i>SPAdes</i> output, for instanse, the assembly graph with cotigs in the gfa format; </li>
-  <li>cry_extraction/pathracer. This directory includes <i>PathRacer</i> output. It is created if the pathracer regime or the assembly regime are enabled; </li>
-  <li>cry_extraction/full_toxins This directory is created if the <i>fd</i> regime is enabled. It comtains the following files: </li>
+  <li>cry_extraction/assembly. This directory is created if the assembly regime is enabled. It contains the files and directories that refer to the <i>SPAdes</i> output, for instanse, the assembly graph with the contigs in the gfa format. To see the full list of <i>SPAdes</i> output look at the <i>SPAdes</i> manual (http://cab.spbu.ru/software/spades/); </li>
+  <li>cry_extraction/pathracer. This directory includes the <i>PathRacer</i> output. It is created if the <i>pathracer</i> regime or the assembly regime are enabled. To see the full list of the <i>PathRacer</i> output read the manual (http://cab.spbu.ru/software/pathracer/); </li>
+  <li>cry_extraction/full_toxins. This directory is created if the <i>fd</i> regime is enabled. It contains the following files: 
    	<ul>
-           <li> &ltinput&gt_full_extracted.sto - the result of hmmsearch wih full-toxin model in the sto format; </li>
-           <li> &ltinput&gt_full_extracted.fasta - the result of hmmsearch wih full-toxin model in the fasta format;  </li>
+           <li> &lt;input&gt;_full_extracted.sto - the result of hmmsearch with the full-toxin model in the sto format; </li>
+           <li> &lt;input&gt;_full_extracted.fasta - the result of hmmsearch with the full-toxin model in the fasta format;  </li>
          </ul>
-  <li>Do not specify the <i>--meta</i> regime with the <i>-fi</i> agrument; </li>
-  <li>You should use both the <i>-fo</i> and <i>-re</i> argumens together; </li>
+  <li>cry_extraction/domains. This directory contains the results of hmmsearch for all the domain models in the sto and fasta formats: 
+   	<ul>
+           <li> &lt;input&gt;_D1_extracted.sto; </li>
+           <li> &lt;input&gt;_D1_extracted.fasta;  </li>
+           <li> &lt;input&gt;_D2_extracted.sto; </li>
+           <li> &lt;input&gt;_D2_extracted.fasta;  </li>
+           <li> &lt;input&gt;_D3_extracted.sto; </li>
+           <li> &lt;input&gt;_D3_extracted.fasta;  </li>
+         </ul>
+  </li>
+  <li>cry_extraction/logs. This directory contains the log files for the different stages of the pipeline: 
+   	<ul>
+           <li> spades.log - the log file for the assembly process; </li>
+           <li> pathracer.log - the log file for the hmm-based search for Cthe Cry toxins from the gfa file;  </li>
+           <li> full_extraction.log - the log file for performing <i>hmmsearch</i> on the full-toxin model;  </li>
+           <li> domains_extraction.log - the log file for performing <i>hmmsearch</i> on the domain models;  </li>
+           <li> coordinate_matches_&lt;input&gt;.txt - the dictionary of the domain mappings for the quiery; </li>
+           <li> diamond.log - the log file for performing <i>diamond blastp</i> agaist the BT nomenclature database;  </li>
+           <li> aligned_&lt;input&gt;.fa - the aligned sequences from <i>diamond blastp</i>;  </li>
+           <li> unaligned_&lt;input&gt;.fa - the unligned sequences from <i>diamond blastp</i>;  </li>
+           <li> diamond_matches_&lt;input&gt;.txt - the results of <i>diamond blastp</i> in tha table form;  </li>
+           <li> cry_processor.log - the main CryProcessor logfile;  </li>
+         </ul>
+  </li>
+  <li>cry_extraction/first_search_&lt;input&gt;.fasta - the result of <i>hmmsearch</i> with the full model on the quiery in the fasta format. This file is later used as a queiry for the domains search; </li>
 </ul>
 
 

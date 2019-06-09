@@ -582,23 +582,21 @@ class CryProcessor:
                                        self.home_dir), 
                                        shell=True) 
         #performing diamond blastp, save only the first hit
-        cmd_dia = subprocess.call('cd /{1}/{2}/cry_extraction;\
-                                   {3}/diamond blastp \
+
+
+        cmd_dia = subprocess.call('cd {0};\
+                                   {1} blastp \
                                     -d cry_nomenclature \
-                                    -q raw_full_{0}.fasta \
-                                    -o diamond_matches_{0}.txt \
-                                    --al aligned_{0}.fa \
-                                    --un unaligned_{0}.fa \
+                                    -q raw_full_{2}.fasta \
+                                    -o diamond_matches_{2}.txt \
+                                    --al aligned_{2}.fa \
+                                    --un unaligned_{2}.fa \
                                     --max-target-seqs 1 \
                                     --log --verbose 2>> diamond.log; \
                                     rm cry_nomenclature.dmnd; \
                                     mv *.log logs/; \
-                                    mv *gned* logs/'.format(
-                                    self.cry_quiery.split('/')[len(
-                                    self.cry_quiery.split('/'))-1].split('.')[0],
-                                    self.main_dir,
-                                    self.quiery_dir,
-                                    self.home_dir+'/include'), 
+                                    mv *gned* logs/'.format(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction"),os.path.realpath(os.path.join(os.path.dirname(__file__),"include","diamond")),
+self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
                                     shell=True)
         #analyse diamond matches to get new toxins
         with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'diamond_matches_{}.txt'.format(
@@ -652,25 +650,18 @@ class CryProcessor:
         Entrez.email = "{}".format(self.email)
         summary_dict=defaultdict(dict)
         #load information from the diamond blastp search
-        with open("/{0}/{1}/cry_extraction/diamond_matches_{2}.txt".format(self.main_dir,
-                  self.quiery_dir,
-                  self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
-                  'r') as csv_file:
+        with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'diamond_matches_{}.txt'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),'r') as csv_file:
             my_reader = csv.reader(csv_file, delimiter='\t') 
             for row in my_reader:
                 summary_dict[row[0]]=defaultdict(list)
                 summary_dict[row[0]]['init']=row[1:3]
         #create a tsv-file with metadata
-        making_smb = subprocess.call("touch /{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format
-                                     (self.main_dir,
-                                     self.quiery_dir,
-                                     self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
+        making_smb = subprocess.call("touch {}".format(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'annotation_table_{}.tsv'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
                                      shell = True)
-        for init_rec in SeqIO.parse('/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format
-                                     (self.main_dir,
-                                     self.quiery_dir,
-                                     self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
-                                     "fasta"):
+        for init_rec in SeqIO.parse(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'raw_processed_{}.fasta'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
+                        "fasta"):
           #save initial information about the sequence
            if init_rec.id in summary_dict.keys():
                summary_dict[init_rec.id]['init'].append(init_rec.description)
@@ -690,9 +681,8 @@ class CryProcessor:
                     'strain',
                     'assembly\n']
         #write rows for the each sequence 
-        f = open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(self.main_dir,
-                 self.quiery_dir,
-                 self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
+        f = open(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'annotation_table_{}.tsv'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                  "w")
         f.write('\t'.join(init_row))
         f.close() 
@@ -723,9 +713,8 @@ class CryProcessor:
                     else:
                         #mark other hits as additional
                         row=['--']*4+summary_dict[key]['hit'+str(i)][1:]
-                    f = open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(self.main_dir,
-                             self.quiery_dir,
-                             self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
+                    f = open(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'annotation_table_{}.tsv'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                              "a+")
                     f.write('\t'.join(row) + '\n') 
                     f.close()

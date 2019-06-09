@@ -11,3 +11,7 @@ install:
 script:
 
    - "python3 cry_processor.py --help"
+   - "python3 cry_processor.py -fi small.faa  -od do_test -r do"
+   - "python3 cry_processor.py -fi small.faa  -od fd_test -r fd"
+   - "python3 cry_processor.py -fi small.faa  -od fd_test_pr -r fd -pr 2"
+   - "python3 cry_processor.py -fi small.faa  -od fd_test_pr_a -r fd -pr 2 -s -a -nu an"

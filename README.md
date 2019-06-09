@@ -3,11 +3,11 @@ CryProcessor is a high-troughtput tool for the Cry toxins mining from the fasta-
 
 ## About CryProcessor
 
-CryProcessor is a python-written tool for searching and extracting Cry toxins from illumina sequence data or from the protein fasta files. It includes several parts: an hmm-based searching of potential Cry toxins, obtaining information about domains, extracting Cry toxins only with 3 domains and comparing found toxins with BT nomenclature. <br> <br> A regime for  performing the toxins search directly from the illumina reads implies building an assembly graph (using  <i> SPAdes </i>) and the subsequent mining toxins directly from the obtained assebmly graph. 
+CryProcessor is a python-written tool for searching and extracting Cry toxins from illumina sequence data or from the protein fasta files. It includes several parts: an hmm-based searching of potential Cry toxins, obtaining information about domains, extracting Cry toxins only with 3 domains and comparing found toxins with BT nomenclature. <br> <br> A regime for  performing the toxins search directly from the illumina reads implies building an assembly graph (using <i>SPAdes</i>) and the subsequent mining toxins directly from the obtained assebmly graph. 
 
 ## CryProcessor Pipeline
 
-The following text stands for the full pipeline description (for the illumina reads). To start, <i>SPAdes</i> (http://cab.spbu.ru/software/spades/) or <i>metaSPAdes</i> (http://cab.spbu.ru/software/meta-spades/) are implemented to get the assembly graph from the fastq-files. After that, the potential Cry toxins (with at least 30% identity to the hmm-consensus) are extracted from the assembly paths via <i>PathRacer</i> (http://cab.spbu.ru/software/pathracer/). Then <i>hmmsearch</i> (http://hmmer.org/) is used to find Cry toxin domains in the obtained sequences. In the next step, the results of <i>hmmsearch</i> are combined to get the toxins that posses all three domains. <br> <br>The coordinates of the domains are used to cut flanking sequences and save the domains with the corresponding linkers. The full sequences (without processing procedure) are used to compare the obtained toxins with Bt nomenclature database via <i>diamond blastp</i> (https://github.com/bbuchfink/diamond). Non-identical sequences are extracted and marked as the potentially new toxins. <br><br>For all the found sequences (both identical to presented in Bt nomenclature and novel sequences) an online ipg-annotation (Identical Protein Group) is performed (to see the annotation output reed the annotation output section below). Finally, nucleotide sequences, corresponding to the protein sequences of the found toxins, are downloaded. Metadata will be uploaded only if the accession numbers are present in the quiery.
+The following text stands for the full pipeline description (for the illumina reads). To start, <i>SPAdes</i> (http://cab.spbu.ru/software/spades/) or <i>metaSPAdes</i> (http://cab.spbu.ru/software/meta-spades/) are implemented to get the assembly graph from the fastq-files. After that, the potential Cry toxins (with at least 30% identity to the hmm-consensus) are extracted from the assembly paths via <i>PathRacer</i> (http://cab.spbu.ru/software/pathracer/). Then <i>hmmsearch</i> (http://hmmer.org/) is used to find Cry toxin domains in the obtained sequences. In the next step, the results of <i>hmmsearch</i> are combined to get the toxins that posses all three domains. <br> <br>The coordinates of the domains are used to cut flanking sequences and save the domains with the corresponding linkers. The full sequences (without processing procedure) are used to compare the obtained toxins with Bt nomenclature database via <i>diamond blastp</i> (https://github.com/bbuchfink/diamond). The non-identical sequences are extracted and marked as the potentially new toxins. <br><br>For all the found sequences (both identical to presented in Bt nomenclature and the novel sequences) an online ipg-annotation (Identical Protein Group) is performed (to see the annotation output read the annotation output section below). Finally, nucleotide sequences, corresponding to the protein sequences of the found toxins, are downloaded. Metadata will be uploaded only if the accession numbers are present in the quiery.
 
 ## Installation and Usage
 ### Prerequisites
@@ -106,7 +106,7 @@ If you want to search for the Cry toxins from metagenomic reads specify <i>--met
 
 Note that you cannot mix regimes:
 <ul>
-  <li>Do not use the <i>--pathracer</i> flag with the the illumina fastq files quiery flags (<i>-fo</i> and <i>-re</i>); </li>
+  <li>Do not use the <i>--pathracer</i> flag with the illumina fastq files quiery flags (<i>-fo</i> and <i>-re</i>); </li>
   <li>Do not mix the <i>-fi</i> agrument with <i>-fo</i> and <i>-re</i> arguments; </li>
   <li>Do not mix the <i>--pathracer</i> flag and the <i>--meta</i> flag; </li>
   <li>Do not specify the <i>--meta</i> regime with the <i>-fi</i> agrument; </li>
@@ -116,7 +116,7 @@ Using the <i>-nu</i> flag is possible only if the <i>--annotate</i> flag is spec
 
 
 ### Annotation Output
-Using the <i>--annotate</i> flag will perform the NCBI-search in the ipg database for submitted accession numbers within the quiery and return gathered information in tsv-format with the following structure:
+Using the <i>--annotate</i> flag will perform the NCBI-search in the ipg database for the submitted accession numbers within the quiery and return gathered information in tsv-format with the following structure:
 <table>
   <tr>
     <td>protein_id</td>
@@ -189,22 +189,22 @@ Rows possesing the first four coloums refer to the initial sequences (which are 
     <td>GCF_001183785.1</td>
   </tr>
 </table>
-Note that all the rows, marked with -- in the first four coloumns, are identical to the initial sequense in the queiry with the full coloumns, located above.
+Note that all the rows, marked with -- in the first four coloumns, are identical to the initial sequenses in the queiry with the full coloumns, located above.
 
-### Output Files Structure
-In the output directory, specified with the <i>-od</i> flag the <i>cry_extraction</i> directory is created. It can contain the following subdirectories with the following files:
+### The Output Files Structure
+In the output directory, specified with the <i>-od</i> flag, the <i>cry_extraction</i> directory is created. It can contain the following subdirectories with the following files:
 
 <ul>
-  <li>cry_extraction/assembly. This directory is created if the assembly regime is enabled. It contains the files and directories that refer to the <i>SPAdes</i> output, for instanse, the assembly graph with the contigs in the gfa format. To see the full list of the <i>SPAdes</i> output look at the <i>SPAdes</i> manual (http://cab.spbu.ru/software/spades/); </li>
-  <li>cry_extraction/pathracer. This directory includes the <i>PathRacer</i> output. It is created if the <i>pathracer</i> regime or the assembly regime are enabled. To see the full list of the <i>PathRacer</i> output read the manual (http://cab.spbu.ru/software/pathracer/); </li>
-  <li>cry_extraction/full_toxins. This directory is created if the <i>fd</i> regime is enabled. It contains the following files: 
+  <li>cry_extraction/assembly - this directory is created if the assembly regime is enabled. It contains the files and directories that refer to the <i>SPAdes</i> output, for instanse, the assembly graph with the contigs in the gfa format. To see the full list of the <i>SPAdes</i> output look at the <i>SPAdes</i> manual (http://cab.spbu.ru/software/spades/); </li>
+  <li>cry_extraction/pathracer - this directory includes the <i>PathRacer</i> output. It will be created if the <i>pathracer</i> regime or the assembly regime are enabled. To see the full list of the <i>PathRacer</i> output read the manual (http://cab.spbu.ru/software/pathracer/); </li>
+  <li>cry_extraction/full_toxins -this directory is created if the <i>fd</i> regime is enabled. It contains the following files: 
    	<ul>
            <li> &lt;input&gt;_full_extracted.sto - the result of <i>hmmsearch</i> with the full-toxin model in the sto format; </li>
            <li> &lt;input&gt;_full_extracted.fasta - the result of <i>hmmsearch</i> with the full-toxin model in the fasta format;  </li>
          </ul>
   <li>cry_extraction/domains. This directory contains the results of <i>hmmsearch</i> for all the domain models in the sto and fasta formats: 
    	<ul>
-           <li> &lt;input&gt;_D1_extracted.sto; </li>111
+           <li> &lt;input&gt;_D1_extracted.sto; </li>
            <li> &lt;input&gt;_D1_extracted.fasta;  </li>
            <li> &lt;input&gt;_D2_extracted.sto; </li>
            <li> &lt;input&gt;_D2_extracted.fasta;  </li>
@@ -232,12 +232,15 @@ In the output directory, specified with the <i>-od</i> flag the <i>cry_extractio
   <li>cry_extraction/proteins_domain_mapping_full_&lt;input&gt;.bed - the file in the bed format, containing the domain coordinate mappings for the uprocessed protein sequences; </li>
   <li>cry_extraction/proteins_domain_mapping_processed_&lt;input&gt;.bed - the file in the bed format, containing the domain coordinate mappings for the processed protein sequences; </li>
   <li>cry_extraction/annotation_table_&lt;input&gt;.tsv - the result of the ipg annotation of the found toxins (the structure of the file is described above); </li>
-  <li>cry_extraction/small_full_nucl.fna - the full nucleotide sequences for the found toxins; </li>
-  <li>cry_extraction/small_processed_nucl.fna - the processed nucleotide sequences for the found toxins; </li>
-  <li>cry_extraction/nucl_domain_mapping_full_small.bed - the file in the bed format, containing the domain coordinate mappings for the uprocessed nucleotide sequences; </li>
-  <li>cry_extraction/nucl_domain_mapping_processed_small.bed - the file in the bed format, containing the domain coordinate mappings for the processed nucleotide sequences; </li>
+  <li>cry_extraction/&lt;input&gt;_full_nucl.fna - the full nucleotide sequences for the found toxins; </li>
+  <li>cry_extraction/&lt;input&gt;_processed_nucl.fna - the processed nucleotide sequences for the found toxins; </li>
+  <li>cry_extraction/nucl_domain_mapping_full_&lt;input&gt;.bed - the file in the bed format, containing the domain coordinate mappings for the uprocessed nucleotide sequences; </li>
+  <li>cry_extraction/nucl_domain_mapping_processed_&lt;input&gt;.bed - the file in the bed format, containing the domain coordinate mappings for the processed nucleotide sequences; </li>
 </ul>
 
+Note, that in files, marked with <i>raw</i> prefix the initial accession numbers from the quiery are saved as ids, while in the files, obtained after the <i>diamond blastp</i> (&lt;input&gt;_full_nucl.fna, &lt;input&gt;_processed_nucl.fna and annotation_table_&lt;input&gt;.tsv) the id structure is modified in the following way: <br>
+Cry53Aa1(40.7)_WP_103591149.1 <br>
+&lt;top Cry protein hit from BT nomenclature&gt;(&lt;identity score with this hit&gt;)_&lt;initial accession number&gt;
 
 ## References
 

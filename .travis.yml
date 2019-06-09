@@ -14,6 +14,7 @@ script:
    - "ls -l"
    - "python3 cry_processor.py -fi test/small.faa  -od do_test -r do"
    - "ls -l do_test/cry_extraction/domains"
+   - "ls -l do_test/cry_extraction"
    - "python3 cry_processor.py -fi test/small.faa  -od fd_test -r fd"
    - "python3 cry_processor.py -fi test/small.faa  -od fd_test_pr -r fd -pr 2"
    - "python3 cry_processor.py -fi test/small.faa  -od fd_test_pr_a -r fd -pr 2 -s -a -nu an"

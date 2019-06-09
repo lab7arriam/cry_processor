@@ -1,3 +1,0 @@
-ACQ99547.1|pesticidal|crystal|proteinBacillus|thuringiensis	75	274	282	489	491	636
-AFU17015.1|pesticidal|crystal|proteinBacillus|thuringiensis|MC28	93	296	304	504	506	647
-WP_103591149.1|pesticidal|crystal|proteinBacillus|thuringiensis|serovar|kyushuensis	95	295	303	525	527	667

@@ -3,7 +3,7 @@ CryProcessor is a high-troughtput tool for the Cry toxins mining from the fasta-
 
 ## About CryProcessor
 
-CryProcessor is a python-written tool for searching and extracting Cry toxins from illumina sequence data or from the protein fasta files. It includes several parts: an hmm-based searching of potential Cry toxins, obtaining information about domains, extracting Cry toxins only with 3 domains and comparing found toxins with BT nomenclature. <br> <br> A regime for  performing the toxins search directly from the illumina reads implies building an assembly graph (using <i>SPAdes</i>) and the subsequent mining toxins directly from the obtained assebmly graph. 
+CryProcessor is a python-written tool for searching and extracting Cry toxins from illumina sequence data or from the protein fasta files. It includes several parts: an hmm-based searching of potential Cry toxins, obtaining information about domains, extracting Cry toxins only with 3 domains and comparing found toxins with Bt nomenclature. <br> <br> A regime for  performing the toxins search directly from the illumina reads implies building an assembly graph (using <i>SPAdes</i>) and the subsequent mining toxins directly from the obtained assebmly graph. 
 
 ## CryProcessor Pipeline
 
@@ -156,8 +156,8 @@ Columns description:
 <ul>
   <li>protein_id - initial sequence id in the quiery </li>
   <li>initial_description - protein description in the quiery </li>
-  <li>top_cry_hit - Cry protein from BT nomenclature with the best identity score according to <i>diamond</i></li>
-  <li>cry_identity - identity score with the closest Cry protein from btnomenclature </li>
+  <li>top_cry_hit - Cry protein from Bt nomenclature with the best identity score according to <i>diamond</i></li>
+  <li>cry_identity - identity score with the closest Cry protein from Bt nomenclature </li>
   <li>source - database source of the sequence </li>
   <li>nucl_accession - accession number for the nucleotide sequence </li>
   <li>start - starting position in the full nucleotide sequence </li>
@@ -219,7 +219,7 @@ In the output directory, specified with the <i>-od</i> flag, the <i>cry_extracti
            <li> full_extraction.log - the log file for performing <i>hmmsearch</i> on the full-toxin model;  </li>
            <li> domains_extraction.log - the log file for performing <i>hmmsearch</i> on the domain models;  </li>
            <li> coordinate_matches_&lt;input&gt;.txt - the dictionary of the domain mappings for the quiery; </li>
-           <li> diamond.log - the log file for performing <i>diamond blastp</i> agaist the BT nomenclature database;  </li>
+           <li> diamond.log - the log file for performing <i>diamond blastp</i> agaist the Bt nomenclature database;  </li>
            <li> aligned_&lt;input&gt;.fa - the aligned sequences from <i>diamond blastp</i>;  </li>
            <li> unaligned_&lt;input&gt;.fa - the unligned sequences from <i>diamond blastp</i>;  </li>
            <li> diamond_matches_&lt;input&gt;.txt - the results of <i>diamond blastp</i> in the table form;  </li>
@@ -241,7 +241,7 @@ In the output directory, specified with the <i>-od</i> flag, the <i>cry_extracti
 Note, that in the files, marked with the <i>raw</i> prefix the initial accession numbers from the quiery are used as ids, while in the files, obtained after the <i>diamond blastp</i> (&lt;input&gt;_full_nucl.fna, &lt;input&gt;_processed_nucl.fna and annotation_table_&lt;input&gt;.tsv) the id structure is modified in the following way: <br>
 <ul>
 <li>Cry53Aa1(40.7)_WP_103591149.1 </li>
-<li>&lt;top Cry protein hit from BT nomenclature&gt;(&lt;the identity score with this hit&gt;)_&lt;the initial accession number&gt;</li>
+<li>&lt;top Cry protein hit from Bt nomenclature&gt;(&lt;the identity score with this hit&gt;)_&lt;the initial accession number&gt;</li>
 </ul>
 
 ## References

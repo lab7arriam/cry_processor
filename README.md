@@ -102,7 +102,18 @@ If you want to search for the Cry toxins from metagenomic reads specify <i>--met
 ```
 ~$ python3 cry_processor.py -fo forward_reads.fastq -re reverse_reads.fastq -od output_dir --meta
 ```
-Note that you cannot mix regimes. <br>Do not use the <i>--pathracer</i> flag with the illumina fastq files quiery flags (<i>-fo</i> and <i>-re</i>). <br> Do not mix the <i>-fi</i> agrument with <i>-fo</i> and <i>-re</i> arguments for the correct running. <br> Do not mix the <i>--pathracer</i> flag and <i>--meta</i> flag. <br>Do not specify the <i>--meta</i> regime with the the <i>-fi</i> agrument. <br> Also you should use both <i>-fo</i> and <i>-re</i> argumens together. <br>Using the <i>-nu</i> flag is possible only if the <i>--annotate</i> flag is specified. <br> Note that performing anotation is not recommended for the gfa and assembly regimes, because online annotation is impossible without the accession numbers in the quiery.
+### Tips for the Correct Running
+
+Note that you cannot mix regimes:
+<ul>
+  <li>Do not use the <i>--pathracer</i> flag with the illumina fastq files quiery flags (<i>-fo</i> and <i>-re</i>); </li>
+  <li>Do not mix the <i>-fi</i> agrument with <i>-fo</i> and <i>-re</i> arguments; </li>
+  <li>Do not mix the <i>--pathracer</i> flag and <i>--meta</i> flag; </li>
+  <li>Do not specify the <i>--meta</i> regime with the the <i>-fi</i> agrument; </li>
+  <li>You should use both <i>-fo</i> and <i>-re</i> argumens together; </li>
+</ul>
+Using the <i>-nu</i> flag is possible only if the <i>--annotate</i> flag is specified. <br> Note that performing anotation is not recommended for the gfa and assembly regimes, because online annotation is impossible without the accession numbers in the quiery.
+
 
 ### Annotation Output
 Using the <i>--annotate</i> flag will perform the NCBI-search in the ipg database for submitted accession numbers within the quiery and return gathered information in tsv-format with the following structure:

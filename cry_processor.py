@@ -233,11 +233,11 @@ class CryProcessor:
         self.dom_dict=defaultdict(list)
         for i in range(1,4):
             #open all the fasta-files after hmmsearch and save them to the dictionary
-            for record in SeqIO.parse('{3}/{2}/cry_extraction/{0}/{1}'.format('domains',
+            for record in SeqIO.parse(os.path.realpath('{2}/cry_extraction/{0}/{1}'.format('domains',
                                            self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+
                                            '_D{}_extracted.fasta'.format(i),
                                            self.quiery_dir,
-                                           self.main_dir),
+                                           self.main_dir)),
                                            "fasta"):
                 #transform the sequence name by combining its id and description
                 if '|' in record.id:

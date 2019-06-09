@@ -5,6 +5,9 @@ sudo: false
 python:
    - "3.5.2"
 
+install:
+    - "pip install biopython"
+
 script:
 
    - "python3 cry_processor.py --help"

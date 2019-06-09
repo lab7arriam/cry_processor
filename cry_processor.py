@@ -414,11 +414,9 @@ class CryProcessor:
                                            "fasta")))
                 dom_start=int(self.processing_flag)
                 for i in range(dom_start,4):
-                    for record in SeqIO.parse('{3}/{2}/cry_extraction/{0}/{1}'.format('domains',
+                    for record in SeqIO.parse(os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','domains',
                                            self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+
-                                           '_D{}_extracted.fasta'.format(i),
-                                           self.quiery_dir,
-                                           self.main_dir),
+                                           '_D{}_extracted.fasta'.format(i)),
                                            "fasta"):
                         if '|' in record.id:
                             name = record.id.split('|')[1].split('/')[0] + '|' +\
@@ -453,10 +451,8 @@ class CryProcessor:
                 for key in final_id_list:
                     self.coordinate_dict[key]=dummy_dict[key] 
                 self.three_dom_count = len(final_id_list)
-                for record in SeqIO.parse("{0}/{1}/cry_extraction/{2}.fasta".format(self.main_dir,
-                                       self.quiery_dir,
-                                       self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
-                                       "fasta"):
+                for record in SeqIO.parse('{}'.format(os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','{}.fasta'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))),
+                                           "fasta"):
                     if record.description != record.id:
                         name = record.id + '|' +'|'.join('|'.join(record.description.split(' ')[1:]).split('_'))
                     else:
@@ -503,10 +499,8 @@ class CryProcessor:
         #create a file with the domain mappings for the each cry-toxin, posessing all 3 domains
         if self.hmmer_result_flag !=1:
             #create a mapping file only if the hmmsearch output is not empty
-            with open("/{0}/{1}/cry_extraction/proteins_domain_mapping_processed_{2}.bed".format(self.main_dir,
-                   self.quiery_dir,
-                   self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
-                   'w') as csv_file:
+            with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'proteins_domain_mapping_processed_{}.bed'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),'w') as csv_file:
                 my_writer = csv.writer(csv_file, delimiter='\t') 
                 #create a bed-file for mapping to specify start and stop coordinates, id and description
                 init_row = ['id','domain' ,'start', 'stop', 'description']
@@ -533,10 +527,8 @@ class CryProcessor:
                         my_writer.writerow(row)
 
             #create a bed-file with the full protein mappings
-            with open("/{0}/{1}/cry_extraction/proteins_domain_mapping_full_{2}.bed".format(self.main_dir,
-                   self.quiery_dir,
-                   self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
-                   'w') as csv_file:
+            with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'proteins_domain_mapping_full_{}.bed'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),'w') as csv_file:
                 my_writer = csv.writer(csv_file, delimiter='\t') 
                 init_row = ['id','domain' ,'start', 'stop', 'description']
                 my_writer.writerow(init_row)
@@ -561,10 +553,8 @@ class CryProcessor:
                         my_writer.writerow(row)
 
             #save the original dictionary of coordinates for checking
-            with open("/{0}/{1}/cry_extraction/coordinate_matches_{2}.txt".format(self.main_dir,
-                    self.quiery_dir,
-                    self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
-                    'w') as csv_file:
+            with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'coordinate_matches_{}.txt'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),'w') as csv_file:
                 my_writer = csv.writer(csv_file, delimiter='\t') 
                 for key in self.coordinate_dict:
                     my_writer.writerow([key]+self.coordinate_dict[key])
@@ -611,10 +601,8 @@ class CryProcessor:
                                     self.home_dir+'/include'), 
                                     shell=True)
         #analyse diamond matches to get new toxins
-        with open("/{0}/{1}/cry_extraction/diamond_matches_{2}.txt".format(self.main_dir,
-                   self.quiery_dir,
-                   self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
-                   'r') as csv_file:
+        with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'diamond_matches_{}.txt'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),'r') as csv_file:
             my_reader = csv.reader(csv_file, delimiter='\t') 
             for row in my_reader:
                 total_count+=1
@@ -622,11 +610,9 @@ class CryProcessor:
                     self.new_ids[row[0]]=row[1]+'|'+ str(row[2])
                     un_count+=1
         #extract unique sequences from the raw sequences
-        for init_rec in SeqIO.parse(
-                          '/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(self.main_dir,
-                          self.quiery_dir,
-                          self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
-                          "fasta"):
+        for init_rec in SeqIO.parse(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'raw_processed_{}.fasta'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
+                        "fasta"):
            if init_rec.id in self.new_ids.keys():
                new_records.append(SeqRecord(Seq(str(init_rec.seq),
                                    generic_protein),
@@ -639,11 +625,9 @@ class CryProcessor:
             print('{} toxins different from the database found'.format(un_count))
         self.logger.info('{} sequences matched with the database'.format(total_count)) 
         self.logger.info('{} toxins different from the database found'.format(un_count)) 
-        SeqIO.write(new_records,
-                     '/{0}/{1}/cry_extraction/unique_{2}.fasta'.format(self.main_dir,
-                     self.quiery_dir,
-                     self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
-                     "fasta")
+        SeqIO.write(new_records,os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'unique_{}.fasta'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
+                        "fasta")
         #move intermediate files to the log directory if the annotation flag is not specified
         if self.regime == 'fd':
             cmd_clean_up = subprocess.call("mv {0}/{1}/cry_extraction/{2}.fasta \

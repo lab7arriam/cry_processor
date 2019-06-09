@@ -584,7 +584,7 @@ class CryProcessor:
         #performing diamond blastp, save only the first hit
 
 
-        cmd_dia = subprocess.call('cd {0};\
+        cmd_dia = subprocess.call('cd {0};ls -l; echo {1}; {1} --help;\
                                    {1} blastp \
                                     -d cry_nomenclature \
                                     -q raw_full_{2}.fasta \

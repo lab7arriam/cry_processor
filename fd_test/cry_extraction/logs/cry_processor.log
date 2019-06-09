@@ -1,0 +1,16 @@
+2019-06-10 02:28:40,903 - cry_processor - INFO - Initializing...
+2019-06-10 02:28:41,019 - cry_processor - INFO - Searching for the unprocessed Cry toxins
+2019-06-10 02:28:42,053 - cry_processor - INFO - Searching for the 1 domain of the Cry toxins
+2019-06-10 02:28:42,231 - cry_processor - INFO - Searching for the 2 domain of the Cry toxins
+2019-06-10 02:28:42,407 - cry_processor - INFO - Searching for the 3 domain of the Cry toxins
+2019-06-10 02:28:42,584 - cry_processor - INFO - Exctracting the Cry toxins with 3 domains
+2019-06-10 02:28:42,680 - cry_processor - INFO - Performing the Cry toxins processing
+2019-06-10 02:28:42,687 - cry_processor - INFO - 5 sequences recieved
+2019-06-10 02:28:42,687 - cry_processor - INFO - 5 potential Cry toxins found
+2019-06-10 02:28:42,688 - cry_processor - INFO - 2 toxins with one domain
+2019-06-10 02:28:42,695 - cry_processor - INFO - 0 toxins with two domains
+2019-06-10 02:28:42,698 - cry_processor - INFO - 3 toxins with three domains
+2019-06-10 02:28:42,700 - cry_processor - INFO - Annotating the raw output with diamond
+2019-06-10 02:28:43,795 - cry_processor - INFO - 3 sequences matched with the database
+2019-06-10 02:28:43,796 - cry_processor - INFO - 2 toxins different from the database found
+2019-06-10 02:28:43,853 - cry_processor - INFO - CryProcessor has finished, thanks for using us!

@@ -1,0 +1,1424 @@
+# hmmsearch :: search profile(s) against a sequence database
+# HMMER 3.1b2 (February 2015); http://hmmer.org/
+# Copyright (C) 2015 Howard Hughes Medical Institute.
+# Freely distributed under the GNU General Public License (GPLv3).
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query HMM file:                  /home/anton/cry_processor/data/models/Complete.hmm
+# target sequence database:        test/small.faa
+# MSA of all hits saved to file:   /home/anton/cry_processor/fd_test/cry_extraction/full_toxins/small_full_extracted.sto
+# number of worker threads:        8
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       Complete_Multiple_alignment  [M=1115]
+Scores for complete sequences (score includes all domains):
+   --- full sequence ---   --- best 1 domain ---    -#dom-
+    E-value  score  bias    E-value  score  bias    exp  N  Sequence       Description
+    ------- ------ -----    ------- ------ -----   ---- --  --------       -----------
+          0 1314.2  23.4          0 1313.9  23.4    1.0  1  ACQ99547.1      pesticidal crystal proteinBacillus_thuringien
+          0 1256.3  39.5          0 1256.1  39.5    1.0  1  AFU17015.1      pesticidal crystal proteinBacillus_thuringien
+   4.5e-157  513.5   3.4   5.1e-157  513.3   3.4    1.0  1  WP_103591149.1  pesticidal crystal proteinBacillus_thuringien
+    8.5e-45  141.7  14.3    1.1e-44  141.3  14.3    1.0  1  WP_000390241.1  pesticidal crystal protein cry11AaBacillus_th
+    8.5e-45  141.7  14.3    1.1e-44  141.3  14.3    1.0  1  WP_000390241.1  pesticidal crystal protein cry11AaBacillus_th
+
+
+Domain annotation for each sequence (and alignments):
+>> ACQ99547.1  pesticidal crystal proteinBacillus_thuringiensis
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ! 1313.9  23.4         0         0      29    1086 ..       3    1142 ..       1    1143 [. 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 1313.9 bits;  conditional E-value: 0
+  Complete_Multiple_alignment   29 nnkneyeiynvlnnspnsn..ryp...dpnselqntnykdwldmcege...etssssdavktglsivgallgal.vpgag 99  
+                                   +++++++i    +n+++++  ryp   +pn+++qn+nykd+l+    +   et ++++a++t+l i++ +lg+l vp++g
+                   ACQ99547.1    3 QQNEYEIIQAGVSNAITDTfqRYPlanNPNTSFQNMNYKDYLNDP--MflgETRDAQTAITTSLEIISEILGFLgVPFVG 80  
+                                   346778888888888886678*********************866..34678888889*************9888***** PP
+
+  Complete_Multiple_alignment  100 allgllstllgllwpgnkpnvweefmeaveelidqkitdyvrnkalaeleglqnnleeYqnaledwennp.nsaareevr 178 
+                                   +++g+ + l++llwp n++++w++fm++v+ li++ it  vr+ka++eleg+++ +++Y +al++w+++p n+ ++e+vr
+                   ACQ99547.1   81 PIIGFTNRLINLLWPRNTTDIWNAFMDEVQALINESITKAVRSKAISELEGIHQVYRLYIEALNEWKDTPdNPFVQERVR 160 
+                                   **********************************************************************666******* PP
+
+  Complete_Multiple_alignment  179 tqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWgldsaaeilnsykrllkrlikeYtnycvt 258 
+                                   t f+++ns ++ a+psf+v+g+e++lL vyaqaanlhL llrda++fg+ Wg++ +++i++ y+++ +r ++ Y+++c++
+                   ACQ99547.1  161 TTFRDVNSIINYAMPSFRVQGFEIPLLVVYAQAANLHLVLLRDATLFGAGWGFT-ETNINDRYNEQ-VRVTNGYIDHCTK 238 
+                                   ******************************************************.556*777****.************* PP
+
+  Complete_Multiple_alignment  259 tynkgLeklkgsntwnkynryrremtlsvLDlvalfptydprlYpietkseltReiytdpigvpe.........sapsfs 329 
+                                   +yn+gL +l  +n+w ky+++rremtl+vLDl+alfp+ d r+Yp+et+++ltR +ytdpig+ +         ++ sfs
+                   ACQ99547.1  239 WYNEGLTRL--KNNWSKYHQFRREMTLMVLDLIALFPSHDARRYPMETSAQLTRDVYTDPIGYRGnanfsdpwtNHVSFS 316 
+                                   *******98..6779**********************************************************889**** PP
+
+  Complete_Multiple_alignment  330 eienslirpphlftwlksltiytq......ss.ssysywsghkvtysy...n.n.itsplygtgnstppesis.lgndiy 396 
+                                     e+ +irpphlf+ l+s++i t       ++ s+++yw+gh+vt++    + n ++  +yg+ +s ++  +s  g+d+y
+                   ACQ99547.1  317 KAESETIRPPHLFDTLESVEINTAkamlplNDkSYMYYWAGHTVTSRLldsSgNpLK-YTYGSMTS-EKNLVSlPGKDVY 394 
+                                   ******************************666***************975354444.35776223.3334557799*** PP
+
+  Complete_Multiple_alignment  397 rts.sataygnap....gvskvefsngs.......tlsy.ssgt........vdsedelpp.....pneedyshrlshit 450 
+                                   r++  a+ ++n++    gvskv+fs  +       t+sy +s+t         dse+elp+     p++++yshrlshit
+                   ACQ99547.1  395 RINsVASGFSNYYaklyGVSKVDFSIVDrnnsnktTYSYsKSSTvpsdnkenRDSENELPQtttdqPDYKGYSHRLSHIT 474 
+                                   ***94455555445677*********5555688777777555224566678889************************** PP
+
+  Complete_Multiple_alignment  451 alsaagsvgalkadpvsfgwthrsvdrnntiatdkitqIpavkafelnsg.tvvkgpgftggdlvkls....sgtikvti 525 
+                                   ++s+a        +p+ + wt +s+d++nti++dkitqIpavk +el+s+  vvkgpgftggdlvk++    +g++k+ti
+                   ACQ99547.1  475 FISSA--------IPT-YVWTRKSADLTNTIYPDKITQIPAVKMYELGSSaVVVKGPGFTGGDLVKRTnngsLGRFKITI 545 
+                                   *6663........888.******************************8778***************776665555***** PP
+
+  Complete_Multiple_alignment  526 nspltqryrvriryasntdi.qnisiggs.sln.ssqttlsstmn..dnltyesfkyiefptpftfssgsstftisiqnf 600 
+                                    sp   ryr+r+ry s  ++  +++i++  +++ +    ++st++  +++ ++sf++ ef+t+f+f+s+ +++++s+  +
+                   ACQ99547.1  546 DSPGAHRYRLRVRYHSDVSGvFHMQINNVeTIQgE----FKSTVDstSTMSNDSFQLREFTTTFRFPSNVTDIKVSLGAI 621 
+                                   *8888***************436666663355534....666666433688*****************777788888777 PP
+
+  Complete_Multiple_alignment  601 sggsaevyidkiefiPveqtyeaeqdlekaqkavnalftssnknalktdvtdyeidqvanlveclsdefylkekkelldk 680 
+                                   +g+ +++y+d+ief Pv+++y+++  lekaqkavnalft++++ al+td+tdy++dqv+ lv+c+s e+y++ek+ell++
+                   ACQ99547.1  622 NGQ-GNFYLDRIEFAPVDTNYDERITLEKAQKAVNALFTEGRN-ALQTDMTDYKVDQVSILVDCVSGEVYPNEKRELLNL 699 
+                                   777.68************************************9.************************************ PP
+
+  Complete_Multiple_alignment  681 vkyakrlsqarnllqdgnfes..........ngWkgstnvtiqsddelfkgryltlpgar..tyPtylyqkideskLKpy 748 
+                                   vkyakrls arnll d+nf+s          +gW+gs+++ + s+d + k++y++lp+++  +yPtylyqkideskLK+y
+                   ACQ99547.1  700 VKYAKRLSIARNLLVDPNFTSihasmysedvKGWYGSNGIATGSGDVVLKENYVSLPSTSdaQYPTYLYQKIDESKLKAY 779 
+                                   ******************************************************************************** PP
+
+  Complete_Multiple_alignment  749 tRYkvrGFigssqdleilviRygkehevvnVpdnealpllsdespc...................srskkngkahdshef 809 
+                                   tRYk+rGFi++sqdle++v+Ry+++he+++V++n    +l+++  c                    +s ++g  +dsh+f
+                   ACQ99547.1  780 TRYKLRGFIENSQDLEAYVVRYDAKHETLDVSNNLLPDVLPVNA-CgepdrcaalqyldenprleCSSIQDGILSDSHSF 858 
+                                   **********************************7776666553.36899**************86677899******** PP
+
+  Complete_Multiple_alignment  810 slsIdtGeldlnenlGiwvifkIstpdGyarlgnLEiieegpLtgealarvkraekkWkdkmekkraeteaayqaakqai 889 
+                                   sl+IdtG++dlnenlGiwv+fkIstp+Gya++gnLE+ie+g ++gealarvkr+e+kW++k  ++r+et+a+y++akqa 
+                   ACQ99547.1  859 SLNIDTGSMDLNENLGIWVLFKISTPEGYAKFGNLEVIEDGTVSGEALARVKRQETKWRNKLAQLRTETQAIYTRAKQAL 938 
+                                   ******************************************************************************** PP
+
+  Complete_Multiple_alignment  890 daLftnsqdekLkfdttiadieaa..lvqsipyvyhdflsdipGmnyeifeeleerlqqayslydernlikNGdFtngls 967 
+                                   d+Lft++qd++Lk++ t+a i aa  +vqsi+++y+++ls++pG+ny if+el+er+q+a++lyd rn+++NG+F ng+ 
+                   ACQ99547.1  939 DNLFTDAQDSYLKIGATFAAIVAArkIVQSIREAYMSWLSVVPGVNYPIFTELNERVQRAFQLYDGRNVVRNGRFLNGVL 1018
+                                   ******************************************************************************** PP
+
+  Complete_Multiple_alignment  968 nWnvtgdvdvqqedgrsvlvlpnwsaevsqqvevepnrgYvLrvtArkeGvGeGyvtisdgenntetltf.tscdytang 1046
+                                   +W vt+dv vq+e+g++vlvl+nw+a+v q +++ ++rgY+LrvtArkeG GeGy+ti+d e nt++ltf +++++++++
+                   ACQ99547.1 1019 DWIVTSDVSVQEENGNNVLVLSNWDAQVLQCLKLYQDRGYILRVTARKEGLGEGYITITDEEGNTDQLTFgSCEEIDTSN 1098
+                                   **********************************************************************9999999999 PP
+
+  Complete_Multiple_alignment 1047 ....ngyvtkeleffpetdkVrieigeteGtFlvesvelilmek 1086
+                                       +gy+tkeleffp+t+kVriei eteGtF+vesvel+lme+
+                   ACQ99547.1 1099 sfvsTGYMTKELEFFPDTEKVRIEIEETEGTFKVESVELFLMED 1142
+                                   ******************************************96 PP
+
+>> AFU17015.1  pesticidal crystal proteinBacillus_thuringiensis_MC28
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ! 1256.1  39.5         0         0      25    1113 ..       1    1183 [.       1    1189 [. 0.89
+
+  Alignments for each domain:
+  == domain 1  score: 1256.1 bits;  conditional E-value: 0
+  Complete_Multiple_alignment   25 Mnsnnnkneyeiynvlnnspn.sn...ryp...dpnselqntnykdwldmcege.......etssss..davktglsivg 88  
+                                   Mns++nkneyei+++++n++n sn   ryp   +p++++q+tnykdwl+mc++        e ++s+   +v+tgl +vg
+                   AFU17015.1    1 MNSYENKNEYEILDASQNNSNmSNryqRYPlahNPQTSIQTTNYKDWLKMCQNPhqnpldmEGYDSNsvVVVSTGLIVVG 80  
+                                   9********************988788888*********************666788999955555556799999***** PP
+
+  Complete_Multiple_alignment   89 allgalvpgagallgllstllgllwp..gnkpnvweefmeaveelidqkitdyvrnkalaeleglqnnleeYqnaledwe 166 
+                                   +l+++l  g+g++  +++tll++lw   +n++++w efm + e+l++q+i++ +rn+a a leg  ++++  ++al+ w+
+                   AFU17015.1   81 TLISILSAGLGSIPIIYGTLLPVLWNdpNNPQKTWHEFMSHGETLLNQTISTVERNRAAAYLEGYTTAVKKCEEALNVWL 160 
+                                   ****999*******************9899999*********************************************** PP
+
+  Complete_Multiple_alignment  167 nnpnsaareevrtqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWg....ldsaaeilnsyk 242 
+                                     pn+a++ +v + +++++ lf t+lp++k +++e+llL+ y+qaan+hL+ll++a++++++W+     +   +++n y 
+                   AFU17015.1  161 TAPNQANARTVADLYKDTDFLFFTTLPHLKLRDFETLLLSSYTQAANMHLILLKQASKYADQWNaqlpVSVR-KTANDYY 239 
+                                   *****9999******************************************************944333323.3446655 PP
+
+  Complete_Multiple_alignment  243 rllkrlikeYtnycvttynkgLeklkgsnt.wnkynryrremtlsvLDlvalfptydprlYpietkseltReiytdpigv 321 
+                                   ++l++li eYt+yc+ ty  gL+++k++ t wn yn yrremt+ vLDlvalfp yd ++Yp +tk+eltReiytd +g 
+                   AFU17015.1  240 TDLVKLIGEYTDYCIATYRSGLNTIKSRATsWNIYNMYRREMTILVLDLVALFPAYDIKKYPSGTKVELTREIYTDALGA 319 
+                                   555*********************9644447**********************************************888 PP
+
+  Complete_Multiple_alignment  322 pesapsfseienslirpphlftwlksltiytqssssysywsghkvtysy.n.n..itsplygt.gnstppesislgndiy 396 
+                                   +   ++++++e+ ++r p+lf+wlk +++ t++s++ +y+sg  ++ys+ n n  i +p+ g+ +  +++ +i+++++iy
+                   AFU17015.1  320 VAIPQNIDATEQLATRAPNLFSWLKGFKFITTQSTNRYYLSGIANRYSFtNsNgeIWGPISGNpTGVSSDLTIDNNFSIY 399 
+                                   8845679*************************66999************6443345556666653333455677999*** PP
+
+  Complete_Multiple_alignment  397 rts......sataygnap......gvskvefsngs.....tlsy.ssg.t..........vdsedelpp.........pn 438 
+                                   + s              p       v +++fs ++     ++sy s g t                 p          p+
+                   AFU17015.1  400 KLSilrgyqL------SPdfsfhnPVHQIDFSTTNnqqgrVQSYkSGGpTpvnpettaihL------PIdskctqncnPT 467 
+                                   **96665553......3344444479*******7789999999955454477665555552......3355555577789 PP
+
+  Complete_Multiple_alignment  439 eedyshrlshitalsaagsvgalkadpvsfgwthrsvdrnntiatdkitqIpavkafeln.sgtvvkgpgftggdlvk.l 516 
+                                    ++ysh+ls+ ++++++ + g+++ + +sfgwth+svdr+nti+ ++itqIpavka+++   ++v+kgpg+tgg+lv+  
+                   AFU17015.1  468 FNNYSHILSYAKTFTSNLTIGTTS-NITSFGWTHNSVDRENTIDLNNITQIPAVKASQVYpENSVIKGPGHTGGNLVRiD 546 
+                                   9*********99998843333333.6668******************************6455***************65 PP
+
+  Complete_Multiple_alignment  517 ssgtikvtinsplt.qryrvriryasntdiq.nis.iggs.slnssqttlsstmndnltyesfkyiefpt...pftfssg 589 
+                                   ssg +++ +++pl+ + yrvrirya+n+ ++ +is  g+s s    +++l+ t++  ++yes +y++f +   +f +++g
+                   AFU17015.1  547 SSGYMSIVCKFPLQvKGYRVRIRYAANNRAElYISsAGNSpS---KNVDLDPTFS-GTNYESLNYTNFKDketEFIITEG 622 
+                                   5777**************************778864444444...4456888888.555555555555554337888888 PP
+
+  Complete_Multiple_alignment  590 sstftisiqnfsggsaevyidkiefiPveq...tyeaeqdlekaqkavnalftssnknalktdvtdyeidqvanlvecls 666 
+                                   +  ++ ++ +fs++ ++v++dkiefiP+++   +ye++q+lekaqka nalft++++  l++d tdy+i+q anl+ec+s
+                   AFU17015.1  623 QL-VK-QSIIFSTN-GNVLLDKIEFIPLGTttyEYEEKQNLEKAQKALNALFTDGTNGYLQMDATDYDINQTANLIECVS 699 
+                                   88.22.33455555.4799*********99977777******************************************** PP
+
+  Complete_Multiple_alignment  667 defylkekkelldkvkyakrlsqarnllqdgnfes......ngWkgstnvtiqsddelfkgryltlpgar.....tyPty 735 
+                                   de+y+kek  lld+vkyakrls +rnll + + e       ngW++s+n++iq+d++lfkg+yl++ gar     ++Pty
+                   AFU17015.1  700 DELYAKEKIVLLDEVKYAKRLSISRNLLLNDDLEFsdgfgeNGWTTSDNISIQADNPLFKGNYLKMFGARdidgtLFPTY 779 
+                                   ********************************99999******************************************* PP
+
+  Complete_Multiple_alignment  736 lyqkideskLKpytRYkvrGFigssqdleilviRygke.hevvnVpdnealpllsdespc.................... 794 
+                                   lyqkides LKpytRY+vrGF+gss++l+++v+Ry+ke ++++nVp++ a++ l+ +  c                    
+                   AFU17015.1  780 LYQKIDESRLKPYTRYRVRGFVGSSKNLKLVVTRYEKEiDAIMNVPNDLAHMQLNPS--Cgdyrcesssqflvnqvhptp 857 
+                                   **************************************************9999955..344566*************** PP
+
+  Complete_Multiple_alignment  795 .............srskkngkahdshefslsIdtGeldlnenlGiwvifkIstpdGyarlgnLEiieegpLtgealarvk 861 
+                                                ++++k+ ++hd h f ++IdtGel+ n+nlGi v+fkIs+p+Gya+lgnLE+ieegpLt eal +vk
+                   AFU17015.1  858 tagyapdmyacpsNSDEKHVMCHDRHPFDFHIDTGELNPNTNLGIDVLFKISNPNGYATLGNLEVIEEGPLTDEALVHVK 937 
+                                   ************9999**************************************************************** PP
+
+  Complete_Multiple_alignment  862 raekkWkdkmekkraeteaayqaakqaidaLftnsqdekLkfdttiadieaa..lvqsipyvyhdflsdipGmnyeifee 939 
+                                   ++ekkW+++mekkr et++ay++akqa+daLftn  +++L+ ++t+ +i++a  lvq ipy++h +l d+pGmny++++e
+                   AFU17015.1  938 QKEKKWRQHMEKKRMETQQAYDPAKQAVDALFTN--EQELHYHITLDHIQNAgrLVQLIPYAHHAWLLDVPGMNYDVYTE 1015
+                                   **********************************..99****************************************** PP
+
+  Complete_Multiple_alignment  940 leerlqqayslydernlikNGdFtnglsnWnvtgdvdvqqedgrsvlvlpnwsaevsqqvevepnrgYvLrvtArkeGvG 1019
+                                   l+ r+ qa++ly+ern+i+NGdFt+gl+ W+ tg++ vqq+dg+svlvl+nwsa+vsq+++v+ ++gYvLrvtA+keG+G
+                   AFU17015.1 1016 LNVRITQARYLYKERNVITNGDFTQGLTGWQETGKATVQQMDGASVLVLSNWSAGVSQNLHVQDQHGYVLRVTAKKEGPG 1095
+                                   ******************************************************************************** PP
+
+  Complete_Multiple_alignment 1020 eGyvtisdgenntetltftscdytangngyvtkeleffpetdkVrieigeteGtFlvesvelilmektedqksdentavn 1099
+                                   +Gyvt++d++ ++etl ftsc+     +gy+tk++e+fpe+d+Vrie+geteGtF+++s+e+++m+  + +++++nt++ 
+                   AFU17015.1 1096 KGYVTMMDCNGKQETLRFTSCE-----EGYMTKTVEVFPESDHVRIEMGETEGTFYIDSIEFLCMKG-YTSNYNQNTGTL 1169
+                                   **********************.....***************************************9.555666666555 PP
+
+  Complete_Multiple_alignment 1100 tnsntsmnssnnsn 1113
+                                   +++ ++ n ++n++
+                   AFU17015.1 1170 YDQGYTSNYNQNDT 1183
+                                   55544444444332 PP
+
+>> WP_103591149.1  pesticidal crystal proteinBacillus_thuringiensis_serovar_kyushuensis
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  513.3   3.4  5.1e-157  5.1e-157      25     639 ..       1     686 [.       1     687 [. 0.84
+
+  Alignments for each domain:
+  == domain 1  score: 513.3 bits;  conditional E-value: 5.1e-157
+  Complete_Multiple_alignment  25 Mnsnnnkneyeiynvlnnspn.snryp......dpnselqntnykdwldmcege.......etssss.......davktgls 85 
+                                  Mns++nkneyei+++++n+++ snryp      dp++++qntnykdwl+mc+ +       +t+ss+       dav tg++
+               WP_103591149.1   1 MNSYQNKNEYEILDASQNNSTmSNRYPryplanDPQASMQNTNYKDWLNMCDSNtqfvgdiSTYSSPeaalsvrDAVLTGIN 82 
+                                  9*****************999999555555*********************8888899999666666777788********* PP
+
+  Complete_Multiple_alignment  86 ivgallgal.vpgagallgllstllgllwpgnkpnvweefmeaveelidqkitdyvrnkalaeleglqnnleeYqnaledwe 166
+                                  ++g++l++l vp+a++ +g ++ ++g+lwpg  p+ + ++m  veeli+q+i+d+ rn+al el+gl+  +++Y +  ++w 
+               WP_103591149.1  83 TAGTILSNLgVPFASQSFGMIGRIIGILWPG--PDPFAALMVLVEELINQRINDEIRNHALLELAGLKGIMDLYRTRWRAWD 162
+                                  ******8777********************9..************************************************* PP
+
+  Complete_Multiple_alignment 167 nnp.nsaareevrtqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWgldsaaeilnsykrllkr 247
+                                   n+ n+++re+vr q+++++++f++++p f  +++ vllLpvyaqaan+hL+llrda++fg+ Wgl  ++e+ ++y+rl ++
+               WP_103591149.1 163 LNKdNPETREAVRAQYRTADNFFIQNMPKFGREDHGVLLLPVYAQAANMHLILLRDAYVFGTGWGLG-PGEVRDNYTRL-QE 242
+                                  ***666*************************************************************.777*999****.** PP
+
+  Complete_Multiple_alignment 248 likeYtnycvttynkgLeklkgsnt..wnkynryrremtlsvLDlvalfptydprlYpietkseltReiytdpigvpe.... 323
+                                  +i+eY ++cvt yn+gL++ ++sn+  w+ +nr+r++mtl+vLDl+ lfp+ydpr Yp  +k+eltReiytdp+g+++    
+               WP_103591149.1 243 KIREYKDHCVTFYNQGLNRFNRSNAqdWVSFNRFRTDMTLTVLDLAILFPNYDPRIYPSAVKTELTREIYTDPVGFTGvlgs 324
+                                  *******************98888899******************************************************* PP
+
+  Complete_Multiple_alignment 324 ..........sapsfseienslirpphlftwlksltiytq...ss.ssysywsghkvtysy.n.n.itsplygt.gnstppe 387
+                                            +  sf+++ens+ r p++ twl++++i+t    +   + + w gh++  +  n + i +++ +t ++ tp +
+               WP_103591149.1 325 ggrtypwynpNDTSFATMENSARRRPSFTTWLNRIRIFTGhigNFsAAGNVWGGHELFERSnNgSeIIQRFGNTnTSYTPVR 406
+                                  ********987888****************************9777999********9999535344433333333444555 PP
+
+  Complete_Multiple_alignment 388 sis...lgndiyrts.........sataygnap.........gvskvefsn...gs....tlsy.ss..gt.vdsedelpp. 436
+                                  + +   +++ +++++         s                 gvs+v+++    g+    +++y  +  ++ +++ +elp+ 
+               WP_103591149.1 407 NWDftnQNRTVFSIAstarvllagS-------EgnahrpsqyGVSRVDMHTaigGNtsggQFIYeVPnvHSsQNILSELPGe 481
+                                  5556445556777766556665543.......033345568899999999865422777777775554431599*******9 PP
+
+  Complete_Multiple_alignment 437 ....pneedyshrlshitalsa..agsvgalkadpvsfgwthrsvdrnntiatdkitqIpavkafelnsgtvvkgpgftggd 512
+                                      p+++++sh+ls+i+ + a   g+vg+++   +++gwth+s+drnn+++ d+itqI avk++   +g+v++gp  tgg 
+               WP_103591149.1 482 nqqrPDARNHSHILSYISNFDAkrGGTVGNVR--LLTYGWTHTSMDRNNRLERDRITQIDAVKGWGGVTGSVIPGP--TGGS 559
+                                  9999999************9996655555555..777****************************99888******..**** PP
+
+  Complete_Multiple_alignment 513 lvk.ls...sgtikvtinspltqryrvriryasntdi.qni..sigg.s.sln.ssqttlsstmndnltyesfkyiefptpf 584
+                                  lv   s   s +++v+   + +++yr+r r+a+  ++ +++  ++gg s +++  ++ +  +++n nl  ++f+y+ +p   
+               WP_103591149.1 560 LVTiPSnpwSVSLRVQAP-QIQTNYRIRLRFACVWPGaHHMwvTYGGiShPVQlCNNPSSGRPSN-NLLESDFGYVVVPG-- 637
+                                  ***533444333555555.45599*************4355323555445444334433335555.9***********99.. PP
+
+  Complete_Multiple_alignment 585 tfssgss.tftisiqnfsggsaevyidkiefiPveqtyeaeqdlekaqkavnalft 639
+                                  tfs++ + +    i+   +++a v +dkiefiP+++ y+ e+ +e+  k +n+lf 
+               WP_103591149.1 638 TFSPSINpE----IRFSAISNAPV-LDKIEFIPLDI-YN-EHFVEERAKTINDLFI 686
+                                  666644433....43333443466.9*******999.55.6667777777999996 PP
+
+>> WP_000390241.1  pesticidal crystal protein cry11AaBacillus_thuringiensis
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  141.3  14.3   1.1e-44   1.1e-44      72     612 ..      25     626 ..       3     638 .. 0.64
+
+  Alignments for each domain:
+  == domain 1  score: 141.3 bits;  conditional E-value: 1.1e-44
+  Complete_Multiple_alignment  72 etssssdavktglsivgallgalvpgagallg..llstllgllwpgnkpnvweefmeaveelidqkitdyvrnkalaelegl 151
+                                  e+++++     +l  v+ + + l   +g++++  ++s++l+l++pg++p+++e++ ++ve+li+qk++++  n+++ae  g+
+               WP_000390241.1  25 EPTIAP-----ALIAVAPIAQYLATAIGKWAAkaAFSKVLSLIFPGSQPATMEKVRTEVETLINQKLSQDRVNILNAEYRGI 101
+                                  333444.....333333333223344788888899********************************************984 PP
+
+  Complete_Multiple_alignment 152 qnnleeYqnaledwennpnsaareevrtqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWglds 233
+                                          ++++++ + p   ++++ + +f +l  +++++lp+f v++ye + + +++q+++lhL+ll+d+i+ g+ Wg++ 
+               WP_000390241.1 102 IEV----SDVFDAYIKQP-GFTPATAKGYFLNLSGAIIQRLPQFEVQTYEGVSIALFTQMCTLHLTLLKDGILAGSAWGFT- 177
+                                  444....66679999988.4888999*******************************************************. PP
+
+  Complete_Multiple_alignment 234 aaeilnsykrllkrlikeYtnycvttynkgLekl........kgsnt...............w..nkynryrremtlsvLDl 290
+                                  +a++ +s+ +l+ ++  +Y +  ++ y++ + +l            t               w   +y+  + +  ls +D+
+               WP_000390241.1 178 QADV-DSFIKLFNQKVLDYRTRLMRMYTEEFGRLckvslkdgL---TfrnmcnlyvfpfaeaWslMRYEGLKLQSSLSLWDY 255
+                                  6658.55555555566666666666666555554222222110...122224455666666655588888888888888888 PP
+
+  Complete_Multiple_alignment 291 valf..ptydp...rlYpietkseltReiytdpigvpesapsfseienslirpphlftwlksltiytqssssysywsghkvt 367
+                                  v +    +y+      Y++ + +e   ++ t       + ++ ++ e++ i  p   +++    iy   ss  ++w g+  t
+               WP_000390241.1 256 VGVSipVNYNEwggLVYKL-LMGEVNQRLTTV------KFNYSFTNEPADI--PARENIRGVHPIYDP-SSGLTGWIGNGRT 327
+                                  8744113444433222444.555555555555......4444578899999..99999999*****88.79*****777777 PP
+
+  Complete_Multiple_alignment 368 ysy.......n..n..itsplygtgnstppesislgndiyrts......sataygnap...gvskvefsngs.......... 419
+                                  +++       n      t+++y++ n++p   i   +di++ +      +  +++  +   +v+ +++++ s          
+               WP_000390241.1 328 NNFnfadnngNeiMevRTQTFYQNPNNEP---IA-PRDIINQIltapapADLFFK--NadiNVKFTQWFQ-Stlygwniklg 402
+                                  77766987552442555558888877767...22.23444444444554222222..1334332222222.23555555566 PP
+
+  Complete_Multiple_alignment 420 tlsy.ss..gt............vdsedelpppneedyshrlshitalsaagsvgalkadpvsfgwthrsvdrn....nti. 481
+                                  t+++ ss  gt            ++ ++ +p   +  y+h+l+++t+ + +  +++++++ v f+  +++ d++    +++ 
+               WP_000390241.1 403 TQTVlSSrtGTippnylaydgyyIRAISACPRGVSLAYNHDLTTLTYNRIEYDSPTTENIIVGFAPDNTK-DFYskksHYLs 483
+                                  4444444332245555666666677888888877799*******99988865566666566667776554.44211113335 PP
+
+  Complete_Multiple_alignment 482 atdkitqIpavkafelnsg..tvvkgpgftggdlvk..ls..sgt.ikvtin....splt.qryrvriryasntdi.q..ni 548
+                                  +t+    Ipa +  e++     +   p   +   +k  ++  s + +k++i+    + +t +ry++ ir+     +     +
+               WP_000390241.1 484 ETNDSYVIPALQFAEVS-DrsFLEDTPDQATDGSIKfaRTfiS-NeAKYSIRlntgF-NTaTRYKLIIRVRVPYRLpAgiRV 562
+                                  7777777*********5.3357888886666666676777753.2455555543434.366*******99977777422333 PP
+
+  Complete_Multiple_alignment 549 s..iggs.slnssqttlsstmn...dnltyesfkyiefptpftfssgss.tftisiqnfsggsaevyidki 612
+                                  +   +g+ +   ++  +++  n    +   + f++ ++ +    +s+++  f+is++++++g +e+y+ ++
+               WP_000390241.1 563 QsqNSGNnRML-GS--FTANANpewVDFVTDAFTFNDLGI---TTSSTNaLFSISSDSLNSG-EEWYLSQL 626
+                                  32122222222.33..554444534377789999999888...4445566888999999999.68998765 PP
+
+>> WP_000390241.1  pesticidal crystal protein cry11AaBacillus_thuringiensis_HD-789
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  141.3  14.3   1.1e-44   1.1e-44      72     612 ..      25     626 ..       3     638 .. 0.64
+
+  Alignments for each domain:
+  == domain 1  score: 141.3 bits;  conditional E-value: 1.1e-44
+  Complete_Multiple_alignment  72 etssssdavktglsivgallgalvpgagallg..llstllgllwpgnkpnvweefmeaveelidqkitdyvrnkalaelegl 151
+                                  e+++++     +l  v+ + + l   +g++++  ++s++l+l++pg++p+++e++ ++ve+li+qk++++  n+++ae  g+
+               WP_000390241.1  25 EPTIAP-----ALIAVAPIAQYLATAIGKWAAkaAFSKVLSLIFPGSQPATMEKVRTEVETLINQKLSQDRVNILNAEYRGI 101
+                                  333444.....333333333223344788888899********************************************984 PP
+
+  Complete_Multiple_alignment 152 qnnleeYqnaledwennpnsaareevrtqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWglds 233
+                                          ++++++ + p   ++++ + +f +l  +++++lp+f v++ye + + +++q+++lhL+ll+d+i+ g+ Wg++ 
+               WP_000390241.1 102 IEV----SDVFDAYIKQP-GFTPATAKGYFLNLSGAIIQRLPQFEVQTYEGVSIALFTQMCTLHLTLLKDGILAGSAWGFT- 177
+                                  444....66679999988.4888999*******************************************************. PP
+
+  Complete_Multiple_alignment 234 aaeilnsykrllkrlikeYtnycvttynkgLekl........kgsnt...............w..nkynryrremtlsvLDl 290
+                                  +a++ +s+ +l+ ++  +Y +  ++ y++ + +l            t               w   +y+  + +  ls +D+
+               WP_000390241.1 178 QADV-DSFIKLFNQKVLDYRTRLMRMYTEEFGRLckvslkdgL---TfrnmcnlyvfpfaeaWslMRYEGLKLQSSLSLWDY 255
+                                  6658.55555555566666666666666555554222222110...122224455666666655588888888888888888 PP
+
+  Complete_Multiple_alignment 291 valf..ptydp...rlYpietkseltReiytdpigvpesapsfseienslirpphlftwlksltiytqssssysywsghkvt 367
+                                  v +    +y+      Y++ + +e   ++ t       + ++ ++ e++ i  p   +++    iy   ss  ++w g+  t
+               WP_000390241.1 256 VGVSipVNYNEwggLVYKL-LMGEVNQRLTTV------KFNYSFTNEPADI--PARENIRGVHPIYDP-SSGLTGWIGNGRT 327
+                                  8744113444433222444.555555555555......4444578899999..99999999*****88.79*****777777 PP
+
+  Complete_Multiple_alignment 368 ysy.......n..n..itsplygtgnstppesislgndiyrts......sataygnap...gvskvefsngs.......... 419
+                                  +++       n      t+++y++ n++p   i   +di++ +      +  +++  +   +v+ +++++ s          
+               WP_000390241.1 328 NNFnfadnngNeiMevRTQTFYQNPNNEP---IA-PRDIINQIltapapADLFFK--NadiNVKFTQWFQ-Stlygwniklg 402
+                                  77766987552442555558888877767...22.23444444444554222222..1334332222222.23555555566 PP
+
+  Complete_Multiple_alignment 420 tlsy.ss..gt............vdsedelpppneedyshrlshitalsaagsvgalkadpvsfgwthrsvdrn....nti. 481
+                                  t+++ ss  gt            ++ ++ +p   +  y+h+l+++t+ + +  +++++++ v f+  +++ d++    +++ 
+               WP_000390241.1 403 TQTVlSSrtGTippnylaydgyyIRAISACPRGVSLAYNHDLTTLTYNRIEYDSPTTENIIVGFAPDNTK-DFYskksHYLs 483
+                                  4444444332245555666666677888888877799*******99988865566666566667776554.44211113335 PP
+
+  Complete_Multiple_alignment 482 atdkitqIpavkafelnsg..tvvkgpgftggdlvk..ls..sgt.ikvtin....splt.qryrvriryasntdi.q..ni 548
+                                  +t+    Ipa +  e++     +   p   +   +k  ++  s + +k++i+    + +t +ry++ ir+     +     +
+               WP_000390241.1 484 ETNDSYVIPALQFAEVS-DrsFLEDTPDQATDGSIKfaRTfiS-NeAKYSIRlntgF-NTaTRYKLIIRVRVPYRLpAgiRV 562
+                                  7777777*********5.3357888886666666676777753.2455555543434.366*******99977777422333 PP
+
+  Complete_Multiple_alignment 549 s..iggs.slnssqttlsstmn...dnltyesfkyiefptpftfssgss.tftisiqnfsggsaevyidki 612
+                                  +   +g+ +   ++  +++  n    +   + f++ ++ +    +s+++  f+is++++++g +e+y+ ++
+               WP_000390241.1 563 QsqNSGNnRML-GS--FTANANpewVDFVTDAFTFNDLGI---TTSSTNaLFSISSDSLNSG-EEWYLSQL 626
+                                  32122222222.33..554444534377789999999888...4445566888999999999.68998765 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                              1  (1115 nodes)
+Target sequences:                            5  (4332 residues searched)
+Passed MSV filter:                         5  (1); expected 0.1 (0.02)
+Passed bias filter:                        5  (1); expected 0.1 (0.02)
+Passed Vit filter:                         5  (1); expected 0.0 (0.001)
+Passed Fwd filter:                         5  (1); expected 0.0 (1e-05)
+Initial search space (Z):                  5  [actual number of targets]
+Domain search space  (domZ):               5  [number of targets reported over threshold]
+# CPU time: 0.39u 0.07s 00:00:00.46 Elapsed: 00:00:00.46
+# Mc/sec: 10.50
+//
+# Alignment of 5 hits satisfying inclusion thresholds saved to: /home/anton/cry_processor/fd_test/cry_extraction/full_toxins/small_full_extracted.sto
+[ok]
+# hmmsearch :: search profile(s) against a sequence database
+# HMMER 3.1b2 (February 2015); http://hmmer.org/
+# Copyright (C) 2015 Howard Hughes Medical Institute.
+# Freely distributed under the GNU General Public License (GPLv3).
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query HMM file:                  /home/anton/cry_processor/data/models/Complete.hmm
+# target sequence database:        test/small.faa
+# MSA of all hits saved to file:   /home/anton/cry_processor/fd_test/cry_extraction/full_toxins/small_full_extracted.sto
+# number of worker threads:        8
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       Complete_Multiple_alignment  [M=1115]
+Scores for complete sequences (score includes all domains):
+   --- full sequence ---   --- best 1 domain ---    -#dom-
+    E-value  score  bias    E-value  score  bias    exp  N  Sequence       Description
+    ------- ------ -----    ------- ------ -----   ---- --  --------       -----------
+          0 1314.2  23.4          0 1313.9  23.4    1.0  1  ACQ99547.1      pesticidal crystal proteinBacillus_thuringien
+          0 1256.3  39.5          0 1256.1  39.5    1.0  1  AFU17015.1      pesticidal crystal proteinBacillus_thuringien
+   4.5e-157  513.5   3.4   5.1e-157  513.3   3.4    1.0  1  WP_103591149.1  pesticidal crystal proteinBacillus_thuringien
+    8.5e-45  141.7  14.3    1.1e-44  141.3  14.3    1.0  1  WP_000390241.1  pesticidal crystal protein cry11AaBacillus_th
+    8.5e-45  141.7  14.3    1.1e-44  141.3  14.3    1.0  1  WP_000390241.1  pesticidal crystal protein cry11AaBacillus_th
+
+
+Domain annotation for each sequence (and alignments):
+>> ACQ99547.1  pesticidal crystal proteinBacillus_thuringiensis
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ! 1313.9  23.4         0         0      29    1086 ..       3    1142 ..       1    1143 [. 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 1313.9 bits;  conditional E-value: 0
+  Complete_Multiple_alignment   29 nnkneyeiynvlnnspnsn..ryp...dpnselqntnykdwldmcege...etssssdavktglsivgallgal.vpgag 99  
+                                   +++++++i    +n+++++  ryp   +pn+++qn+nykd+l+    +   et ++++a++t+l i++ +lg+l vp++g
+                   ACQ99547.1    3 QQNEYEIIQAGVSNAITDTfqRYPlanNPNTSFQNMNYKDYLNDP--MflgETRDAQTAITTSLEIISEILGFLgVPFVG 80  
+                                   346778888888888886678*********************866..34678888889*************9888***** PP
+
+  Complete_Multiple_alignment  100 allgllstllgllwpgnkpnvweefmeaveelidqkitdyvrnkalaeleglqnnleeYqnaledwennp.nsaareevr 178 
+                                   +++g+ + l++llwp n++++w++fm++v+ li++ it  vr+ka++eleg+++ +++Y +al++w+++p n+ ++e+vr
+                   ACQ99547.1   81 PIIGFTNRLINLLWPRNTTDIWNAFMDEVQALINESITKAVRSKAISELEGIHQVYRLYIEALNEWKDTPdNPFVQERVR 160 
+                                   **********************************************************************666******* PP
+
+  Complete_Multiple_alignment  179 tqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWgldsaaeilnsykrllkrlikeYtnycvt 258 
+                                   t f+++ns ++ a+psf+v+g+e++lL vyaqaanlhL llrda++fg+ Wg++ +++i++ y+++ +r ++ Y+++c++
+                   ACQ99547.1  161 TTFRDVNSIINYAMPSFRVQGFEIPLLVVYAQAANLHLVLLRDATLFGAGWGFT-ETNINDRYNEQ-VRVTNGYIDHCTK 238 
+                                   ******************************************************.556*777****.************* PP
+
+  Complete_Multiple_alignment  259 tynkgLeklkgsntwnkynryrremtlsvLDlvalfptydprlYpietkseltReiytdpigvpe.........sapsfs 329 
+                                   +yn+gL +l  +n+w ky+++rremtl+vLDl+alfp+ d r+Yp+et+++ltR +ytdpig+ +         ++ sfs
+                   ACQ99547.1  239 WYNEGLTRL--KNNWSKYHQFRREMTLMVLDLIALFPSHDARRYPMETSAQLTRDVYTDPIGYRGnanfsdpwtNHVSFS 316 
+                                   *******98..6779**********************************************************889**** PP
+
+  Complete_Multiple_alignment  330 eienslirpphlftwlksltiytq......ss.ssysywsghkvtysy...n.n.itsplygtgnstppesis.lgndiy 396 
+                                     e+ +irpphlf+ l+s++i t       ++ s+++yw+gh+vt++    + n ++  +yg+ +s ++  +s  g+d+y
+                   ACQ99547.1  317 KAESETIRPPHLFDTLESVEINTAkamlplNDkSYMYYWAGHTVTSRLldsSgNpLK-YTYGSMTS-EKNLVSlPGKDVY 394 
+                                   ******************************666***************975354444.35776223.3334557799*** PP
+
+  Complete_Multiple_alignment  397 rts.sataygnap....gvskvefsngs.......tlsy.ssgt........vdsedelpp.....pneedyshrlshit 450 
+                                   r++  a+ ++n++    gvskv+fs  +       t+sy +s+t         dse+elp+     p++++yshrlshit
+                   ACQ99547.1  395 RINsVASGFSNYYaklyGVSKVDFSIVDrnnsnktTYSYsKSSTvpsdnkenRDSENELPQtttdqPDYKGYSHRLSHIT 474 
+                                   ***94455555445677*********5555688777777555224566678889************************** PP
+
+  Complete_Multiple_alignment  451 alsaagsvgalkadpvsfgwthrsvdrnntiatdkitqIpavkafelnsg.tvvkgpgftggdlvkls....sgtikvti 525 
+                                   ++s+a        +p+ + wt +s+d++nti++dkitqIpavk +el+s+  vvkgpgftggdlvk++    +g++k+ti
+                   ACQ99547.1  475 FISSA--------IPT-YVWTRKSADLTNTIYPDKITQIPAVKMYELGSSaVVVKGPGFTGGDLVKRTnngsLGRFKITI 545 
+                                   *6663........888.******************************8778***************776665555***** PP
+
+  Complete_Multiple_alignment  526 nspltqryrvriryasntdi.qnisiggs.sln.ssqttlsstmn..dnltyesfkyiefptpftfssgsstftisiqnf 600 
+                                    sp   ryr+r+ry s  ++  +++i++  +++ +    ++st++  +++ ++sf++ ef+t+f+f+s+ +++++s+  +
+                   ACQ99547.1  546 DSPGAHRYRLRVRYHSDVSGvFHMQINNVeTIQgE----FKSTVDstSTMSNDSFQLREFTTTFRFPSNVTDIKVSLGAI 621 
+                                   *8888***************436666663355534....666666433688*****************777788888777 PP
+
+  Complete_Multiple_alignment  601 sggsaevyidkiefiPveqtyeaeqdlekaqkavnalftssnknalktdvtdyeidqvanlveclsdefylkekkelldk 680 
+                                   +g+ +++y+d+ief Pv+++y+++  lekaqkavnalft++++ al+td+tdy++dqv+ lv+c+s e+y++ek+ell++
+                   ACQ99547.1  622 NGQ-GNFYLDRIEFAPVDTNYDERITLEKAQKAVNALFTEGRN-ALQTDMTDYKVDQVSILVDCVSGEVYPNEKRELLNL 699 
+                                   777.68************************************9.************************************ PP
+
+  Complete_Multiple_alignment  681 vkyakrlsqarnllqdgnfes..........ngWkgstnvtiqsddelfkgryltlpgar..tyPtylyqkideskLKpy 748 
+                                   vkyakrls arnll d+nf+s          +gW+gs+++ + s+d + k++y++lp+++  +yPtylyqkideskLK+y
+                   ACQ99547.1  700 VKYAKRLSIARNLLVDPNFTSihasmysedvKGWYGSNGIATGSGDVVLKENYVSLPSTSdaQYPTYLYQKIDESKLKAY 779 
+                                   ******************************************************************************** PP
+
+  Complete_Multiple_alignment  749 tRYkvrGFigssqdleilviRygkehevvnVpdnealpllsdespc...................srskkngkahdshef 809 
+                                   tRYk+rGFi++sqdle++v+Ry+++he+++V++n    +l+++  c                    +s ++g  +dsh+f
+                   ACQ99547.1  780 TRYKLRGFIENSQDLEAYVVRYDAKHETLDVSNNLLPDVLPVNA-CgepdrcaalqyldenprleCSSIQDGILSDSHSF 858 
+                                   **********************************7776666553.36899**************86677899******** PP
+
+  Complete_Multiple_alignment  810 slsIdtGeldlnenlGiwvifkIstpdGyarlgnLEiieegpLtgealarvkraekkWkdkmekkraeteaayqaakqai 889 
+                                   sl+IdtG++dlnenlGiwv+fkIstp+Gya++gnLE+ie+g ++gealarvkr+e+kW++k  ++r+et+a+y++akqa 
+                   ACQ99547.1  859 SLNIDTGSMDLNENLGIWVLFKISTPEGYAKFGNLEVIEDGTVSGEALARVKRQETKWRNKLAQLRTETQAIYTRAKQAL 938 
+                                   ******************************************************************************** PP
+
+  Complete_Multiple_alignment  890 daLftnsqdekLkfdttiadieaa..lvqsipyvyhdflsdipGmnyeifeeleerlqqayslydernlikNGdFtngls 967 
+                                   d+Lft++qd++Lk++ t+a i aa  +vqsi+++y+++ls++pG+ny if+el+er+q+a++lyd rn+++NG+F ng+ 
+                   ACQ99547.1  939 DNLFTDAQDSYLKIGATFAAIVAArkIVQSIREAYMSWLSVVPGVNYPIFTELNERVQRAFQLYDGRNVVRNGRFLNGVL 1018
+                                   ******************************************************************************** PP
+
+  Complete_Multiple_alignment  968 nWnvtgdvdvqqedgrsvlvlpnwsaevsqqvevepnrgYvLrvtArkeGvGeGyvtisdgenntetltf.tscdytang 1046
+                                   +W vt+dv vq+e+g++vlvl+nw+a+v q +++ ++rgY+LrvtArkeG GeGy+ti+d e nt++ltf +++++++++
+                   ACQ99547.1 1019 DWIVTSDVSVQEENGNNVLVLSNWDAQVLQCLKLYQDRGYILRVTARKEGLGEGYITITDEEGNTDQLTFgSCEEIDTSN 1098
+                                   **********************************************************************9999999999 PP
+
+  Complete_Multiple_alignment 1047 ....ngyvtkeleffpetdkVrieigeteGtFlvesvelilmek 1086
+                                       +gy+tkeleffp+t+kVriei eteGtF+vesvel+lme+
+                   ACQ99547.1 1099 sfvsTGYMTKELEFFPDTEKVRIEIEETEGTFKVESVELFLMED 1142
+                                   ******************************************96 PP
+
+>> AFU17015.1  pesticidal crystal proteinBacillus_thuringiensis_MC28
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ! 1256.1  39.5         0         0      25    1113 ..       1    1183 [.       1    1189 [. 0.89
+
+  Alignments for each domain:
+  == domain 1  score: 1256.1 bits;  conditional E-value: 0
+  Complete_Multiple_alignment   25 Mnsnnnkneyeiynvlnnspn.sn...ryp...dpnselqntnykdwldmcege.......etssss..davktglsivg 88  
+                                   Mns++nkneyei+++++n++n sn   ryp   +p++++q+tnykdwl+mc++        e ++s+   +v+tgl +vg
+                   AFU17015.1    1 MNSYENKNEYEILDASQNNSNmSNryqRYPlahNPQTSIQTTNYKDWLKMCQNPhqnpldmEGYDSNsvVVVSTGLIVVG 80  
+                                   9********************988788888*********************666788999955555556799999***** PP
+
+  Complete_Multiple_alignment   89 allgalvpgagallgllstllgllwp..gnkpnvweefmeaveelidqkitdyvrnkalaeleglqnnleeYqnaledwe 166 
+                                   +l+++l  g+g++  +++tll++lw   +n++++w efm + e+l++q+i++ +rn+a a leg  ++++  ++al+ w+
+                   AFU17015.1   81 TLISILSAGLGSIPIIYGTLLPVLWNdpNNPQKTWHEFMSHGETLLNQTISTVERNRAAAYLEGYTTAVKKCEEALNVWL 160 
+                                   ****999*******************9899999*********************************************** PP
+
+  Complete_Multiple_alignment  167 nnpnsaareevrtqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWg....ldsaaeilnsyk 242 
+                                     pn+a++ +v + +++++ lf t+lp++k +++e+llL+ y+qaan+hL+ll++a++++++W+     +   +++n y 
+                   AFU17015.1  161 TAPNQANARTVADLYKDTDFLFFTTLPHLKLRDFETLLLSSYTQAANMHLILLKQASKYADQWNaqlpVSVR-KTANDYY 239 
+                                   *****9999******************************************************944333323.3446655 PP
+
+  Complete_Multiple_alignment  243 rllkrlikeYtnycvttynkgLeklkgsnt.wnkynryrremtlsvLDlvalfptydprlYpietkseltReiytdpigv 321 
+                                   ++l++li eYt+yc+ ty  gL+++k++ t wn yn yrremt+ vLDlvalfp yd ++Yp +tk+eltReiytd +g 
+                   AFU17015.1  240 TDLVKLIGEYTDYCIATYRSGLNTIKSRATsWNIYNMYRREMTILVLDLVALFPAYDIKKYPSGTKVELTREIYTDALGA 319 
+                                   555*********************9644447**********************************************888 PP
+
+  Complete_Multiple_alignment  322 pesapsfseienslirpphlftwlksltiytqssssysywsghkvtysy.n.n..itsplygt.gnstppesislgndiy 396 
+                                   +   ++++++e+ ++r p+lf+wlk +++ t++s++ +y+sg  ++ys+ n n  i +p+ g+ +  +++ +i+++++iy
+                   AFU17015.1  320 VAIPQNIDATEQLATRAPNLFSWLKGFKFITTQSTNRYYLSGIANRYSFtNsNgeIWGPISGNpTGVSSDLTIDNNFSIY 399 
+                                   8845679*************************66999************6443345556666653333455677999*** PP
+
+  Complete_Multiple_alignment  397 rts......sataygnap......gvskvefsngs.....tlsy.ssg.t..........vdsedelpp.........pn 438 
+                                   + s              p       v +++fs ++     ++sy s g t                 p          p+
+                   AFU17015.1  400 KLSilrgyqL------SPdfsfhnPVHQIDFSTTNnqqgrVQSYkSGGpTpvnpettaihL------PIdskctqncnPT 467 
+                                   **96665553......3344444479*******7789999999955454477665555552......3355555577789 PP
+
+  Complete_Multiple_alignment  439 eedyshrlshitalsaagsvgalkadpvsfgwthrsvdrnntiatdkitqIpavkafeln.sgtvvkgpgftggdlvk.l 516 
+                                    ++ysh+ls+ ++++++ + g+++ + +sfgwth+svdr+nti+ ++itqIpavka+++   ++v+kgpg+tgg+lv+  
+                   AFU17015.1  468 FNNYSHILSYAKTFTSNLTIGTTS-NITSFGWTHNSVDRENTIDLNNITQIPAVKASQVYpENSVIKGPGHTGGNLVRiD 546 
+                                   9*********99998843333333.6668******************************6455***************65 PP
+
+  Complete_Multiple_alignment  517 ssgtikvtinsplt.qryrvriryasntdiq.nis.iggs.slnssqttlsstmndnltyesfkyiefpt...pftfssg 589 
+                                   ssg +++ +++pl+ + yrvrirya+n+ ++ +is  g+s s    +++l+ t++  ++yes +y++f +   +f +++g
+                   AFU17015.1  547 SSGYMSIVCKFPLQvKGYRVRIRYAANNRAElYISsAGNSpS---KNVDLDPTFS-GTNYESLNYTNFKDketEFIITEG 622 
+                                   5777**************************778864444444...4456888888.555555555555554337888888 PP
+
+  Complete_Multiple_alignment  590 sstftisiqnfsggsaevyidkiefiPveq...tyeaeqdlekaqkavnalftssnknalktdvtdyeidqvanlvecls 666 
+                                   +  ++ ++ +fs++ ++v++dkiefiP+++   +ye++q+lekaqka nalft++++  l++d tdy+i+q anl+ec+s
+                   AFU17015.1  623 QL-VK-QSIIFSTN-GNVLLDKIEFIPLGTttyEYEEKQNLEKAQKALNALFTDGTNGYLQMDATDYDINQTANLIECVS 699 
+                                   88.22.33455555.4799*********99977777******************************************** PP
+
+  Complete_Multiple_alignment  667 defylkekkelldkvkyakrlsqarnllqdgnfes......ngWkgstnvtiqsddelfkgryltlpgar.....tyPty 735 
+                                   de+y+kek  lld+vkyakrls +rnll + + e       ngW++s+n++iq+d++lfkg+yl++ gar     ++Pty
+                   AFU17015.1  700 DELYAKEKIVLLDEVKYAKRLSISRNLLLNDDLEFsdgfgeNGWTTSDNISIQADNPLFKGNYLKMFGARdidgtLFPTY 779 
+                                   ********************************99999******************************************* PP
+
+  Complete_Multiple_alignment  736 lyqkideskLKpytRYkvrGFigssqdleilviRygke.hevvnVpdnealpllsdespc.................... 794 
+                                   lyqkides LKpytRY+vrGF+gss++l+++v+Ry+ke ++++nVp++ a++ l+ +  c                    
+                   AFU17015.1  780 LYQKIDESRLKPYTRYRVRGFVGSSKNLKLVVTRYEKEiDAIMNVPNDLAHMQLNPS--Cgdyrcesssqflvnqvhptp 857 
+                                   **************************************************9999955..344566*************** PP
+
+  Complete_Multiple_alignment  795 .............srskkngkahdshefslsIdtGeldlnenlGiwvifkIstpdGyarlgnLEiieegpLtgealarvk 861 
+                                                ++++k+ ++hd h f ++IdtGel+ n+nlGi v+fkIs+p+Gya+lgnLE+ieegpLt eal +vk
+                   AFU17015.1  858 tagyapdmyacpsNSDEKHVMCHDRHPFDFHIDTGELNPNTNLGIDVLFKISNPNGYATLGNLEVIEEGPLTDEALVHVK 937 
+                                   ************9999**************************************************************** PP
+
+  Complete_Multiple_alignment  862 raekkWkdkmekkraeteaayqaakqaidaLftnsqdekLkfdttiadieaa..lvqsipyvyhdflsdipGmnyeifee 939 
+                                   ++ekkW+++mekkr et++ay++akqa+daLftn  +++L+ ++t+ +i++a  lvq ipy++h +l d+pGmny++++e
+                   AFU17015.1  938 QKEKKWRQHMEKKRMETQQAYDPAKQAVDALFTN--EQELHYHITLDHIQNAgrLVQLIPYAHHAWLLDVPGMNYDVYTE 1015
+                                   **********************************..99****************************************** PP
+
+  Complete_Multiple_alignment  940 leerlqqayslydernlikNGdFtnglsnWnvtgdvdvqqedgrsvlvlpnwsaevsqqvevepnrgYvLrvtArkeGvG 1019
+                                   l+ r+ qa++ly+ern+i+NGdFt+gl+ W+ tg++ vqq+dg+svlvl+nwsa+vsq+++v+ ++gYvLrvtA+keG+G
+                   AFU17015.1 1016 LNVRITQARYLYKERNVITNGDFTQGLTGWQETGKATVQQMDGASVLVLSNWSAGVSQNLHVQDQHGYVLRVTAKKEGPG 1095
+                                   ******************************************************************************** PP
+
+  Complete_Multiple_alignment 1020 eGyvtisdgenntetltftscdytangngyvtkeleffpetdkVrieigeteGtFlvesvelilmektedqksdentavn 1099
+                                   +Gyvt++d++ ++etl ftsc+     +gy+tk++e+fpe+d+Vrie+geteGtF+++s+e+++m+  + +++++nt++ 
+                   AFU17015.1 1096 KGYVTMMDCNGKQETLRFTSCE-----EGYMTKTVEVFPESDHVRIEMGETEGTFYIDSIEFLCMKG-YTSNYNQNTGTL 1169
+                                   **********************.....***************************************9.555666666555 PP
+
+  Complete_Multiple_alignment 1100 tnsntsmnssnnsn 1113
+                                   +++ ++ n ++n++
+                   AFU17015.1 1170 YDQGYTSNYNQNDT 1183
+                                   55544444444332 PP
+
+>> WP_103591149.1  pesticidal crystal proteinBacillus_thuringiensis_serovar_kyushuensis
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  513.3   3.4  5.1e-157  5.1e-157      25     639 ..       1     686 [.       1     687 [. 0.84
+
+  Alignments for each domain:
+  == domain 1  score: 513.3 bits;  conditional E-value: 5.1e-157
+  Complete_Multiple_alignment  25 Mnsnnnkneyeiynvlnnspn.snryp......dpnselqntnykdwldmcege.......etssss.......davktgls 85 
+                                  Mns++nkneyei+++++n+++ snryp      dp++++qntnykdwl+mc+ +       +t+ss+       dav tg++
+               WP_103591149.1   1 MNSYQNKNEYEILDASQNNSTmSNRYPryplanDPQASMQNTNYKDWLNMCDSNtqfvgdiSTYSSPeaalsvrDAVLTGIN 82 
+                                  9*****************999999555555*********************8888899999666666777788********* PP
+
+  Complete_Multiple_alignment  86 ivgallgal.vpgagallgllstllgllwpgnkpnvweefmeaveelidqkitdyvrnkalaeleglqnnleeYqnaledwe 166
+                                  ++g++l++l vp+a++ +g ++ ++g+lwpg  p+ + ++m  veeli+q+i+d+ rn+al el+gl+  +++Y +  ++w 
+               WP_103591149.1  83 TAGTILSNLgVPFASQSFGMIGRIIGILWPG--PDPFAALMVLVEELINQRINDEIRNHALLELAGLKGIMDLYRTRWRAWD 162
+                                  ******8777********************9..************************************************* PP
+
+  Complete_Multiple_alignment 167 nnp.nsaareevrtqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWgldsaaeilnsykrllkr 247
+                                   n+ n+++re+vr q+++++++f++++p f  +++ vllLpvyaqaan+hL+llrda++fg+ Wgl  ++e+ ++y+rl ++
+               WP_103591149.1 163 LNKdNPETREAVRAQYRTADNFFIQNMPKFGREDHGVLLLPVYAQAANMHLILLRDAYVFGTGWGLG-PGEVRDNYTRL-QE 242
+                                  ***666*************************************************************.777*999****.** PP
+
+  Complete_Multiple_alignment 248 likeYtnycvttynkgLeklkgsnt..wnkynryrremtlsvLDlvalfptydprlYpietkseltReiytdpigvpe.... 323
+                                  +i+eY ++cvt yn+gL++ ++sn+  w+ +nr+r++mtl+vLDl+ lfp+ydpr Yp  +k+eltReiytdp+g+++    
+               WP_103591149.1 243 KIREYKDHCVTFYNQGLNRFNRSNAqdWVSFNRFRTDMTLTVLDLAILFPNYDPRIYPSAVKTELTREIYTDPVGFTGvlgs 324
+                                  *******************98888899******************************************************* PP
+
+  Complete_Multiple_alignment 324 ..........sapsfseienslirpphlftwlksltiytq...ss.ssysywsghkvtysy.n.n.itsplygt.gnstppe 387
+                                            +  sf+++ens+ r p++ twl++++i+t    +   + + w gh++  +  n + i +++ +t ++ tp +
+               WP_103591149.1 325 ggrtypwynpNDTSFATMENSARRRPSFTTWLNRIRIFTGhigNFsAAGNVWGGHELFERSnNgSeIIQRFGNTnTSYTPVR 406
+                                  ********987888****************************9777999********9999535344433333333444555 PP
+
+  Complete_Multiple_alignment 388 sis...lgndiyrts.........sataygnap.........gvskvefsn...gs....tlsy.ss..gt.vdsedelpp. 436
+                                  + +   +++ +++++         s                 gvs+v+++    g+    +++y  +  ++ +++ +elp+ 
+               WP_103591149.1 407 NWDftnQNRTVFSIAstarvllagS-------EgnahrpsqyGVSRVDMHTaigGNtsggQFIYeVPnvHSsQNILSELPGe 481
+                                  5556445556777766556665543.......033345568899999999865422777777775554431599*******9 PP
+
+  Complete_Multiple_alignment 437 ....pneedyshrlshitalsa..agsvgalkadpvsfgwthrsvdrnntiatdkitqIpavkafelnsgtvvkgpgftggd 512
+                                      p+++++sh+ls+i+ + a   g+vg+++   +++gwth+s+drnn+++ d+itqI avk++   +g+v++gp  tgg 
+               WP_103591149.1 482 nqqrPDARNHSHILSYISNFDAkrGGTVGNVR--LLTYGWTHTSMDRNNRLERDRITQIDAVKGWGGVTGSVIPGP--TGGS 559
+                                  9999999************9996655555555..777****************************99888******..**** PP
+
+  Complete_Multiple_alignment 513 lvk.ls...sgtikvtinspltqryrvriryasntdi.qni..sigg.s.sln.ssqttlsstmndnltyesfkyiefptpf 584
+                                  lv   s   s +++v+   + +++yr+r r+a+  ++ +++  ++gg s +++  ++ +  +++n nl  ++f+y+ +p   
+               WP_103591149.1 560 LVTiPSnpwSVSLRVQAP-QIQTNYRIRLRFACVWPGaHHMwvTYGGiShPVQlCNNPSSGRPSN-NLLESDFGYVVVPG-- 637
+                                  ***533444333555555.45599*************4355323555445444334433335555.9***********99.. PP
+
+  Complete_Multiple_alignment 585 tfssgss.tftisiqnfsggsaevyidkiefiPveqtyeaeqdlekaqkavnalft 639
+                                  tfs++ + +    i+   +++a v +dkiefiP+++ y+ e+ +e+  k +n+lf 
+               WP_103591149.1 638 TFSPSINpE----IRFSAISNAPV-LDKIEFIPLDI-YN-EHFVEERAKTINDLFI 686
+                                  666644433....43333443466.9*******999.55.6667777777999996 PP
+
+>> WP_000390241.1  pesticidal crystal protein cry11AaBacillus_thuringiensis
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  141.3  14.3   1.1e-44   1.1e-44      72     612 ..      25     626 ..       3     638 .. 0.64
+
+  Alignments for each domain:
+  == domain 1  score: 141.3 bits;  conditional E-value: 1.1e-44
+  Complete_Multiple_alignment  72 etssssdavktglsivgallgalvpgagallg..llstllgllwpgnkpnvweefmeaveelidqkitdyvrnkalaelegl 151
+                                  e+++++     +l  v+ + + l   +g++++  ++s++l+l++pg++p+++e++ ++ve+li+qk++++  n+++ae  g+
+               WP_000390241.1  25 EPTIAP-----ALIAVAPIAQYLATAIGKWAAkaAFSKVLSLIFPGSQPATMEKVRTEVETLINQKLSQDRVNILNAEYRGI 101
+                                  333444.....333333333223344788888899********************************************984 PP
+
+  Complete_Multiple_alignment 152 qnnleeYqnaledwennpnsaareevrtqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWglds 233
+                                          ++++++ + p   ++++ + +f +l  +++++lp+f v++ye + + +++q+++lhL+ll+d+i+ g+ Wg++ 
+               WP_000390241.1 102 IEV----SDVFDAYIKQP-GFTPATAKGYFLNLSGAIIQRLPQFEVQTYEGVSIALFTQMCTLHLTLLKDGILAGSAWGFT- 177
+                                  444....66679999988.4888999*******************************************************. PP
+
+  Complete_Multiple_alignment 234 aaeilnsykrllkrlikeYtnycvttynkgLekl........kgsnt...............w..nkynryrremtlsvLDl 290
+                                  +a++ +s+ +l+ ++  +Y +  ++ y++ + +l            t               w   +y+  + +  ls +D+
+               WP_000390241.1 178 QADV-DSFIKLFNQKVLDYRTRLMRMYTEEFGRLckvslkdgL---TfrnmcnlyvfpfaeaWslMRYEGLKLQSSLSLWDY 255
+                                  6658.55555555566666666666666555554222222110...122224455666666655588888888888888888 PP
+
+  Complete_Multiple_alignment 291 valf..ptydp...rlYpietkseltReiytdpigvpesapsfseienslirpphlftwlksltiytqssssysywsghkvt 367
+                                  v +    +y+      Y++ + +e   ++ t       + ++ ++ e++ i  p   +++    iy   ss  ++w g+  t
+               WP_000390241.1 256 VGVSipVNYNEwggLVYKL-LMGEVNQRLTTV------KFNYSFTNEPADI--PARENIRGVHPIYDP-SSGLTGWIGNGRT 327
+                                  8744113444433222444.555555555555......4444578899999..99999999*****88.79*****777777 PP
+
+  Complete_Multiple_alignment 368 ysy.......n..n..itsplygtgnstppesislgndiyrts......sataygnap...gvskvefsngs.......... 419
+                                  +++       n      t+++y++ n++p   i   +di++ +      +  +++  +   +v+ +++++ s          
+               WP_000390241.1 328 NNFnfadnngNeiMevRTQTFYQNPNNEP---IA-PRDIINQIltapapADLFFK--NadiNVKFTQWFQ-Stlygwniklg 402
+                                  77766987552442555558888877767...22.23444444444554222222..1334332222222.23555555566 PP
+
+  Complete_Multiple_alignment 420 tlsy.ss..gt............vdsedelpppneedyshrlshitalsaagsvgalkadpvsfgwthrsvdrn....nti. 481
+                                  t+++ ss  gt            ++ ++ +p   +  y+h+l+++t+ + +  +++++++ v f+  +++ d++    +++ 
+               WP_000390241.1 403 TQTVlSSrtGTippnylaydgyyIRAISACPRGVSLAYNHDLTTLTYNRIEYDSPTTENIIVGFAPDNTK-DFYskksHYLs 483
+                                  4444444332245555666666677888888877799*******99988865566666566667776554.44211113335 PP
+
+  Complete_Multiple_alignment 482 atdkitqIpavkafelnsg..tvvkgpgftggdlvk..ls..sgt.ikvtin....splt.qryrvriryasntdi.q..ni 548
+                                  +t+    Ipa +  e++     +   p   +   +k  ++  s + +k++i+    + +t +ry++ ir+     +     +
+               WP_000390241.1 484 ETNDSYVIPALQFAEVS-DrsFLEDTPDQATDGSIKfaRTfiS-NeAKYSIRlntgF-NTaTRYKLIIRVRVPYRLpAgiRV 562
+                                  7777777*********5.3357888886666666676777753.2455555543434.366*******99977777422333 PP
+
+  Complete_Multiple_alignment 549 s..iggs.slnssqttlsstmn...dnltyesfkyiefptpftfssgss.tftisiqnfsggsaevyidki 612
+                                  +   +g+ +   ++  +++  n    +   + f++ ++ +    +s+++  f+is++++++g +e+y+ ++
+               WP_000390241.1 563 QsqNSGNnRML-GS--FTANANpewVDFVTDAFTFNDLGI---TTSSTNaLFSISSDSLNSG-EEWYLSQL 626
+                                  32122222222.33..554444534377789999999888...4445566888999999999.68998765 PP
+
+>> WP_000390241.1  pesticidal crystal protein cry11AaBacillus_thuringiensis_HD-789
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  141.3  14.3   1.1e-44   1.1e-44      72     612 ..      25     626 ..       3     638 .. 0.64
+
+  Alignments for each domain:
+  == domain 1  score: 141.3 bits;  conditional E-value: 1.1e-44
+  Complete_Multiple_alignment  72 etssssdavktglsivgallgalvpgagallg..llstllgllwpgnkpnvweefmeaveelidqkitdyvrnkalaelegl 151
+                                  e+++++     +l  v+ + + l   +g++++  ++s++l+l++pg++p+++e++ ++ve+li+qk++++  n+++ae  g+
+               WP_000390241.1  25 EPTIAP-----ALIAVAPIAQYLATAIGKWAAkaAFSKVLSLIFPGSQPATMEKVRTEVETLINQKLSQDRVNILNAEYRGI 101
+                                  333444.....333333333223344788888899********************************************984 PP
+
+  Complete_Multiple_alignment 152 qnnleeYqnaledwennpnsaareevrtqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWglds 233
+                                          ++++++ + p   ++++ + +f +l  +++++lp+f v++ye + + +++q+++lhL+ll+d+i+ g+ Wg++ 
+               WP_000390241.1 102 IEV----SDVFDAYIKQP-GFTPATAKGYFLNLSGAIIQRLPQFEVQTYEGVSIALFTQMCTLHLTLLKDGILAGSAWGFT- 177
+                                  444....66679999988.4888999*******************************************************. PP
+
+  Complete_Multiple_alignment 234 aaeilnsykrllkrlikeYtnycvttynkgLekl........kgsnt...............w..nkynryrremtlsvLDl 290
+                                  +a++ +s+ +l+ ++  +Y +  ++ y++ + +l            t               w   +y+  + +  ls +D+
+               WP_000390241.1 178 QADV-DSFIKLFNQKVLDYRTRLMRMYTEEFGRLckvslkdgL---TfrnmcnlyvfpfaeaWslMRYEGLKLQSSLSLWDY 255
+                                  6658.55555555566666666666666555554222222110...122224455666666655588888888888888888 PP
+
+  Complete_Multiple_alignment 291 valf..ptydp...rlYpietkseltReiytdpigvpesapsfseienslirpphlftwlksltiytqssssysywsghkvt 367
+                                  v +    +y+      Y++ + +e   ++ t       + ++ ++ e++ i  p   +++    iy   ss  ++w g+  t
+               WP_000390241.1 256 VGVSipVNYNEwggLVYKL-LMGEVNQRLTTV------KFNYSFTNEPADI--PARENIRGVHPIYDP-SSGLTGWIGNGRT 327
+                                  8744113444433222444.555555555555......4444578899999..99999999*****88.79*****777777 PP
+
+  Complete_Multiple_alignment 368 ysy.......n..n..itsplygtgnstppesislgndiyrts......sataygnap...gvskvefsngs.......... 419
+                                  +++       n      t+++y++ n++p   i   +di++ +      +  +++  +   +v+ +++++ s          
+               WP_000390241.1 328 NNFnfadnngNeiMevRTQTFYQNPNNEP---IA-PRDIINQIltapapADLFFK--NadiNVKFTQWFQ-Stlygwniklg 402
+                                  77766987552442555558888877767...22.23444444444554222222..1334332222222.23555555566 PP
+
+  Complete_Multiple_alignment 420 tlsy.ss..gt............vdsedelpppneedyshrlshitalsaagsvgalkadpvsfgwthrsvdrn....nti. 481
+                                  t+++ ss  gt            ++ ++ +p   +  y+h+l+++t+ + +  +++++++ v f+  +++ d++    +++ 
+               WP_000390241.1 403 TQTVlSSrtGTippnylaydgyyIRAISACPRGVSLAYNHDLTTLTYNRIEYDSPTTENIIVGFAPDNTK-DFYskksHYLs 483
+                                  4444444332245555666666677888888877799*******99988865566666566667776554.44211113335 PP
+
+  Complete_Multiple_alignment 482 atdkitqIpavkafelnsg..tvvkgpgftggdlvk..ls..sgt.ikvtin....splt.qryrvriryasntdi.q..ni 548
+                                  +t+    Ipa +  e++     +   p   +   +k  ++  s + +k++i+    + +t +ry++ ir+     +     +
+               WP_000390241.1 484 ETNDSYVIPALQFAEVS-DrsFLEDTPDQATDGSIKfaRTfiS-NeAKYSIRlntgF-NTaTRYKLIIRVRVPYRLpAgiRV 562
+                                  7777777*********5.3357888886666666676777753.2455555543434.366*******99977777422333 PP
+
+  Complete_Multiple_alignment 549 s..iggs.slnssqttlsstmn...dnltyesfkyiefptpftfssgss.tftisiqnfsggsaevyidki 612
+                                  +   +g+ +   ++  +++  n    +   + f++ ++ +    +s+++  f+is++++++g +e+y+ ++
+               WP_000390241.1 563 QsqNSGNnRML-GS--FTANANpewVDFVTDAFTFNDLGI---TTSSTNaLFSISSDSLNSG-EEWYLSQL 626
+                                  32122222222.33..554444534377789999999888...4445566888999999999.68998765 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                              1  (1115 nodes)
+Target sequences:                            5  (4332 residues searched)
+Passed MSV filter:                         5  (1); expected 0.1 (0.02)
+Passed bias filter:                        5  (1); expected 0.1 (0.02)
+Passed Vit filter:                         5  (1); expected 0.0 (0.001)
+Passed Fwd filter:                         5  (1); expected 0.0 (1e-05)
+Initial search space (Z):                  5  [actual number of targets]
+Domain search space  (domZ):               5  [number of targets reported over threshold]
+# CPU time: 0.36u 0.05s 00:00:00.41 Elapsed: 00:00:00.42
+# Mc/sec: 11.50
+//
+# Alignment of 5 hits satisfying inclusion thresholds saved to: /home/anton/cry_processor/fd_test/cry_extraction/full_toxins/small_full_extracted.sto
+[ok]
+# hmmsearch :: search profile(s) against a sequence database
+# HMMER 3.1b2 (February 2015); http://hmmer.org/
+# Copyright (C) 2015 Howard Hughes Medical Institute.
+# Freely distributed under the GNU General Public License (GPLv3).
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query HMM file:                  /home/anton/cry_processor/data/models/Complete.hmm
+# target sequence database:        test/small.faa
+# MSA of all hits saved to file:   /home/anton/cry_processor/fd_test/cry_extraction/full_toxins/small_full_extracted.sto
+# number of worker threads:        8
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       Complete_Multiple_alignment  [M=1115]
+Scores for complete sequences (score includes all domains):
+   --- full sequence ---   --- best 1 domain ---    -#dom-
+    E-value  score  bias    E-value  score  bias    exp  N  Sequence       Description
+    ------- ------ -----    ------- ------ -----   ---- --  --------       -----------
+          0 1314.2  23.4          0 1313.9  23.4    1.0  1  ACQ99547.1      pesticidal crystal proteinBacillus_thuringien
+          0 1256.3  39.5          0 1256.1  39.5    1.0  1  AFU17015.1      pesticidal crystal proteinBacillus_thuringien
+   4.5e-157  513.5   3.4   5.1e-157  513.3   3.4    1.0  1  WP_103591149.1  pesticidal crystal proteinBacillus_thuringien
+    8.5e-45  141.7  14.3    1.1e-44  141.3  14.3    1.0  1  WP_000390241.1  pesticidal crystal protein cry11AaBacillus_th
+    8.5e-45  141.7  14.3    1.1e-44  141.3  14.3    1.0  1  WP_000390241.1  pesticidal crystal protein cry11AaBacillus_th
+
+
+Domain annotation for each sequence (and alignments):
+>> ACQ99547.1  pesticidal crystal proteinBacillus_thuringiensis
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ! 1313.9  23.4         0         0      29    1086 ..       3    1142 ..       1    1143 [. 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 1313.9 bits;  conditional E-value: 0
+  Complete_Multiple_alignment   29 nnkneyeiynvlnnspnsn..ryp...dpnselqntnykdwldmcege...etssssdavktglsivgallgal.vpgag 99  
+                                   +++++++i    +n+++++  ryp   +pn+++qn+nykd+l+    +   et ++++a++t+l i++ +lg+l vp++g
+                   ACQ99547.1    3 QQNEYEIIQAGVSNAITDTfqRYPlanNPNTSFQNMNYKDYLNDP--MflgETRDAQTAITTSLEIISEILGFLgVPFVG 80  
+                                   346778888888888886678*********************866..34678888889*************9888***** PP
+
+  Complete_Multiple_alignment  100 allgllstllgllwpgnkpnvweefmeaveelidqkitdyvrnkalaeleglqnnleeYqnaledwennp.nsaareevr 178 
+                                   +++g+ + l++llwp n++++w++fm++v+ li++ it  vr+ka++eleg+++ +++Y +al++w+++p n+ ++e+vr
+                   ACQ99547.1   81 PIIGFTNRLINLLWPRNTTDIWNAFMDEVQALINESITKAVRSKAISELEGIHQVYRLYIEALNEWKDTPdNPFVQERVR 160 
+                                   **********************************************************************666******* PP
+
+  Complete_Multiple_alignment  179 tqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWgldsaaeilnsykrllkrlikeYtnycvt 258 
+                                   t f+++ns ++ a+psf+v+g+e++lL vyaqaanlhL llrda++fg+ Wg++ +++i++ y+++ +r ++ Y+++c++
+                   ACQ99547.1  161 TTFRDVNSIINYAMPSFRVQGFEIPLLVVYAQAANLHLVLLRDATLFGAGWGFT-ETNINDRYNEQ-VRVTNGYIDHCTK 238 
+                                   ******************************************************.556*777****.************* PP
+
+  Complete_Multiple_alignment  259 tynkgLeklkgsntwnkynryrremtlsvLDlvalfptydprlYpietkseltReiytdpigvpe.........sapsfs 329 
+                                   +yn+gL +l  +n+w ky+++rremtl+vLDl+alfp+ d r+Yp+et+++ltR +ytdpig+ +         ++ sfs
+                   ACQ99547.1  239 WYNEGLTRL--KNNWSKYHQFRREMTLMVLDLIALFPSHDARRYPMETSAQLTRDVYTDPIGYRGnanfsdpwtNHVSFS 316 
+                                   *******98..6779**********************************************************889**** PP
+
+  Complete_Multiple_alignment  330 eienslirpphlftwlksltiytq......ss.ssysywsghkvtysy...n.n.itsplygtgnstppesis.lgndiy 396 
+                                     e+ +irpphlf+ l+s++i t       ++ s+++yw+gh+vt++    + n ++  +yg+ +s ++  +s  g+d+y
+                   ACQ99547.1  317 KAESETIRPPHLFDTLESVEINTAkamlplNDkSYMYYWAGHTVTSRLldsSgNpLK-YTYGSMTS-EKNLVSlPGKDVY 394 
+                                   ******************************666***************975354444.35776223.3334557799*** PP
+
+  Complete_Multiple_alignment  397 rts.sataygnap....gvskvefsngs.......tlsy.ssgt........vdsedelpp.....pneedyshrlshit 450 
+                                   r++  a+ ++n++    gvskv+fs  +       t+sy +s+t         dse+elp+     p++++yshrlshit
+                   ACQ99547.1  395 RINsVASGFSNYYaklyGVSKVDFSIVDrnnsnktTYSYsKSSTvpsdnkenRDSENELPQtttdqPDYKGYSHRLSHIT 474 
+                                   ***94455555445677*********5555688777777555224566678889************************** PP
+
+  Complete_Multiple_alignment  451 alsaagsvgalkadpvsfgwthrsvdrnntiatdkitqIpavkafelnsg.tvvkgpgftggdlvkls....sgtikvti 525 
+                                   ++s+a        +p+ + wt +s+d++nti++dkitqIpavk +el+s+  vvkgpgftggdlvk++    +g++k+ti
+                   ACQ99547.1  475 FISSA--------IPT-YVWTRKSADLTNTIYPDKITQIPAVKMYELGSSaVVVKGPGFTGGDLVKRTnngsLGRFKITI 545 
+                                   *6663........888.******************************8778***************776665555***** PP
+
+  Complete_Multiple_alignment  526 nspltqryrvriryasntdi.qnisiggs.sln.ssqttlsstmn..dnltyesfkyiefptpftfssgsstftisiqnf 600 
+                                    sp   ryr+r+ry s  ++  +++i++  +++ +    ++st++  +++ ++sf++ ef+t+f+f+s+ +++++s+  +
+                   ACQ99547.1  546 DSPGAHRYRLRVRYHSDVSGvFHMQINNVeTIQgE----FKSTVDstSTMSNDSFQLREFTTTFRFPSNVTDIKVSLGAI 621 
+                                   *8888***************436666663355534....666666433688*****************777788888777 PP
+
+  Complete_Multiple_alignment  601 sggsaevyidkiefiPveqtyeaeqdlekaqkavnalftssnknalktdvtdyeidqvanlveclsdefylkekkelldk 680 
+                                   +g+ +++y+d+ief Pv+++y+++  lekaqkavnalft++++ al+td+tdy++dqv+ lv+c+s e+y++ek+ell++
+                   ACQ99547.1  622 NGQ-GNFYLDRIEFAPVDTNYDERITLEKAQKAVNALFTEGRN-ALQTDMTDYKVDQVSILVDCVSGEVYPNEKRELLNL 699 
+                                   777.68************************************9.************************************ PP
+
+  Complete_Multiple_alignment  681 vkyakrlsqarnllqdgnfes..........ngWkgstnvtiqsddelfkgryltlpgar..tyPtylyqkideskLKpy 748 
+                                   vkyakrls arnll d+nf+s          +gW+gs+++ + s+d + k++y++lp+++  +yPtylyqkideskLK+y
+                   ACQ99547.1  700 VKYAKRLSIARNLLVDPNFTSihasmysedvKGWYGSNGIATGSGDVVLKENYVSLPSTSdaQYPTYLYQKIDESKLKAY 779 
+                                   ******************************************************************************** PP
+
+  Complete_Multiple_alignment  749 tRYkvrGFigssqdleilviRygkehevvnVpdnealpllsdespc...................srskkngkahdshef 809 
+                                   tRYk+rGFi++sqdle++v+Ry+++he+++V++n    +l+++  c                    +s ++g  +dsh+f
+                   ACQ99547.1  780 TRYKLRGFIENSQDLEAYVVRYDAKHETLDVSNNLLPDVLPVNA-CgepdrcaalqyldenprleCSSIQDGILSDSHSF 858 
+                                   **********************************7776666553.36899**************86677899******** PP
+
+  Complete_Multiple_alignment  810 slsIdtGeldlnenlGiwvifkIstpdGyarlgnLEiieegpLtgealarvkraekkWkdkmekkraeteaayqaakqai 889 
+                                   sl+IdtG++dlnenlGiwv+fkIstp+Gya++gnLE+ie+g ++gealarvkr+e+kW++k  ++r+et+a+y++akqa 
+                   ACQ99547.1  859 SLNIDTGSMDLNENLGIWVLFKISTPEGYAKFGNLEVIEDGTVSGEALARVKRQETKWRNKLAQLRTETQAIYTRAKQAL 938 
+                                   ******************************************************************************** PP
+
+  Complete_Multiple_alignment  890 daLftnsqdekLkfdttiadieaa..lvqsipyvyhdflsdipGmnyeifeeleerlqqayslydernlikNGdFtngls 967 
+                                   d+Lft++qd++Lk++ t+a i aa  +vqsi+++y+++ls++pG+ny if+el+er+q+a++lyd rn+++NG+F ng+ 
+                   ACQ99547.1  939 DNLFTDAQDSYLKIGATFAAIVAArkIVQSIREAYMSWLSVVPGVNYPIFTELNERVQRAFQLYDGRNVVRNGRFLNGVL 1018
+                                   ******************************************************************************** PP
+
+  Complete_Multiple_alignment  968 nWnvtgdvdvqqedgrsvlvlpnwsaevsqqvevepnrgYvLrvtArkeGvGeGyvtisdgenntetltf.tscdytang 1046
+                                   +W vt+dv vq+e+g++vlvl+nw+a+v q +++ ++rgY+LrvtArkeG GeGy+ti+d e nt++ltf +++++++++
+                   ACQ99547.1 1019 DWIVTSDVSVQEENGNNVLVLSNWDAQVLQCLKLYQDRGYILRVTARKEGLGEGYITITDEEGNTDQLTFgSCEEIDTSN 1098
+                                   **********************************************************************9999999999 PP
+
+  Complete_Multiple_alignment 1047 ....ngyvtkeleffpetdkVrieigeteGtFlvesvelilmek 1086
+                                       +gy+tkeleffp+t+kVriei eteGtF+vesvel+lme+
+                   ACQ99547.1 1099 sfvsTGYMTKELEFFPDTEKVRIEIEETEGTFKVESVELFLMED 1142
+                                   ******************************************96 PP
+
+>> AFU17015.1  pesticidal crystal proteinBacillus_thuringiensis_MC28
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ! 1256.1  39.5         0         0      25    1113 ..       1    1183 [.       1    1189 [. 0.89
+
+  Alignments for each domain:
+  == domain 1  score: 1256.1 bits;  conditional E-value: 0
+  Complete_Multiple_alignment   25 Mnsnnnkneyeiynvlnnspn.sn...ryp...dpnselqntnykdwldmcege.......etssss..davktglsivg 88  
+                                   Mns++nkneyei+++++n++n sn   ryp   +p++++q+tnykdwl+mc++        e ++s+   +v+tgl +vg
+                   AFU17015.1    1 MNSYENKNEYEILDASQNNSNmSNryqRYPlahNPQTSIQTTNYKDWLKMCQNPhqnpldmEGYDSNsvVVVSTGLIVVG 80  
+                                   9********************988788888*********************666788999955555556799999***** PP
+
+  Complete_Multiple_alignment   89 allgalvpgagallgllstllgllwp..gnkpnvweefmeaveelidqkitdyvrnkalaeleglqnnleeYqnaledwe 166 
+                                   +l+++l  g+g++  +++tll++lw   +n++++w efm + e+l++q+i++ +rn+a a leg  ++++  ++al+ w+
+                   AFU17015.1   81 TLISILSAGLGSIPIIYGTLLPVLWNdpNNPQKTWHEFMSHGETLLNQTISTVERNRAAAYLEGYTTAVKKCEEALNVWL 160 
+                                   ****999*******************9899999*********************************************** PP
+
+  Complete_Multiple_alignment  167 nnpnsaareevrtqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWg....ldsaaeilnsyk 242 
+                                     pn+a++ +v + +++++ lf t+lp++k +++e+llL+ y+qaan+hL+ll++a++++++W+     +   +++n y 
+                   AFU17015.1  161 TAPNQANARTVADLYKDTDFLFFTTLPHLKLRDFETLLLSSYTQAANMHLILLKQASKYADQWNaqlpVSVR-KTANDYY 239 
+                                   *****9999******************************************************944333323.3446655 PP
+
+  Complete_Multiple_alignment  243 rllkrlikeYtnycvttynkgLeklkgsnt.wnkynryrremtlsvLDlvalfptydprlYpietkseltReiytdpigv 321 
+                                   ++l++li eYt+yc+ ty  gL+++k++ t wn yn yrremt+ vLDlvalfp yd ++Yp +tk+eltReiytd +g 
+                   AFU17015.1  240 TDLVKLIGEYTDYCIATYRSGLNTIKSRATsWNIYNMYRREMTILVLDLVALFPAYDIKKYPSGTKVELTREIYTDALGA 319 
+                                   555*********************9644447**********************************************888 PP
+
+  Complete_Multiple_alignment  322 pesapsfseienslirpphlftwlksltiytqssssysywsghkvtysy.n.n..itsplygt.gnstppesislgndiy 396 
+                                   +   ++++++e+ ++r p+lf+wlk +++ t++s++ +y+sg  ++ys+ n n  i +p+ g+ +  +++ +i+++++iy
+                   AFU17015.1  320 VAIPQNIDATEQLATRAPNLFSWLKGFKFITTQSTNRYYLSGIANRYSFtNsNgeIWGPISGNpTGVSSDLTIDNNFSIY 399 
+                                   8845679*************************66999************6443345556666653333455677999*** PP
+
+  Complete_Multiple_alignment  397 rts......sataygnap......gvskvefsngs.....tlsy.ssg.t..........vdsedelpp.........pn 438 
+                                   + s              p       v +++fs ++     ++sy s g t                 p          p+
+                   AFU17015.1  400 KLSilrgyqL------SPdfsfhnPVHQIDFSTTNnqqgrVQSYkSGGpTpvnpettaihL------PIdskctqncnPT 467 
+                                   **96665553......3344444479*******7789999999955454477665555552......3355555577789 PP
+
+  Complete_Multiple_alignment  439 eedyshrlshitalsaagsvgalkadpvsfgwthrsvdrnntiatdkitqIpavkafeln.sgtvvkgpgftggdlvk.l 516 
+                                    ++ysh+ls+ ++++++ + g+++ + +sfgwth+svdr+nti+ ++itqIpavka+++   ++v+kgpg+tgg+lv+  
+                   AFU17015.1  468 FNNYSHILSYAKTFTSNLTIGTTS-NITSFGWTHNSVDRENTIDLNNITQIPAVKASQVYpENSVIKGPGHTGGNLVRiD 546 
+                                   9*********99998843333333.6668******************************6455***************65 PP
+
+  Complete_Multiple_alignment  517 ssgtikvtinsplt.qryrvriryasntdiq.nis.iggs.slnssqttlsstmndnltyesfkyiefpt...pftfssg 589 
+                                   ssg +++ +++pl+ + yrvrirya+n+ ++ +is  g+s s    +++l+ t++  ++yes +y++f +   +f +++g
+                   AFU17015.1  547 SSGYMSIVCKFPLQvKGYRVRIRYAANNRAElYISsAGNSpS---KNVDLDPTFS-GTNYESLNYTNFKDketEFIITEG 622 
+                                   5777**************************778864444444...4456888888.555555555555554337888888 PP
+
+  Complete_Multiple_alignment  590 sstftisiqnfsggsaevyidkiefiPveq...tyeaeqdlekaqkavnalftssnknalktdvtdyeidqvanlvecls 666 
+                                   +  ++ ++ +fs++ ++v++dkiefiP+++   +ye++q+lekaqka nalft++++  l++d tdy+i+q anl+ec+s
+                   AFU17015.1  623 QL-VK-QSIIFSTN-GNVLLDKIEFIPLGTttyEYEEKQNLEKAQKALNALFTDGTNGYLQMDATDYDINQTANLIECVS 699 
+                                   88.22.33455555.4799*********99977777******************************************** PP
+
+  Complete_Multiple_alignment  667 defylkekkelldkvkyakrlsqarnllqdgnfes......ngWkgstnvtiqsddelfkgryltlpgar.....tyPty 735 
+                                   de+y+kek  lld+vkyakrls +rnll + + e       ngW++s+n++iq+d++lfkg+yl++ gar     ++Pty
+                   AFU17015.1  700 DELYAKEKIVLLDEVKYAKRLSISRNLLLNDDLEFsdgfgeNGWTTSDNISIQADNPLFKGNYLKMFGARdidgtLFPTY 779 
+                                   ********************************99999******************************************* PP
+
+  Complete_Multiple_alignment  736 lyqkideskLKpytRYkvrGFigssqdleilviRygke.hevvnVpdnealpllsdespc.................... 794 
+                                   lyqkides LKpytRY+vrGF+gss++l+++v+Ry+ke ++++nVp++ a++ l+ +  c                    
+                   AFU17015.1  780 LYQKIDESRLKPYTRYRVRGFVGSSKNLKLVVTRYEKEiDAIMNVPNDLAHMQLNPS--Cgdyrcesssqflvnqvhptp 857 
+                                   **************************************************9999955..344566*************** PP
+
+  Complete_Multiple_alignment  795 .............srskkngkahdshefslsIdtGeldlnenlGiwvifkIstpdGyarlgnLEiieegpLtgealarvk 861 
+                                                ++++k+ ++hd h f ++IdtGel+ n+nlGi v+fkIs+p+Gya+lgnLE+ieegpLt eal +vk
+                   AFU17015.1  858 tagyapdmyacpsNSDEKHVMCHDRHPFDFHIDTGELNPNTNLGIDVLFKISNPNGYATLGNLEVIEEGPLTDEALVHVK 937 
+                                   ************9999**************************************************************** PP
+
+  Complete_Multiple_alignment  862 raekkWkdkmekkraeteaayqaakqaidaLftnsqdekLkfdttiadieaa..lvqsipyvyhdflsdipGmnyeifee 939 
+                                   ++ekkW+++mekkr et++ay++akqa+daLftn  +++L+ ++t+ +i++a  lvq ipy++h +l d+pGmny++++e
+                   AFU17015.1  938 QKEKKWRQHMEKKRMETQQAYDPAKQAVDALFTN--EQELHYHITLDHIQNAgrLVQLIPYAHHAWLLDVPGMNYDVYTE 1015
+                                   **********************************..99****************************************** PP
+
+  Complete_Multiple_alignment  940 leerlqqayslydernlikNGdFtnglsnWnvtgdvdvqqedgrsvlvlpnwsaevsqqvevepnrgYvLrvtArkeGvG 1019
+                                   l+ r+ qa++ly+ern+i+NGdFt+gl+ W+ tg++ vqq+dg+svlvl+nwsa+vsq+++v+ ++gYvLrvtA+keG+G
+                   AFU17015.1 1016 LNVRITQARYLYKERNVITNGDFTQGLTGWQETGKATVQQMDGASVLVLSNWSAGVSQNLHVQDQHGYVLRVTAKKEGPG 1095
+                                   ******************************************************************************** PP
+
+  Complete_Multiple_alignment 1020 eGyvtisdgenntetltftscdytangngyvtkeleffpetdkVrieigeteGtFlvesvelilmektedqksdentavn 1099
+                                   +Gyvt++d++ ++etl ftsc+     +gy+tk++e+fpe+d+Vrie+geteGtF+++s+e+++m+  + +++++nt++ 
+                   AFU17015.1 1096 KGYVTMMDCNGKQETLRFTSCE-----EGYMTKTVEVFPESDHVRIEMGETEGTFYIDSIEFLCMKG-YTSNYNQNTGTL 1169
+                                   **********************.....***************************************9.555666666555 PP
+
+  Complete_Multiple_alignment 1100 tnsntsmnssnnsn 1113
+                                   +++ ++ n ++n++
+                   AFU17015.1 1170 YDQGYTSNYNQNDT 1183
+                                   55544444444332 PP
+
+>> WP_103591149.1  pesticidal crystal proteinBacillus_thuringiensis_serovar_kyushuensis
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  513.3   3.4  5.1e-157  5.1e-157      25     639 ..       1     686 [.       1     687 [. 0.84
+
+  Alignments for each domain:
+  == domain 1  score: 513.3 bits;  conditional E-value: 5.1e-157
+  Complete_Multiple_alignment  25 Mnsnnnkneyeiynvlnnspn.snryp......dpnselqntnykdwldmcege.......etssss.......davktgls 85 
+                                  Mns++nkneyei+++++n+++ snryp      dp++++qntnykdwl+mc+ +       +t+ss+       dav tg++
+               WP_103591149.1   1 MNSYQNKNEYEILDASQNNSTmSNRYPryplanDPQASMQNTNYKDWLNMCDSNtqfvgdiSTYSSPeaalsvrDAVLTGIN 82 
+                                  9*****************999999555555*********************8888899999666666777788********* PP
+
+  Complete_Multiple_alignment  86 ivgallgal.vpgagallgllstllgllwpgnkpnvweefmeaveelidqkitdyvrnkalaeleglqnnleeYqnaledwe 166
+                                  ++g++l++l vp+a++ +g ++ ++g+lwpg  p+ + ++m  veeli+q+i+d+ rn+al el+gl+  +++Y +  ++w 
+               WP_103591149.1  83 TAGTILSNLgVPFASQSFGMIGRIIGILWPG--PDPFAALMVLVEELINQRINDEIRNHALLELAGLKGIMDLYRTRWRAWD 162
+                                  ******8777********************9..************************************************* PP
+
+  Complete_Multiple_alignment 167 nnp.nsaareevrtqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWgldsaaeilnsykrllkr 247
+                                   n+ n+++re+vr q+++++++f++++p f  +++ vllLpvyaqaan+hL+llrda++fg+ Wgl  ++e+ ++y+rl ++
+               WP_103591149.1 163 LNKdNPETREAVRAQYRTADNFFIQNMPKFGREDHGVLLLPVYAQAANMHLILLRDAYVFGTGWGLG-PGEVRDNYTRL-QE 242
+                                  ***666*************************************************************.777*999****.** PP
+
+  Complete_Multiple_alignment 248 likeYtnycvttynkgLeklkgsnt..wnkynryrremtlsvLDlvalfptydprlYpietkseltReiytdpigvpe.... 323
+                                  +i+eY ++cvt yn+gL++ ++sn+  w+ +nr+r++mtl+vLDl+ lfp+ydpr Yp  +k+eltReiytdp+g+++    
+               WP_103591149.1 243 KIREYKDHCVTFYNQGLNRFNRSNAqdWVSFNRFRTDMTLTVLDLAILFPNYDPRIYPSAVKTELTREIYTDPVGFTGvlgs 324
+                                  *******************98888899******************************************************* PP
+
+  Complete_Multiple_alignment 324 ..........sapsfseienslirpphlftwlksltiytq...ss.ssysywsghkvtysy.n.n.itsplygt.gnstppe 387
+                                            +  sf+++ens+ r p++ twl++++i+t    +   + + w gh++  +  n + i +++ +t ++ tp +
+               WP_103591149.1 325 ggrtypwynpNDTSFATMENSARRRPSFTTWLNRIRIFTGhigNFsAAGNVWGGHELFERSnNgSeIIQRFGNTnTSYTPVR 406
+                                  ********987888****************************9777999********9999535344433333333444555 PP
+
+  Complete_Multiple_alignment 388 sis...lgndiyrts.........sataygnap.........gvskvefsn...gs....tlsy.ss..gt.vdsedelpp. 436
+                                  + +   +++ +++++         s                 gvs+v+++    g+    +++y  +  ++ +++ +elp+ 
+               WP_103591149.1 407 NWDftnQNRTVFSIAstarvllagS-------EgnahrpsqyGVSRVDMHTaigGNtsggQFIYeVPnvHSsQNILSELPGe 481
+                                  5556445556777766556665543.......033345568899999999865422777777775554431599*******9 PP
+
+  Complete_Multiple_alignment 437 ....pneedyshrlshitalsa..agsvgalkadpvsfgwthrsvdrnntiatdkitqIpavkafelnsgtvvkgpgftggd 512
+                                      p+++++sh+ls+i+ + a   g+vg+++   +++gwth+s+drnn+++ d+itqI avk++   +g+v++gp  tgg 
+               WP_103591149.1 482 nqqrPDARNHSHILSYISNFDAkrGGTVGNVR--LLTYGWTHTSMDRNNRLERDRITQIDAVKGWGGVTGSVIPGP--TGGS 559
+                                  9999999************9996655555555..777****************************99888******..**** PP
+
+  Complete_Multiple_alignment 513 lvk.ls...sgtikvtinspltqryrvriryasntdi.qni..sigg.s.sln.ssqttlsstmndnltyesfkyiefptpf 584
+                                  lv   s   s +++v+   + +++yr+r r+a+  ++ +++  ++gg s +++  ++ +  +++n nl  ++f+y+ +p   
+               WP_103591149.1 560 LVTiPSnpwSVSLRVQAP-QIQTNYRIRLRFACVWPGaHHMwvTYGGiShPVQlCNNPSSGRPSN-NLLESDFGYVVVPG-- 637
+                                  ***533444333555555.45599*************4355323555445444334433335555.9***********99.. PP
+
+  Complete_Multiple_alignment 585 tfssgss.tftisiqnfsggsaevyidkiefiPveqtyeaeqdlekaqkavnalft 639
+                                  tfs++ + +    i+   +++a v +dkiefiP+++ y+ e+ +e+  k +n+lf 
+               WP_103591149.1 638 TFSPSINpE----IRFSAISNAPV-LDKIEFIPLDI-YN-EHFVEERAKTINDLFI 686
+                                  666644433....43333443466.9*******999.55.6667777777999996 PP
+
+>> WP_000390241.1  pesticidal crystal protein cry11AaBacillus_thuringiensis
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  141.3  14.3   1.1e-44   1.1e-44      72     612 ..      25     626 ..       3     638 .. 0.64
+
+  Alignments for each domain:
+  == domain 1  score: 141.3 bits;  conditional E-value: 1.1e-44
+  Complete_Multiple_alignment  72 etssssdavktglsivgallgalvpgagallg..llstllgllwpgnkpnvweefmeaveelidqkitdyvrnkalaelegl 151
+                                  e+++++     +l  v+ + + l   +g++++  ++s++l+l++pg++p+++e++ ++ve+li+qk++++  n+++ae  g+
+               WP_000390241.1  25 EPTIAP-----ALIAVAPIAQYLATAIGKWAAkaAFSKVLSLIFPGSQPATMEKVRTEVETLINQKLSQDRVNILNAEYRGI 101
+                                  333444.....333333333223344788888899********************************************984 PP
+
+  Complete_Multiple_alignment 152 qnnleeYqnaledwennpnsaareevrtqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWglds 233
+                                          ++++++ + p   ++++ + +f +l  +++++lp+f v++ye + + +++q+++lhL+ll+d+i+ g+ Wg++ 
+               WP_000390241.1 102 IEV----SDVFDAYIKQP-GFTPATAKGYFLNLSGAIIQRLPQFEVQTYEGVSIALFTQMCTLHLTLLKDGILAGSAWGFT- 177
+                                  444....66679999988.4888999*******************************************************. PP
+
+  Complete_Multiple_alignment 234 aaeilnsykrllkrlikeYtnycvttynkgLekl........kgsnt...............w..nkynryrremtlsvLDl 290
+                                  +a++ +s+ +l+ ++  +Y +  ++ y++ + +l            t               w   +y+  + +  ls +D+
+               WP_000390241.1 178 QADV-DSFIKLFNQKVLDYRTRLMRMYTEEFGRLckvslkdgL---TfrnmcnlyvfpfaeaWslMRYEGLKLQSSLSLWDY 255
+                                  6658.55555555566666666666666555554222222110...122224455666666655588888888888888888 PP
+
+  Complete_Multiple_alignment 291 valf..ptydp...rlYpietkseltReiytdpigvpesapsfseienslirpphlftwlksltiytqssssysywsghkvt 367
+                                  v +    +y+      Y++ + +e   ++ t       + ++ ++ e++ i  p   +++    iy   ss  ++w g+  t
+               WP_000390241.1 256 VGVSipVNYNEwggLVYKL-LMGEVNQRLTTV------KFNYSFTNEPADI--PARENIRGVHPIYDP-SSGLTGWIGNGRT 327
+                                  8744113444433222444.555555555555......4444578899999..99999999*****88.79*****777777 PP
+
+  Complete_Multiple_alignment 368 ysy.......n..n..itsplygtgnstppesislgndiyrts......sataygnap...gvskvefsngs.......... 419
+                                  +++       n      t+++y++ n++p   i   +di++ +      +  +++  +   +v+ +++++ s          
+               WP_000390241.1 328 NNFnfadnngNeiMevRTQTFYQNPNNEP---IA-PRDIINQIltapapADLFFK--NadiNVKFTQWFQ-Stlygwniklg 402
+                                  77766987552442555558888877767...22.23444444444554222222..1334332222222.23555555566 PP
+
+  Complete_Multiple_alignment 420 tlsy.ss..gt............vdsedelpppneedyshrlshitalsaagsvgalkadpvsfgwthrsvdrn....nti. 481
+                                  t+++ ss  gt            ++ ++ +p   +  y+h+l+++t+ + +  +++++++ v f+  +++ d++    +++ 
+               WP_000390241.1 403 TQTVlSSrtGTippnylaydgyyIRAISACPRGVSLAYNHDLTTLTYNRIEYDSPTTENIIVGFAPDNTK-DFYskksHYLs 483
+                                  4444444332245555666666677888888877799*******99988865566666566667776554.44211113335 PP
+
+  Complete_Multiple_alignment 482 atdkitqIpavkafelnsg..tvvkgpgftggdlvk..ls..sgt.ikvtin....splt.qryrvriryasntdi.q..ni 548
+                                  +t+    Ipa +  e++     +   p   +   +k  ++  s + +k++i+    + +t +ry++ ir+     +     +
+               WP_000390241.1 484 ETNDSYVIPALQFAEVS-DrsFLEDTPDQATDGSIKfaRTfiS-NeAKYSIRlntgF-NTaTRYKLIIRVRVPYRLpAgiRV 562
+                                  7777777*********5.3357888886666666676777753.2455555543434.366*******99977777422333 PP
+
+  Complete_Multiple_alignment 549 s..iggs.slnssqttlsstmn...dnltyesfkyiefptpftfssgss.tftisiqnfsggsaevyidki 612
+                                  +   +g+ +   ++  +++  n    +   + f++ ++ +    +s+++  f+is++++++g +e+y+ ++
+               WP_000390241.1 563 QsqNSGNnRML-GS--FTANANpewVDFVTDAFTFNDLGI---TTSSTNaLFSISSDSLNSG-EEWYLSQL 626
+                                  32122222222.33..554444534377789999999888...4445566888999999999.68998765 PP
+
+>> WP_000390241.1  pesticidal crystal protein cry11AaBacillus_thuringiensis_HD-789
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  141.3  14.3   1.1e-44   1.1e-44      72     612 ..      25     626 ..       3     638 .. 0.64
+
+  Alignments for each domain:
+  == domain 1  score: 141.3 bits;  conditional E-value: 1.1e-44
+  Complete_Multiple_alignment  72 etssssdavktglsivgallgalvpgagallg..llstllgllwpgnkpnvweefmeaveelidqkitdyvrnkalaelegl 151
+                                  e+++++     +l  v+ + + l   +g++++  ++s++l+l++pg++p+++e++ ++ve+li+qk++++  n+++ae  g+
+               WP_000390241.1  25 EPTIAP-----ALIAVAPIAQYLATAIGKWAAkaAFSKVLSLIFPGSQPATMEKVRTEVETLINQKLSQDRVNILNAEYRGI 101
+                                  333444.....333333333223344788888899********************************************984 PP
+
+  Complete_Multiple_alignment 152 qnnleeYqnaledwennpnsaareevrtqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWglds 233
+                                          ++++++ + p   ++++ + +f +l  +++++lp+f v++ye + + +++q+++lhL+ll+d+i+ g+ Wg++ 
+               WP_000390241.1 102 IEV----SDVFDAYIKQP-GFTPATAKGYFLNLSGAIIQRLPQFEVQTYEGVSIALFTQMCTLHLTLLKDGILAGSAWGFT- 177
+                                  444....66679999988.4888999*******************************************************. PP
+
+  Complete_Multiple_alignment 234 aaeilnsykrllkrlikeYtnycvttynkgLekl........kgsnt...............w..nkynryrremtlsvLDl 290
+                                  +a++ +s+ +l+ ++  +Y +  ++ y++ + +l            t               w   +y+  + +  ls +D+
+               WP_000390241.1 178 QADV-DSFIKLFNQKVLDYRTRLMRMYTEEFGRLckvslkdgL---TfrnmcnlyvfpfaeaWslMRYEGLKLQSSLSLWDY 255
+                                  6658.55555555566666666666666555554222222110...122224455666666655588888888888888888 PP
+
+  Complete_Multiple_alignment 291 valf..ptydp...rlYpietkseltReiytdpigvpesapsfseienslirpphlftwlksltiytqssssysywsghkvt 367
+                                  v +    +y+      Y++ + +e   ++ t       + ++ ++ e++ i  p   +++    iy   ss  ++w g+  t
+               WP_000390241.1 256 VGVSipVNYNEwggLVYKL-LMGEVNQRLTTV------KFNYSFTNEPADI--PARENIRGVHPIYDP-SSGLTGWIGNGRT 327
+                                  8744113444433222444.555555555555......4444578899999..99999999*****88.79*****777777 PP
+
+  Complete_Multiple_alignment 368 ysy.......n..n..itsplygtgnstppesislgndiyrts......sataygnap...gvskvefsngs.......... 419
+                                  +++       n      t+++y++ n++p   i   +di++ +      +  +++  +   +v+ +++++ s          
+               WP_000390241.1 328 NNFnfadnngNeiMevRTQTFYQNPNNEP---IA-PRDIINQIltapapADLFFK--NadiNVKFTQWFQ-Stlygwniklg 402
+                                  77766987552442555558888877767...22.23444444444554222222..1334332222222.23555555566 PP
+
+  Complete_Multiple_alignment 420 tlsy.ss..gt............vdsedelpppneedyshrlshitalsaagsvgalkadpvsfgwthrsvdrn....nti. 481
+                                  t+++ ss  gt            ++ ++ +p   +  y+h+l+++t+ + +  +++++++ v f+  +++ d++    +++ 
+               WP_000390241.1 403 TQTVlSSrtGTippnylaydgyyIRAISACPRGVSLAYNHDLTTLTYNRIEYDSPTTENIIVGFAPDNTK-DFYskksHYLs 483
+                                  4444444332245555666666677888888877799*******99988865566666566667776554.44211113335 PP
+
+  Complete_Multiple_alignment 482 atdkitqIpavkafelnsg..tvvkgpgftggdlvk..ls..sgt.ikvtin....splt.qryrvriryasntdi.q..ni 548
+                                  +t+    Ipa +  e++     +   p   +   +k  ++  s + +k++i+    + +t +ry++ ir+     +     +
+               WP_000390241.1 484 ETNDSYVIPALQFAEVS-DrsFLEDTPDQATDGSIKfaRTfiS-NeAKYSIRlntgF-NTaTRYKLIIRVRVPYRLpAgiRV 562
+                                  7777777*********5.3357888886666666676777753.2455555543434.366*******99977777422333 PP
+
+  Complete_Multiple_alignment 549 s..iggs.slnssqttlsstmn...dnltyesfkyiefptpftfssgss.tftisiqnfsggsaevyidki 612
+                                  +   +g+ +   ++  +++  n    +   + f++ ++ +    +s+++  f+is++++++g +e+y+ ++
+               WP_000390241.1 563 QsqNSGNnRML-GS--FTANANpewVDFVTDAFTFNDLGI---TTSSTNaLFSISSDSLNSG-EEWYLSQL 626
+                                  32122222222.33..554444534377789999999888...4445566888999999999.68998765 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                              1  (1115 nodes)
+Target sequences:                            5  (4332 residues searched)
+Passed MSV filter:                         5  (1); expected 0.1 (0.02)
+Passed bias filter:                        5  (1); expected 0.1 (0.02)
+Passed Vit filter:                         5  (1); expected 0.0 (0.001)
+Passed Fwd filter:                         5  (1); expected 0.0 (1e-05)
+Initial search space (Z):                  5  [actual number of targets]
+Domain search space  (domZ):               5  [number of targets reported over threshold]
+# CPU time: 0.38u 0.08s 00:00:00.46 Elapsed: 00:00:00.47
+# Mc/sec: 10.28
+//
+# Alignment of 5 hits satisfying inclusion thresholds saved to: /home/anton/cry_processor/fd_test/cry_extraction/full_toxins/small_full_extracted.sto
+[ok]
+# hmmsearch :: search profile(s) against a sequence database
+# HMMER 3.1b2 (February 2015); http://hmmer.org/
+# Copyright (C) 2015 Howard Hughes Medical Institute.
+# Freely distributed under the GNU General Public License (GPLv3).
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query HMM file:                  /home/anton/cry_processor/data/models/Complete.hmm
+# target sequence database:        test/small.faa
+# MSA of all hits saved to file:   /home/anton/cry_processor/fd_test/cry_extraction/full_toxins/small_full_extracted.sto
+# number of worker threads:        8
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       Complete_Multiple_alignment  [M=1115]
+Scores for complete sequences (score includes all domains):
+   --- full sequence ---   --- best 1 domain ---    -#dom-
+    E-value  score  bias    E-value  score  bias    exp  N  Sequence       Description
+    ------- ------ -----    ------- ------ -----   ---- --  --------       -----------
+          0 1314.2  23.4          0 1313.9  23.4    1.0  1  ACQ99547.1      pesticidal crystal proteinBacillus_thuringien
+          0 1256.3  39.5          0 1256.1  39.5    1.0  1  AFU17015.1      pesticidal crystal proteinBacillus_thuringien
+   4.5e-157  513.5   3.4   5.1e-157  513.3   3.4    1.0  1  WP_103591149.1  pesticidal crystal proteinBacillus_thuringien
+    8.5e-45  141.7  14.3    1.1e-44  141.3  14.3    1.0  1  WP_000390241.1  pesticidal crystal protein cry11AaBacillus_th
+    8.5e-45  141.7  14.3    1.1e-44  141.3  14.3    1.0  1  WP_000390241.1  pesticidal crystal protein cry11AaBacillus_th
+
+
+Domain annotation for each sequence (and alignments):
+>> ACQ99547.1  pesticidal crystal proteinBacillus_thuringiensis
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ! 1313.9  23.4         0         0      29    1086 ..       3    1142 ..       1    1143 [. 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 1313.9 bits;  conditional E-value: 0
+  Complete_Multiple_alignment   29 nnkneyeiynvlnnspnsn..ryp...dpnselqntnykdwldmcege...etssssdavktglsivgallgal.vpgag 99  
+                                   +++++++i    +n+++++  ryp   +pn+++qn+nykd+l+    +   et ++++a++t+l i++ +lg+l vp++g
+                   ACQ99547.1    3 QQNEYEIIQAGVSNAITDTfqRYPlanNPNTSFQNMNYKDYLNDP--MflgETRDAQTAITTSLEIISEILGFLgVPFVG 80  
+                                   346778888888888886678*********************866..34678888889*************9888***** PP
+
+  Complete_Multiple_alignment  100 allgllstllgllwpgnkpnvweefmeaveelidqkitdyvrnkalaeleglqnnleeYqnaledwennp.nsaareevr 178 
+                                   +++g+ + l++llwp n++++w++fm++v+ li++ it  vr+ka++eleg+++ +++Y +al++w+++p n+ ++e+vr
+                   ACQ99547.1   81 PIIGFTNRLINLLWPRNTTDIWNAFMDEVQALINESITKAVRSKAISELEGIHQVYRLYIEALNEWKDTPdNPFVQERVR 160 
+                                   **********************************************************************666******* PP
+
+  Complete_Multiple_alignment  179 tqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWgldsaaeilnsykrllkrlikeYtnycvt 258 
+                                   t f+++ns ++ a+psf+v+g+e++lL vyaqaanlhL llrda++fg+ Wg++ +++i++ y+++ +r ++ Y+++c++
+                   ACQ99547.1  161 TTFRDVNSIINYAMPSFRVQGFEIPLLVVYAQAANLHLVLLRDATLFGAGWGFT-ETNINDRYNEQ-VRVTNGYIDHCTK 238 
+                                   ******************************************************.556*777****.************* PP
+
+  Complete_Multiple_alignment  259 tynkgLeklkgsntwnkynryrremtlsvLDlvalfptydprlYpietkseltReiytdpigvpe.........sapsfs 329 
+                                   +yn+gL +l  +n+w ky+++rremtl+vLDl+alfp+ d r+Yp+et+++ltR +ytdpig+ +         ++ sfs
+                   ACQ99547.1  239 WYNEGLTRL--KNNWSKYHQFRREMTLMVLDLIALFPSHDARRYPMETSAQLTRDVYTDPIGYRGnanfsdpwtNHVSFS 316 
+                                   *******98..6779**********************************************************889**** PP
+
+  Complete_Multiple_alignment  330 eienslirpphlftwlksltiytq......ss.ssysywsghkvtysy...n.n.itsplygtgnstppesis.lgndiy 396 
+                                     e+ +irpphlf+ l+s++i t       ++ s+++yw+gh+vt++    + n ++  +yg+ +s ++  +s  g+d+y
+                   ACQ99547.1  317 KAESETIRPPHLFDTLESVEINTAkamlplNDkSYMYYWAGHTVTSRLldsSgNpLK-YTYGSMTS-EKNLVSlPGKDVY 394 
+                                   ******************************666***************975354444.35776223.3334557799*** PP
+
+  Complete_Multiple_alignment  397 rts.sataygnap....gvskvefsngs.......tlsy.ssgt........vdsedelpp.....pneedyshrlshit 450 
+                                   r++  a+ ++n++    gvskv+fs  +       t+sy +s+t         dse+elp+     p++++yshrlshit
+                   ACQ99547.1  395 RINsVASGFSNYYaklyGVSKVDFSIVDrnnsnktTYSYsKSSTvpsdnkenRDSENELPQtttdqPDYKGYSHRLSHIT 474 
+                                   ***94455555445677*********5555688777777555224566678889************************** PP
+
+  Complete_Multiple_alignment  451 alsaagsvgalkadpvsfgwthrsvdrnntiatdkitqIpavkafelnsg.tvvkgpgftggdlvkls....sgtikvti 525 
+                                   ++s+a        +p+ + wt +s+d++nti++dkitqIpavk +el+s+  vvkgpgftggdlvk++    +g++k+ti
+                   ACQ99547.1  475 FISSA--------IPT-YVWTRKSADLTNTIYPDKITQIPAVKMYELGSSaVVVKGPGFTGGDLVKRTnngsLGRFKITI 545 
+                                   *6663........888.******************************8778***************776665555***** PP
+
+  Complete_Multiple_alignment  526 nspltqryrvriryasntdi.qnisiggs.sln.ssqttlsstmn..dnltyesfkyiefptpftfssgsstftisiqnf 600 
+                                    sp   ryr+r+ry s  ++  +++i++  +++ +    ++st++  +++ ++sf++ ef+t+f+f+s+ +++++s+  +
+                   ACQ99547.1  546 DSPGAHRYRLRVRYHSDVSGvFHMQINNVeTIQgE----FKSTVDstSTMSNDSFQLREFTTTFRFPSNVTDIKVSLGAI 621 
+                                   *8888***************436666663355534....666666433688*****************777788888777 PP
+
+  Complete_Multiple_alignment  601 sggsaevyidkiefiPveqtyeaeqdlekaqkavnalftssnknalktdvtdyeidqvanlveclsdefylkekkelldk 680 
+                                   +g+ +++y+d+ief Pv+++y+++  lekaqkavnalft++++ al+td+tdy++dqv+ lv+c+s e+y++ek+ell++
+                   ACQ99547.1  622 NGQ-GNFYLDRIEFAPVDTNYDERITLEKAQKAVNALFTEGRN-ALQTDMTDYKVDQVSILVDCVSGEVYPNEKRELLNL 699 
+                                   777.68************************************9.************************************ PP
+
+  Complete_Multiple_alignment  681 vkyakrlsqarnllqdgnfes..........ngWkgstnvtiqsddelfkgryltlpgar..tyPtylyqkideskLKpy 748 
+                                   vkyakrls arnll d+nf+s          +gW+gs+++ + s+d + k++y++lp+++  +yPtylyqkideskLK+y
+                   ACQ99547.1  700 VKYAKRLSIARNLLVDPNFTSihasmysedvKGWYGSNGIATGSGDVVLKENYVSLPSTSdaQYPTYLYQKIDESKLKAY 779 
+                                   ******************************************************************************** PP
+
+  Complete_Multiple_alignment  749 tRYkvrGFigssqdleilviRygkehevvnVpdnealpllsdespc...................srskkngkahdshef 809 
+                                   tRYk+rGFi++sqdle++v+Ry+++he+++V++n    +l+++  c                    +s ++g  +dsh+f
+                   ACQ99547.1  780 TRYKLRGFIENSQDLEAYVVRYDAKHETLDVSNNLLPDVLPVNA-CgepdrcaalqyldenprleCSSIQDGILSDSHSF 858 
+                                   **********************************7776666553.36899**************86677899******** PP
+
+  Complete_Multiple_alignment  810 slsIdtGeldlnenlGiwvifkIstpdGyarlgnLEiieegpLtgealarvkraekkWkdkmekkraeteaayqaakqai 889 
+                                   sl+IdtG++dlnenlGiwv+fkIstp+Gya++gnLE+ie+g ++gealarvkr+e+kW++k  ++r+et+a+y++akqa 
+                   ACQ99547.1  859 SLNIDTGSMDLNENLGIWVLFKISTPEGYAKFGNLEVIEDGTVSGEALARVKRQETKWRNKLAQLRTETQAIYTRAKQAL 938 
+                                   ******************************************************************************** PP
+
+  Complete_Multiple_alignment  890 daLftnsqdekLkfdttiadieaa..lvqsipyvyhdflsdipGmnyeifeeleerlqqayslydernlikNGdFtngls 967 
+                                   d+Lft++qd++Lk++ t+a i aa  +vqsi+++y+++ls++pG+ny if+el+er+q+a++lyd rn+++NG+F ng+ 
+                   ACQ99547.1  939 DNLFTDAQDSYLKIGATFAAIVAArkIVQSIREAYMSWLSVVPGVNYPIFTELNERVQRAFQLYDGRNVVRNGRFLNGVL 1018
+                                   ******************************************************************************** PP
+
+  Complete_Multiple_alignment  968 nWnvtgdvdvqqedgrsvlvlpnwsaevsqqvevepnrgYvLrvtArkeGvGeGyvtisdgenntetltf.tscdytang 1046
+                                   +W vt+dv vq+e+g++vlvl+nw+a+v q +++ ++rgY+LrvtArkeG GeGy+ti+d e nt++ltf +++++++++
+                   ACQ99547.1 1019 DWIVTSDVSVQEENGNNVLVLSNWDAQVLQCLKLYQDRGYILRVTARKEGLGEGYITITDEEGNTDQLTFgSCEEIDTSN 1098
+                                   **********************************************************************9999999999 PP
+
+  Complete_Multiple_alignment 1047 ....ngyvtkeleffpetdkVrieigeteGtFlvesvelilmek 1086
+                                       +gy+tkeleffp+t+kVriei eteGtF+vesvel+lme+
+                   ACQ99547.1 1099 sfvsTGYMTKELEFFPDTEKVRIEIEETEGTFKVESVELFLMED 1142
+                                   ******************************************96 PP
+
+>> AFU17015.1  pesticidal crystal proteinBacillus_thuringiensis_MC28
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ! 1256.1  39.5         0         0      25    1113 ..       1    1183 [.       1    1189 [. 0.89
+
+  Alignments for each domain:
+  == domain 1  score: 1256.1 bits;  conditional E-value: 0
+  Complete_Multiple_alignment   25 Mnsnnnkneyeiynvlnnspn.sn...ryp...dpnselqntnykdwldmcege.......etssss..davktglsivg 88  
+                                   Mns++nkneyei+++++n++n sn   ryp   +p++++q+tnykdwl+mc++        e ++s+   +v+tgl +vg
+                   AFU17015.1    1 MNSYENKNEYEILDASQNNSNmSNryqRYPlahNPQTSIQTTNYKDWLKMCQNPhqnpldmEGYDSNsvVVVSTGLIVVG 80  
+                                   9********************988788888*********************666788999955555556799999***** PP
+
+  Complete_Multiple_alignment   89 allgalvpgagallgllstllgllwp..gnkpnvweefmeaveelidqkitdyvrnkalaeleglqnnleeYqnaledwe 166 
+                                   +l+++l  g+g++  +++tll++lw   +n++++w efm + e+l++q+i++ +rn+a a leg  ++++  ++al+ w+
+                   AFU17015.1   81 TLISILSAGLGSIPIIYGTLLPVLWNdpNNPQKTWHEFMSHGETLLNQTISTVERNRAAAYLEGYTTAVKKCEEALNVWL 160 
+                                   ****999*******************9899999*********************************************** PP
+
+  Complete_Multiple_alignment  167 nnpnsaareevrtqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWg....ldsaaeilnsyk 242 
+                                     pn+a++ +v + +++++ lf t+lp++k +++e+llL+ y+qaan+hL+ll++a++++++W+     +   +++n y 
+                   AFU17015.1  161 TAPNQANARTVADLYKDTDFLFFTTLPHLKLRDFETLLLSSYTQAANMHLILLKQASKYADQWNaqlpVSVR-KTANDYY 239 
+                                   *****9999******************************************************944333323.3446655 PP
+
+  Complete_Multiple_alignment  243 rllkrlikeYtnycvttynkgLeklkgsnt.wnkynryrremtlsvLDlvalfptydprlYpietkseltReiytdpigv 321 
+                                   ++l++li eYt+yc+ ty  gL+++k++ t wn yn yrremt+ vLDlvalfp yd ++Yp +tk+eltReiytd +g 
+                   AFU17015.1  240 TDLVKLIGEYTDYCIATYRSGLNTIKSRATsWNIYNMYRREMTILVLDLVALFPAYDIKKYPSGTKVELTREIYTDALGA 319 
+                                   555*********************9644447**********************************************888 PP
+
+  Complete_Multiple_alignment  322 pesapsfseienslirpphlftwlksltiytqssssysywsghkvtysy.n.n..itsplygt.gnstppesislgndiy 396 
+                                   +   ++++++e+ ++r p+lf+wlk +++ t++s++ +y+sg  ++ys+ n n  i +p+ g+ +  +++ +i+++++iy
+                   AFU17015.1  320 VAIPQNIDATEQLATRAPNLFSWLKGFKFITTQSTNRYYLSGIANRYSFtNsNgeIWGPISGNpTGVSSDLTIDNNFSIY 399 
+                                   8845679*************************66999************6443345556666653333455677999*** PP
+
+  Complete_Multiple_alignment  397 rts......sataygnap......gvskvefsngs.....tlsy.ssg.t..........vdsedelpp.........pn 438 
+                                   + s              p       v +++fs ++     ++sy s g t                 p          p+
+                   AFU17015.1  400 KLSilrgyqL------SPdfsfhnPVHQIDFSTTNnqqgrVQSYkSGGpTpvnpettaihL------PIdskctqncnPT 467 
+                                   **96665553......3344444479*******7789999999955454477665555552......3355555577789 PP
+
+  Complete_Multiple_alignment  439 eedyshrlshitalsaagsvgalkadpvsfgwthrsvdrnntiatdkitqIpavkafeln.sgtvvkgpgftggdlvk.l 516 
+                                    ++ysh+ls+ ++++++ + g+++ + +sfgwth+svdr+nti+ ++itqIpavka+++   ++v+kgpg+tgg+lv+  
+                   AFU17015.1  468 FNNYSHILSYAKTFTSNLTIGTTS-NITSFGWTHNSVDRENTIDLNNITQIPAVKASQVYpENSVIKGPGHTGGNLVRiD 546 
+                                   9*********99998843333333.6668******************************6455***************65 PP
+
+  Complete_Multiple_alignment  517 ssgtikvtinsplt.qryrvriryasntdiq.nis.iggs.slnssqttlsstmndnltyesfkyiefpt...pftfssg 589 
+                                   ssg +++ +++pl+ + yrvrirya+n+ ++ +is  g+s s    +++l+ t++  ++yes +y++f +   +f +++g
+                   AFU17015.1  547 SSGYMSIVCKFPLQvKGYRVRIRYAANNRAElYISsAGNSpS---KNVDLDPTFS-GTNYESLNYTNFKDketEFIITEG 622 
+                                   5777**************************778864444444...4456888888.555555555555554337888888 PP
+
+  Complete_Multiple_alignment  590 sstftisiqnfsggsaevyidkiefiPveq...tyeaeqdlekaqkavnalftssnknalktdvtdyeidqvanlvecls 666 
+                                   +  ++ ++ +fs++ ++v++dkiefiP+++   +ye++q+lekaqka nalft++++  l++d tdy+i+q anl+ec+s
+                   AFU17015.1  623 QL-VK-QSIIFSTN-GNVLLDKIEFIPLGTttyEYEEKQNLEKAQKALNALFTDGTNGYLQMDATDYDINQTANLIECVS 699 
+                                   88.22.33455555.4799*********99977777******************************************** PP
+
+  Complete_Multiple_alignment  667 defylkekkelldkvkyakrlsqarnllqdgnfes......ngWkgstnvtiqsddelfkgryltlpgar.....tyPty 735 
+                                   de+y+kek  lld+vkyakrls +rnll + + e       ngW++s+n++iq+d++lfkg+yl++ gar     ++Pty
+                   AFU17015.1  700 DELYAKEKIVLLDEVKYAKRLSISRNLLLNDDLEFsdgfgeNGWTTSDNISIQADNPLFKGNYLKMFGARdidgtLFPTY 779 
+                                   ********************************99999******************************************* PP
+
+  Complete_Multiple_alignment  736 lyqkideskLKpytRYkvrGFigssqdleilviRygke.hevvnVpdnealpllsdespc.................... 794 
+                                   lyqkides LKpytRY+vrGF+gss++l+++v+Ry+ke ++++nVp++ a++ l+ +  c                    
+                   AFU17015.1  780 LYQKIDESRLKPYTRYRVRGFVGSSKNLKLVVTRYEKEiDAIMNVPNDLAHMQLNPS--Cgdyrcesssqflvnqvhptp 857 
+                                   **************************************************9999955..344566*************** PP
+
+  Complete_Multiple_alignment  795 .............srskkngkahdshefslsIdtGeldlnenlGiwvifkIstpdGyarlgnLEiieegpLtgealarvk 861 
+                                                ++++k+ ++hd h f ++IdtGel+ n+nlGi v+fkIs+p+Gya+lgnLE+ieegpLt eal +vk
+                   AFU17015.1  858 tagyapdmyacpsNSDEKHVMCHDRHPFDFHIDTGELNPNTNLGIDVLFKISNPNGYATLGNLEVIEEGPLTDEALVHVK 937 
+                                   ************9999**************************************************************** PP
+
+  Complete_Multiple_alignment  862 raekkWkdkmekkraeteaayqaakqaidaLftnsqdekLkfdttiadieaa..lvqsipyvyhdflsdipGmnyeifee 939 
+                                   ++ekkW+++mekkr et++ay++akqa+daLftn  +++L+ ++t+ +i++a  lvq ipy++h +l d+pGmny++++e
+                   AFU17015.1  938 QKEKKWRQHMEKKRMETQQAYDPAKQAVDALFTN--EQELHYHITLDHIQNAgrLVQLIPYAHHAWLLDVPGMNYDVYTE 1015
+                                   **********************************..99****************************************** PP
+
+  Complete_Multiple_alignment  940 leerlqqayslydernlikNGdFtnglsnWnvtgdvdvqqedgrsvlvlpnwsaevsqqvevepnrgYvLrvtArkeGvG 1019
+                                   l+ r+ qa++ly+ern+i+NGdFt+gl+ W+ tg++ vqq+dg+svlvl+nwsa+vsq+++v+ ++gYvLrvtA+keG+G
+                   AFU17015.1 1016 LNVRITQARYLYKERNVITNGDFTQGLTGWQETGKATVQQMDGASVLVLSNWSAGVSQNLHVQDQHGYVLRVTAKKEGPG 1095
+                                   ******************************************************************************** PP
+
+  Complete_Multiple_alignment 1020 eGyvtisdgenntetltftscdytangngyvtkeleffpetdkVrieigeteGtFlvesvelilmektedqksdentavn 1099
+                                   +Gyvt++d++ ++etl ftsc+     +gy+tk++e+fpe+d+Vrie+geteGtF+++s+e+++m+  + +++++nt++ 
+                   AFU17015.1 1096 KGYVTMMDCNGKQETLRFTSCE-----EGYMTKTVEVFPESDHVRIEMGETEGTFYIDSIEFLCMKG-YTSNYNQNTGTL 1169
+                                   **********************.....***************************************9.555666666555 PP
+
+  Complete_Multiple_alignment 1100 tnsntsmnssnnsn 1113
+                                   +++ ++ n ++n++
+                   AFU17015.1 1170 YDQGYTSNYNQNDT 1183
+                                   55544444444332 PP
+
+>> WP_103591149.1  pesticidal crystal proteinBacillus_thuringiensis_serovar_kyushuensis
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  513.3   3.4  5.1e-157  5.1e-157      25     639 ..       1     686 [.       1     687 [. 0.84
+
+  Alignments for each domain:
+  == domain 1  score: 513.3 bits;  conditional E-value: 5.1e-157
+  Complete_Multiple_alignment  25 Mnsnnnkneyeiynvlnnspn.snryp......dpnselqntnykdwldmcege.......etssss.......davktgls 85 
+                                  Mns++nkneyei+++++n+++ snryp      dp++++qntnykdwl+mc+ +       +t+ss+       dav tg++
+               WP_103591149.1   1 MNSYQNKNEYEILDASQNNSTmSNRYPryplanDPQASMQNTNYKDWLNMCDSNtqfvgdiSTYSSPeaalsvrDAVLTGIN 82 
+                                  9*****************999999555555*********************8888899999666666777788********* PP
+
+  Complete_Multiple_alignment  86 ivgallgal.vpgagallgllstllgllwpgnkpnvweefmeaveelidqkitdyvrnkalaeleglqnnleeYqnaledwe 166
+                                  ++g++l++l vp+a++ +g ++ ++g+lwpg  p+ + ++m  veeli+q+i+d+ rn+al el+gl+  +++Y +  ++w 
+               WP_103591149.1  83 TAGTILSNLgVPFASQSFGMIGRIIGILWPG--PDPFAALMVLVEELINQRINDEIRNHALLELAGLKGIMDLYRTRWRAWD 162
+                                  ******8777********************9..************************************************* PP
+
+  Complete_Multiple_alignment 167 nnp.nsaareevrtqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWgldsaaeilnsykrllkr 247
+                                   n+ n+++re+vr q+++++++f++++p f  +++ vllLpvyaqaan+hL+llrda++fg+ Wgl  ++e+ ++y+rl ++
+               WP_103591149.1 163 LNKdNPETREAVRAQYRTADNFFIQNMPKFGREDHGVLLLPVYAQAANMHLILLRDAYVFGTGWGLG-PGEVRDNYTRL-QE 242
+                                  ***666*************************************************************.777*999****.** PP
+
+  Complete_Multiple_alignment 248 likeYtnycvttynkgLeklkgsnt..wnkynryrremtlsvLDlvalfptydprlYpietkseltReiytdpigvpe.... 323
+                                  +i+eY ++cvt yn+gL++ ++sn+  w+ +nr+r++mtl+vLDl+ lfp+ydpr Yp  +k+eltReiytdp+g+++    
+               WP_103591149.1 243 KIREYKDHCVTFYNQGLNRFNRSNAqdWVSFNRFRTDMTLTVLDLAILFPNYDPRIYPSAVKTELTREIYTDPVGFTGvlgs 324
+                                  *******************98888899******************************************************* PP
+
+  Complete_Multiple_alignment 324 ..........sapsfseienslirpphlftwlksltiytq...ss.ssysywsghkvtysy.n.n.itsplygt.gnstppe 387
+                                            +  sf+++ens+ r p++ twl++++i+t    +   + + w gh++  +  n + i +++ +t ++ tp +
+               WP_103591149.1 325 ggrtypwynpNDTSFATMENSARRRPSFTTWLNRIRIFTGhigNFsAAGNVWGGHELFERSnNgSeIIQRFGNTnTSYTPVR 406
+                                  ********987888****************************9777999********9999535344433333333444555 PP
+
+  Complete_Multiple_alignment 388 sis...lgndiyrts.........sataygnap.........gvskvefsn...gs....tlsy.ss..gt.vdsedelpp. 436
+                                  + +   +++ +++++         s                 gvs+v+++    g+    +++y  +  ++ +++ +elp+ 
+               WP_103591149.1 407 NWDftnQNRTVFSIAstarvllagS-------EgnahrpsqyGVSRVDMHTaigGNtsggQFIYeVPnvHSsQNILSELPGe 481
+                                  5556445556777766556665543.......033345568899999999865422777777775554431599*******9 PP
+
+  Complete_Multiple_alignment 437 ....pneedyshrlshitalsa..agsvgalkadpvsfgwthrsvdrnntiatdkitqIpavkafelnsgtvvkgpgftggd 512
+                                      p+++++sh+ls+i+ + a   g+vg+++   +++gwth+s+drnn+++ d+itqI avk++   +g+v++gp  tgg 
+               WP_103591149.1 482 nqqrPDARNHSHILSYISNFDAkrGGTVGNVR--LLTYGWTHTSMDRNNRLERDRITQIDAVKGWGGVTGSVIPGP--TGGS 559
+                                  9999999************9996655555555..777****************************99888******..**** PP
+
+  Complete_Multiple_alignment 513 lvk.ls...sgtikvtinspltqryrvriryasntdi.qni..sigg.s.sln.ssqttlsstmndnltyesfkyiefptpf 584
+                                  lv   s   s +++v+   + +++yr+r r+a+  ++ +++  ++gg s +++  ++ +  +++n nl  ++f+y+ +p   
+               WP_103591149.1 560 LVTiPSnpwSVSLRVQAP-QIQTNYRIRLRFACVWPGaHHMwvTYGGiShPVQlCNNPSSGRPSN-NLLESDFGYVVVPG-- 637
+                                  ***533444333555555.45599*************4355323555445444334433335555.9***********99.. PP
+
+  Complete_Multiple_alignment 585 tfssgss.tftisiqnfsggsaevyidkiefiPveqtyeaeqdlekaqkavnalft 639
+                                  tfs++ + +    i+   +++a v +dkiefiP+++ y+ e+ +e+  k +n+lf 
+               WP_103591149.1 638 TFSPSINpE----IRFSAISNAPV-LDKIEFIPLDI-YN-EHFVEERAKTINDLFI 686
+                                  666644433....43333443466.9*******999.55.6667777777999996 PP
+
+>> WP_000390241.1  pesticidal crystal protein cry11AaBacillus_thuringiensis
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  141.3  14.3   1.1e-44   1.1e-44      72     612 ..      25     626 ..       3     638 .. 0.64
+
+  Alignments for each domain:
+  == domain 1  score: 141.3 bits;  conditional E-value: 1.1e-44
+  Complete_Multiple_alignment  72 etssssdavktglsivgallgalvpgagallg..llstllgllwpgnkpnvweefmeaveelidqkitdyvrnkalaelegl 151
+                                  e+++++     +l  v+ + + l   +g++++  ++s++l+l++pg++p+++e++ ++ve+li+qk++++  n+++ae  g+
+               WP_000390241.1  25 EPTIAP-----ALIAVAPIAQYLATAIGKWAAkaAFSKVLSLIFPGSQPATMEKVRTEVETLINQKLSQDRVNILNAEYRGI 101
+                                  333444.....333333333223344788888899********************************************984 PP
+
+  Complete_Multiple_alignment 152 qnnleeYqnaledwennpnsaareevrtqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWglds 233
+                                          ++++++ + p   ++++ + +f +l  +++++lp+f v++ye + + +++q+++lhL+ll+d+i+ g+ Wg++ 
+               WP_000390241.1 102 IEV----SDVFDAYIKQP-GFTPATAKGYFLNLSGAIIQRLPQFEVQTYEGVSIALFTQMCTLHLTLLKDGILAGSAWGFT- 177
+                                  444....66679999988.4888999*******************************************************. PP
+
+  Complete_Multiple_alignment 234 aaeilnsykrllkrlikeYtnycvttynkgLekl........kgsnt...............w..nkynryrremtlsvLDl 290
+                                  +a++ +s+ +l+ ++  +Y +  ++ y++ + +l            t               w   +y+  + +  ls +D+
+               WP_000390241.1 178 QADV-DSFIKLFNQKVLDYRTRLMRMYTEEFGRLckvslkdgL---TfrnmcnlyvfpfaeaWslMRYEGLKLQSSLSLWDY 255
+                                  6658.55555555566666666666666555554222222110...122224455666666655588888888888888888 PP
+
+  Complete_Multiple_alignment 291 valf..ptydp...rlYpietkseltReiytdpigvpesapsfseienslirpphlftwlksltiytqssssysywsghkvt 367
+                                  v +    +y+      Y++ + +e   ++ t       + ++ ++ e++ i  p   +++    iy   ss  ++w g+  t
+               WP_000390241.1 256 VGVSipVNYNEwggLVYKL-LMGEVNQRLTTV------KFNYSFTNEPADI--PARENIRGVHPIYDP-SSGLTGWIGNGRT 327
+                                  8744113444433222444.555555555555......4444578899999..99999999*****88.79*****777777 PP
+
+  Complete_Multiple_alignment 368 ysy.......n..n..itsplygtgnstppesislgndiyrts......sataygnap...gvskvefsngs.......... 419
+                                  +++       n      t+++y++ n++p   i   +di++ +      +  +++  +   +v+ +++++ s          
+               WP_000390241.1 328 NNFnfadnngNeiMevRTQTFYQNPNNEP---IA-PRDIINQIltapapADLFFK--NadiNVKFTQWFQ-Stlygwniklg 402
+                                  77766987552442555558888877767...22.23444444444554222222..1334332222222.23555555566 PP
+
+  Complete_Multiple_alignment 420 tlsy.ss..gt............vdsedelpppneedyshrlshitalsaagsvgalkadpvsfgwthrsvdrn....nti. 481
+                                  t+++ ss  gt            ++ ++ +p   +  y+h+l+++t+ + +  +++++++ v f+  +++ d++    +++ 
+               WP_000390241.1 403 TQTVlSSrtGTippnylaydgyyIRAISACPRGVSLAYNHDLTTLTYNRIEYDSPTTENIIVGFAPDNTK-DFYskksHYLs 483
+                                  4444444332245555666666677888888877799*******99988865566666566667776554.44211113335 PP
+
+  Complete_Multiple_alignment 482 atdkitqIpavkafelnsg..tvvkgpgftggdlvk..ls..sgt.ikvtin....splt.qryrvriryasntdi.q..ni 548
+                                  +t+    Ipa +  e++     +   p   +   +k  ++  s + +k++i+    + +t +ry++ ir+     +     +
+               WP_000390241.1 484 ETNDSYVIPALQFAEVS-DrsFLEDTPDQATDGSIKfaRTfiS-NeAKYSIRlntgF-NTaTRYKLIIRVRVPYRLpAgiRV 562
+                                  7777777*********5.3357888886666666676777753.2455555543434.366*******99977777422333 PP
+
+  Complete_Multiple_alignment 549 s..iggs.slnssqttlsstmn...dnltyesfkyiefptpftfssgss.tftisiqnfsggsaevyidki 612
+                                  +   +g+ +   ++  +++  n    +   + f++ ++ +    +s+++  f+is++++++g +e+y+ ++
+               WP_000390241.1 563 QsqNSGNnRML-GS--FTANANpewVDFVTDAFTFNDLGI---TTSSTNaLFSISSDSLNSG-EEWYLSQL 626
+                                  32122222222.33..554444534377789999999888...4445566888999999999.68998765 PP
+
+>> WP_000390241.1  pesticidal crystal protein cry11AaBacillus_thuringiensis_HD-789
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  141.3  14.3   1.1e-44   1.1e-44      72     612 ..      25     626 ..       3     638 .. 0.64
+
+  Alignments for each domain:
+  == domain 1  score: 141.3 bits;  conditional E-value: 1.1e-44
+  Complete_Multiple_alignment  72 etssssdavktglsivgallgalvpgagallg..llstllgllwpgnkpnvweefmeaveelidqkitdyvrnkalaelegl 151
+                                  e+++++     +l  v+ + + l   +g++++  ++s++l+l++pg++p+++e++ ++ve+li+qk++++  n+++ae  g+
+               WP_000390241.1  25 EPTIAP-----ALIAVAPIAQYLATAIGKWAAkaAFSKVLSLIFPGSQPATMEKVRTEVETLINQKLSQDRVNILNAEYRGI 101
+                                  333444.....333333333223344788888899********************************************984 PP
+
+  Complete_Multiple_alignment 152 qnnleeYqnaledwennpnsaareevrtqfnslnslfttalpsfkvngyevllLpvyaqaanlhLlllrdaiifgeeWglds 233
+                                          ++++++ + p   ++++ + +f +l  +++++lp+f v++ye + + +++q+++lhL+ll+d+i+ g+ Wg++ 
+               WP_000390241.1 102 IEV----SDVFDAYIKQP-GFTPATAKGYFLNLSGAIIQRLPQFEVQTYEGVSIALFTQMCTLHLTLLKDGILAGSAWGFT- 177
+                                  444....66679999988.4888999*******************************************************. PP
+
+  Complete_Multiple_alignment 234 aaeilnsykrllkrlikeYtnycvttynkgLekl........kgsnt...............w..nkynryrremtlsvLDl 290
+                                  +a++ +s+ +l+ ++  +Y +  ++ y++ + +l            t               w   +y+  + +  ls +D+
+               WP_000390241.1 178 QADV-DSFIKLFNQKVLDYRTRLMRMYTEEFGRLckvslkdgL---TfrnmcnlyvfpfaeaWslMRYEGLKLQSSLSLWDY 255
+                                  6658.55555555566666666666666555554222222110...122224455666666655588888888888888888 PP
+
+  Complete_Multiple_alignment 291 valf..ptydp...rlYpietkseltReiytdpigvpesapsfseienslirpphlftwlksltiytqssssysywsghkvt 367
+                                  v +    +y+      Y++ + +e   ++ t       + ++ ++ e++ i  p   +++    iy   ss  ++w g+  t
+               WP_000390241.1 256 VGVSipVNYNEwggLVYKL-LMGEVNQRLTTV------KFNYSFTNEPADI--PARENIRGVHPIYDP-SSGLTGWIGNGRT 327
+                                  8744113444433222444.555555555555......4444578899999..99999999*****88.79*****777777 PP
+
+  Complete_Multiple_alignment 368 ysy.......n..n..itsplygtgnstppesislgndiyrts......sataygnap...gvskvefsngs.......... 419
+                                  +++       n      t+++y++ n++p   i   +di++ +      +  +++  +   +v+ +++++ s          
+               WP_000390241.1 328 NNFnfadnngNeiMevRTQTFYQNPNNEP---IA-PRDIINQIltapapADLFFK--NadiNVKFTQWFQ-Stlygwniklg 402
+                                  77766987552442555558888877767...22.23444444444554222222..1334332222222.23555555566 PP
+
+  Complete_Multiple_alignment 420 tlsy.ss..gt............vdsedelpppneedyshrlshitalsaagsvgalkadpvsfgwthrsvdrn....nti. 481
+                                  t+++ ss  gt            ++ ++ +p   +  y+h+l+++t+ + +  +++++++ v f+  +++ d++    +++ 
+               WP_000390241.1 403 TQTVlSSrtGTippnylaydgyyIRAISACPRGVSLAYNHDLTTLTYNRIEYDSPTTENIIVGFAPDNTK-DFYskksHYLs 483
+                                  4444444332245555666666677888888877799*******99988865566666566667776554.44211113335 PP
+
+  Complete_Multiple_alignment 482 atdkitqIpavkafelnsg..tvvkgpgftggdlvk..ls..sgt.ikvtin....splt.qryrvriryasntdi.q..ni 548
+                                  +t+    Ipa +  e++     +   p   +   +k  ++  s + +k++i+    + +t +ry++ ir+     +     +
+               WP_000390241.1 484 ETNDSYVIPALQFAEVS-DrsFLEDTPDQATDGSIKfaRTfiS-NeAKYSIRlntgF-NTaTRYKLIIRVRVPYRLpAgiRV 562
+                                  7777777*********5.3357888886666666676777753.2455555543434.366*******99977777422333 PP
+
+  Complete_Multiple_alignment 549 s..iggs.slnssqttlsstmn...dnltyesfkyiefptpftfssgss.tftisiqnfsggsaevyidki 612
+                                  +   +g+ +   ++  +++  n    +   + f++ ++ +    +s+++  f+is++++++g +e+y+ ++
+               WP_000390241.1 563 QsqNSGNnRML-GS--FTANANpewVDFVTDAFTFNDLGI---TTSSTNaLFSISSDSLNSG-EEWYLSQL 626
+                                  32122222222.33..554444534377789999999888...4445566888999999999.68998765 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                              1  (1115 nodes)
+Target sequences:                            5  (4332 residues searched)
+Passed MSV filter:                         5  (1); expected 0.1 (0.02)
+Passed bias filter:                        5  (1); expected 0.1 (0.02)
+Passed Vit filter:                         5  (1); expected 0.0 (0.001)
+Passed Fwd filter:                         5  (1); expected 0.0 (1e-05)
+Initial search space (Z):                  5  [actual number of targets]
+Domain search space  (domZ):               5  [number of targets reported over threshold]
+# CPU time: 0.39u 0.04s 00:00:00.43 Elapsed: 00:00:00.45
+# Mc/sec: 10.73
+//
+# Alignment of 5 hits satisfying inclusion thresholds saved to: /home/anton/cry_processor/fd_test/cry_extraction/full_toxins/small_full_extracted.sto
+[ok]

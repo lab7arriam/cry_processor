@@ -54,22 +54,22 @@ The full list of tool options:
 ```
 -fi <input.fasta> or <input.gfa> an input file in the fasta format of in the gfa format
 -hm <path to hmmer directory> path to the hmmer directory if you want to use local hmmer
--pr <1 or 2> processig type: 1 for extracting all the domains, 2 for extrating 2-3 domains only (default 1)
--th nubmer of threads for hmmer/SPAdes/PathRacer (default 8)
--ma <e-mail> e-mail address for connecting to NCBI
+-pr <1 or 2> the processig type: 1 for extracting all the domains, 2 for extrating 2-3 domains only (default 1)
+-th the nubmer of threads for hmmer/SPAdes/PathRacer (default 8)
+-ma <e-mail> an e-mail address for the connecting to NCBI
 -od <output dir> the output directory
--r <do or fd> the working regime: do - domain only search only; fd - the full toxins mining with subsequent domain search
--a (--annotate) perform data anotation with ipg (only if accession numbers are present)
--nu <fn or pn or an> upload nucleotide sequences: fn - full sequences, pn - processed sequences, an - both variants
+-r <do or fd> the working regime: do - the domain only search only; fd - the full toxins mining with the subsequent domain search
+-a (--annotate) perform the data anotation with ipg (only if the accession numbers are present)
+-nu <fn or pn or an> upload the nucleotide sequences: fn - the full sequences, pn - the processed sequences, an - the both variants
 -pa (--pathracer) - launching PathRacer on the gfa file
 -fo <input_1.fastq> - forward illumina reads
 -re <input_2.fastq> - reverse illumina reads
 -n (--meta) - the flag for specifying the metagenomic regime forSPAdes
 -k <number> - the K-mer size for PathRacer (default 21)
--s (--silent) - disable console output
+-s (--silent) - disable the console output
 ```
 
-### Using Tool for Fasta Files
+### Using Tool for the Fasta Files
 To use the tool for the files in the fasta format execute the command, presented in quick usage, you can also specify the annotation (writing an e-mail address is strongly recommended):
 ```
 ~$ python3 cry_processor.py -fi input.faa  -od output_dir -ma <e-mail address> --annotate
@@ -85,13 +85,13 @@ The pipeline of searching could be performed in two regimes:
   <li><i>fd</i> - find domains regime. At the begining, <i>hmmsearch</i> with the full Cry toxin model is performed. Next, the domains are extracted and combined. This regime is quicker, as far as the domain search is performed on previously extracted sequences. </li>
 </ul>
 
-### Using Tool for .gfa Files
+### Using Tool for the .gfa Files
 You can apply the Cry toxins search directly from the assembly graph in the gfa format with the following commad:
 
 ```
 ~$ python3 cry_processor.py -fi input.gfa  -od output_dir --path_racer
 ```
-### Using Tool for Illumina Reads
+### Using Tool for the Illumina Reads
 This regime includes the reads assembly with SPAdes and the subsequent hmm-based toxins mining. To implement this use the following command:
 
 ```
@@ -115,7 +115,7 @@ Note that you cannot mix regimes:
 Using the <i>-nu</i> flag is possible only if the <i>--annotate</i> flag is specified. <br> Note that performing the anotation is not recommended for the gfa and assembly regimes, because the online annotation is impossible without the accession numbers in the quiery.
 
 
-### Annotation Output
+### The Annotation Output
 Using the <i>--annotate</i> flag will perform the NCBI-search in the ipg database for the submitted accession numbers within the quiery and return gathered information in tsv-format with the following structure:
 <table>
   <tr>
@@ -238,9 +238,11 @@ In the output directory, specified with the <i>-od</i> flag, the <i>cry_extracti
   <li>cry_extraction/nucl_domain_mapping_processed_&lt;input&gt;.bed - the file in the bed format, containing the domain coordinate mappings for the processed nucleotide sequences; </li>
 </ul>
 
-Note, that in files, marked with <i>raw</i> prefix the initial accession numbers from the quiery are saved as ids, while in the files, obtained after the <i>diamond blastp</i> (&lt;input&gt;_full_nucl.fna, &lt;input&gt;_processed_nucl.fna and annotation_table_&lt;input&gt;.tsv) the id structure is modified in the following way: <br>
-Cry53Aa1(40.7)_WP_103591149.1 <br>
-&lt;top Cry protein hit from BT nomenclature&gt;(&lt;identity score with this hit&gt;)_&lt;initial accession number&gt;
+Note, that in the files, marked with the <i>raw</i> prefix the initial accession numbers from the quiery are used as ids, while in the files, obtained after the <i>diamond blastp</i> (&lt;input&gt;_full_nucl.fna, &lt;input&gt;_processed_nucl.fna and annotation_table_&lt;input&gt;.tsv) the id structure is modified in the following way: <br>
+<ul>
+<li>Cry53Aa1(40.7)_WP_103591149.1 </li>
+<li>&lt;top Cry protein hit from BT nomenclature&gt;(&lt;the identity score with this hit&gt;)_&lt;the initial accession number&gt;</li>
+</ul>
 
 ## References
 

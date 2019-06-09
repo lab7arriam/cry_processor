@@ -192,8 +192,8 @@ class CryProcessor:
         queiry: fasta file for performing search
         """
         if not self.silent_mode:
-            print('Searching for unprocessed cry toxins')
-        self.logger.info('Searching for unprocessed cry toxins')
+            print('Searching for the unprocessed Cry toxins')
+        self.logger.info('Searching for the unprocessed Cry toxins')
         self.run_hmmer(str(qiuery),
                        '_full_extracted.sto',
                        'Complete.hmm',
@@ -212,8 +212,8 @@ class CryProcessor:
         # loop over domain indicies
         for i in range(1,4):
             if not self.silent_mode:
-                print('Searching for domain {} of cry toxins'.format(i))
-            self.logger.info('Searching for domain {} of cry toxins'.format(i))
+                print('Searching for the {} domain  of the Cry toxins'.format(i))
+            self.logger.info('Searching for the {} domain of the Cry toxins'.format(i))
             self.run_hmmer(str(qiuery),
                            '_D{}_extracted.sto'.format(i),
                            'D{}.hmm'.format(i),
@@ -227,8 +227,8 @@ class CryProcessor:
         Extracts ids from quiery for sequences possesing 3 domains of cry toxins
         """
         if not self.silent_mode:
-            print('Exctracting cry toxins with 3 domains')
-        self.logger.info('Exctracting cry toxins with 3 domains')
+            print('Exctracting the Cry toxins with 3 domains')
+        self.logger.info('Exctracting the Cry toxins with 3 domains')
         #dictionary of ids is used for the further extraction and processing
         self.dom_dict=defaultdict(list)
         for i in range(1,4):
@@ -271,8 +271,8 @@ class CryProcessor:
                 self.id_list = self.cry_3D_ids_extractor()
                 final_id_list=list()
                 if not self.silent_mode:
-                    print("Performing cry toxins processing")
-                self.logger.info('Performing cry toxins processing')
+                    print("Performing the Cry toxins processing")
+                self.logger.info('Performing the Cry toxins processing')
                 self.coordinate_dict = defaultdict(list)
                 #a starting domain (depends on the -pr flag: you can extract all 3 domains by default or extract 2 and 3 domains only)
                 dom_start=int(self.processing_flag)
@@ -365,16 +365,16 @@ class CryProcessor:
                         "fasta")
                 if check_flag==1:
                     if not self.silent_mode:
-                        print('Warning! Identical ids in queiry, uncertain mapping can occur')
-                    self.logger.warning('Warning! Identical ids in queiry, uncertain mapping can occur')
+                        print('Warning! Identical ids in the queiry, the uncertain mapping can occur')
+                    self.logger.warning('Warning! Identical ids in the queiry, the uncertain mapping can occur')
                 if not self.silent_mode:
                     print('{} sequences recieved'.format(self.init_count))
-                    print('{} potential cry toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
+                    print('{} potential Cry toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
                     print('{} toxins with one domain'.format(self.one_dom_count))
                     print('{} toxins with two domains'.format(self.two_dom_count))
                     print('{} toxins with three domains'.format(self.three_dom_count))
                 self.logger.info('{} sequences recieved'.format(self.init_count))
-                self.logger.info('{} potential cry toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
+                self.logger.info('{} potential Cry toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
                 self.logger.info('{} toxins with one domain'.format(self.one_dom_count))
                 self.logger.info('{} toxins with two domains'.format(self.two_dom_count))
                 self.logger.info('{} toxins with three domains'.format(self.three_dom_count))
@@ -409,8 +409,8 @@ class CryProcessor:
                 self.id_list = self.cry_3D_ids_extractor()
                 final_id_list=list()
                 if not self.silent_mode:
-                    print("Performing cry toxins processing")
-                self.logger.info("Performing cry toxins processing")
+                    print("Performing the Cry toxins processing")
+                self.logger.info("Performing the Cry toxins processing")
                 self.coordinate_dict = defaultdict(list)
                 pre_dict=defaultdict(dict)
                 ids_check_set=set()
@@ -495,16 +495,16 @@ class CryProcessor:
                          "fasta")
                 if check_flag==1:
                     if not self.silent_mode:
-                        print('Warning! Identical ids in queiry, uncertain mapping can occur')
-                    self.logger.warning('Warning! Identical ids in queiry, uncertain mapping can occur')
+                        print('Warning! Identical ids in the queiry, the uncertain mapping can occur')
+                    self.logger.warning('Warning! Identical ids in the queiry, the uncertain mapping can occur')
                 if not self.silent_mode:
                     print('{} sequences recieved'.format(self.init_count))
-                    print('{} potential cry toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
+                    print('{} potential Cry toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
                     print('{} toxins with one domain'.format(self.one_dom_count))
                     print('{} toxins with two domains'.format(self.two_dom_count))
                     print('{} toxins with three domains'.format(self.three_dom_count))
                 self.logger.info('{} sequences recieved'.format(self.init_count))
-                self.logger.info('{} potential cry toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
+                self.logger.info('{} potential Cry toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
                 self.logger.info('{} toxins with one domain'.format(self.one_dom_count))
                 self.logger.info('{} toxins with two domains'.format(self.two_dom_count))
                 self.logger.info('{} toxins with three domains'.format(self.three_dom_count))
@@ -590,8 +590,8 @@ class CryProcessor:
         un_count=0
         total_count=0
         if not self.silent_mode:
-            print("Annotating raw output with diamond") 
-        self.logger.info("Annotating raw output with diamond") 
+            print("Annotating the raw output with diamond") 
+        self.logger.info("Annotating the raw output with diamond") 
         
         #diamond should have a database file in the same directory with the quiery. 
         #copying database for pefrorming blastp
@@ -645,10 +645,10 @@ class CryProcessor:
                                    '_'+init_rec.description.split()[0],
                                    description=init_rec.description))
         if not self.silent_mode:
-            print('{} sequences matched with database'.format(total_count))
-            print('{} toxins different from database found'.format(un_count))
-        self.logger.info('{} sequences matched with database'.format(total_count)) 
-        self.logger.info('{} toxins different from database found'.format(un_count)) 
+            print('{} sequences matched with the database'.format(total_count))
+            print('{} toxins different from the database found'.format(un_count))
+        self.logger.info('{} sequences matched with the database'.format(total_count)) 
+        self.logger.info('{} toxins different from the database found'.format(un_count)) 
         SeqIO.write(new_records,
                      '/{0}/{1}/cry_extraction/unique_{2}.fasta'.format(self.main_dir,
                      self.quiery_dir,
@@ -657,7 +657,7 @@ class CryProcessor:
         #move intermediate files to the log directory if the annotation flag is not specified
         if self.regime == 'fd':
             cmd_clean_up = subprocess.call("mv {0}/{1}/cry_extraction/{2}.fasta \
-                                    {0}/{1}/cry_extraction/first_search_{2}.fasta".format(self.main_dir,
+                                    {0}/{1}/cry_extraction/first_search_{2}.fasta;".format(self.main_dir,
                                     self.quiery_dir,
                                     self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                                     shell=True)
@@ -769,8 +769,8 @@ class CryProcessor:
         Uploads nucleotide sequences based on previous annotation step
         """
         if not self.silent_mode:
-            print('Uploading nucleotide sequences')
-        self.logger.info('Uploading nucleotide sequences') 
+            print('Uploading the nucleotide sequences')
+        self.logger.info('Uploading the nucleotide sequences') 
         Entrez.email = "{}".format(self.email)
         #a dictionary for start and stop positions of the nucleotide sequences from the annotation tsv-file
         keys_for_nucl = defaultdict(list)
@@ -1081,8 +1081,8 @@ class CryProcessor:
         kmer: kmer size for pathracer
         """
         if not self.silent_mode:
-            print('Searching sequences from gfa file')
-        self.logger.info('Searching sequences from gfa file')
+            print('Searching for the sequences from the gfa file')
+        self.logger.info('Searching for the sequences from the gfa file')
         #launch pathracer
         cmd_race = subprocess.call('{0}/pathracer \
                                   {6}/data/models/Complete.hmm \
@@ -1139,8 +1139,8 @@ class CryProcessor:
         launches spades on illumina reads, usese mrtaspades if --meta flag is specified
         """
         if not self.silent_mode:
-            print('Building assembly graph')
-        self.logger.info('Building assembly graph')
+            print('Building the assembly graph')
+        self.logger.info('Building the assembly graph')
         if str(self.meta_flag)=='True': 
             #use mataspades if the --meta flag is specified
             cmd_spades = subprocess.call('{0}/SPAdes-3.13.1-Linux/bin/spades.py \
@@ -1171,80 +1171,80 @@ class CryProcessor:
                                          shell=True)       
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Example usage: pyhton3 cry_processor.py -fi <input.fasta> -od <output directory>')
+    parser = argparse.ArgumentParser(description='Example usage: pyhton3 cry_processor.py -fi <input.fasta> -od <the output directory>')
     parser.add_argument('-fi', 
-                        help='Enter input file: fasta file or gfa file', 
+                        help='Enter the input file: the fasta file or the gfa file', 
                         metavar='Fasta file/GFA file',
                         type=str, 
                         default=None)
     parser.add_argument('-hm', 
-                        help='Path to hmmer if hmmer is installed locally', 
+                        help='Path to Hmmer if Hmmer is installed locally', 
                         metavar='Hmmer_directory',
                         type=str, 
                         default='')
     parser.add_argument('-pr', 
-                        help='Processig type: 1 for extracting all domains, 2 for extrating 2-3 domains only', 
+                        help='The processig type: 1 for extracting all the domains, 2 for extrating 2-3 domains only', 
                         metavar='Int',
                         type=str, 
                         default=1)
     parser.add_argument('-th', 
-                        help='Number of threads for hmmer and pathracer', 
+                        help='Number of threads for Hmmer and PathRacer', 
                         metavar='Int',
                         type=str, 
                         default=8)
     parser.add_argument('-ma', 
-                        help='e-mail address for NCBI annotation', 
+                        help='e-mail address for the NCBI annotation', 
                         metavar='Str',
                         type=str, 
                         default='')
     parser.add_argument('-od', 
-                         help='Output directory', 
+                         help='The output directory', 
                          metavar='Str',
                          type=str, 
                          required=True)
     parser.add_argument('-r', 
-                         help='Pipeline type: do - domain only search with subsequent unioning;\
-                         fd - searching for potential cry-toxins with subsequent processing',
+                         help='The pipeline type: do - domain only search with the subsequent combining the searching results;\
+                         fd - searching for the potential Cry toxins with the subsequent processing',
                           metavar='Str',
                          type=str, 
                          default='do')
     parser.add_argument('--annotate', 
                         '-a',
                          action='store_true',
-                         help='make final output annotation with ipg')
+                         help='make the final output annotation with the ipg database')
     parser.add_argument('-nu', 
-                         help='Uploading nucleotide records: fn - uploading full sequences, \
-                         pn - uploading processed subsequences, \
-                         an - both processed and unprocessed',
+                         help='Uploading the nucleotide records: fn - uploading the full sequences, \
+                         pn - uploading the processed subsequences, \
+                         an - the both processed and unprocessed sequences',
                          metavar='Nucl_uploading_type', 
                          type=str, default='')
     parser.add_argument('--pathracer',
                         '-pa',
                          action='store_true',
-                         help='Searching for cry toxins from gfa file with pathracer')
+                         help='Searching for the Cry toxins from the gfa file via PathRacer')
     parser.add_argument('-fo', 
-                        help='Forward illumina reads', 
+                        help='The forward illumina reads', 
                         metavar='Fastq file',
                         type=str, 
                         default=None)
     parser.add_argument('-re', 
-                        help='Reverse illumina reads', 
+                        help='The reverse illumina reads', 
                         metavar='Fastq file',
                         type=str, 
                         default=None)
     parser.add_argument('--meta',
                         '-m', 
                         action='store_true',
-                        help='Metagenomic regime for spades')
+                        help='The Metagenomic regime for SPAdes')
     parser.add_argument('-k', 
-                        help='k-mer size for pathracer', 
+                        help='The k-mer size for PathRacer', 
                         metavar='Int',
                         type=str, 
                         default=21)
     parser.add_argument('--silent',
                         '-s', 
                         action='store_true',
-                        help='Silent mode')
+                        help='The silent mode')
 
     parser.set_defaults(feature=True)
     args = parser.parse_args()
@@ -1252,29 +1252,29 @@ if __name__ == '__main__':
     #check if the input file exists
     if fi:
         if not os.path.isfile(fi):
-            raise Exception('Input file does not exist')  
+            raise Exception('The input file does not exist')  
         if not mra:
             fasta_flag = re.sub("b",'',
                                 re.sub("\'",'', 
                                 str(subprocess.check_output("grep '>' {} | wc -l".format(fi), 
                                 shell =True).strip())))
             if int(fasta_flag)==0:
-                raise Exception('No records are present in fasta file')  
+                raise Exception('No records are present in the fasta file')  
                 
     #check if regimes are not mixed 
     if (mra and fr) or (fr and fi) or (fi and re and fr) or (fi and re and fr and mra):
-        raise Exception('You should not mix --pathracer regime with assembly regime and fasta-serching regime; choose only one option')
+        raise Exception('You should not mix the --pathracer regime with the assembly regime and the fasta-serching regime; choose only the one option')
     #check if only one file with reads is specified
     if fr and not rr or rr and not fr:
         raise Exception('Specify both forward and reverse reads')
     if fr:
         #check if files with reads are present
         if not os.path.isfile(rr) and not os.path.isfile(fr):
-            raise Exception('Files with reverse and reads do not exist')
+            raise Exception('The Files with reverse and forward reads do not exist')
         elif not os.path.isfile(rr):
-            raise Exception('File with reverse reads does not exists')
+            raise Exception('The File with reverse reads does not exists')
         elif not os.path.isfile(fr):
-            raise Exception('File with forward reads does not exists')
+            raise Exception('The File with forward reads does not exists')
     #initialize cry processor class
     cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr,s)
     if not mra and not fr:
@@ -1305,8 +1305,8 @@ if __name__ == '__main__':
                     cr.map_nucl()
         else:
             if not s:
-                print('No toxins found in assembly graph')
-            cr.logger.info('No toxins found in assembly graph')
+                print('No toxins found in the assembly graph')
+            cr.logger.info('No toxins found in the assembly graph')
 
     elif fr:
         #full pipeline for with spades assembly
@@ -1327,10 +1327,10 @@ if __name__ == '__main__':
                     cr.map_nucl()
         else:
             if not s:
-                print('No toxins found in assembly graph')
-            cr.logger.info('No toxins found in assembly graph')
+                print('No toxins found in the assembly graph')
+            cr.logger.info('No toxins found in the assembly graph')
     if not s:
-        print('Cry processor has finished, thanks for using us!')
-    cr.logger.info('Cry processor has finished, thanks for using us!')
+        print('CryProcessor has finished, thanks for using us!')
+    cr.logger.info('CryProcessor has finished, thanks for using us!')
     move_log = subprocess.call('mv cry_processor.log $PWD/{}/cry_extraction/logs '.format(cr.quiery_dir), 
                                shell=True)

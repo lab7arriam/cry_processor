@@ -106,13 +106,13 @@ If you want to search for the Cry toxins from metagenomic reads specify <i>--met
 
 Note that you cannot mix regimes:
 <ul>
-  <li>Do not use the <i>--pathracer</i> flag with the illumina fastq files quiery flags (<i>-fo</i> and <i>-re</i>); </li>
+  <li>Do not use the <i>--pathracer</i> flag with the the illumina fastq files quiery flags (<i>-fo</i> and <i>-re</i>); </li>
   <li>Do not mix the <i>-fi</i> agrument with <i>-fo</i> and <i>-re</i> arguments; </li>
-  <li>Do not mix the <i>--pathracer</i> flag and <i>--meta</i> flag; </li>
-  <li>Do not specify the <i>--meta</i> regime with the the <i>-fi</i> agrument; </li>
-  <li>You should use both <i>-fo</i> and <i>-re</i> argumens together; </li>
+  <li>Do not mix the <i>--pathracer</i> flag and the <i>--meta</i> flag; </li>
+  <li>Do not specify the <i>--meta</i> regime with the <i>-fi</i> agrument; </li>
+  <li>You should use both the <i>-fo</i> and <i>-re</i> argumens together; </li>
 </ul>
-Using the <i>-nu</i> flag is possible only if the <i>--annotate</i> flag is specified. <br> Note that performing anotation is not recommended for the gfa and assembly regimes, because online annotation is impossible without the accession numbers in the quiery.
+Using the <i>-nu</i> flag is possible only if the <i>--annotate</i> flag is specified. <br> Note that performing the anotation is not recommended for the gfa and assembly regimes, because the online annotation is impossible without the accession numbers in the quiery.
 
 
 ### Annotation Output
@@ -192,6 +192,19 @@ Rows possesing the first four coloums refer to the initial sequences (which are 
 Note that all the rows, marked with -- in the first four coloumns, are identical to the initial sequense in the queiry with the full coloumns, located above.
 
 ### Output Files Structure
+In the output directory, specified with <i>-od</i> flag the <i>cry_extraction</i> directory is created. It can contain the following subdirectories with the following files:
+
+<ul>
+  <li>cry_extraction/assembly. This directory is created if the assembly regime is enabled. It contains files and directories that refer to the <i>SPAdes</i> output, for instanse, the assembly graph with cotigs in the gfa format; </li>
+  <li>cry_extraction/pathracer. This directory includes <i>PathRacer</i> output. It is created if the pathracer regime or the assembly regime are enabled; </li>
+  <li>cry_extraction/full_toxins This directory is created if the <i>fd</i> regime is enabled. It comtains the following files: </li>
+   	<ul>
+           <li> &ltinput&gt_full_extracted.sto - the result of hmmsearch wih full-toxin model in the sto format; </li>
+           <li> &ltinput&gt_full_extracted.fasta - the result of hmmsearch wih full-toxin model in the fasta format;  </li>
+         </ul>
+  <li>Do not specify the <i>--meta</i> regime with the <i>-fi</i> agrument; </li>
+  <li>You should use both the <i>-fo</i> and <i>-re</i> argumens together; </li>
+</ul>
 
 
 ## References

@@ -97,8 +97,12 @@ This regime includes the reads assembly with SPAdes and the subsequent hmm-based
 ```
 ~$ python3 cry_processor.py -fo forward_reads.fastq -re reverse_reads.fastq -od output_dir 
 ```
-If you want to search for the Cry toxins from metagenomic reads specify <i>--meta</i> flag.
-Note that you cannot mix regimes. <br>Do not use the <i>--pathracer</i> flag with the illumina fastq files quiery (<i>-fo</i> and <i>-re</i>), do not mix the <i>-fi</i> agrument with <i>-fo</i> and <i>-re</i> arguments for the correct running.
+If you want to search for the Cry toxins from metagenomic reads specify <i>--meta</i> flag:
+
+```
+~$ python3 cry_processor.py -fo forward_reads.fastq -re reverse_reads.fastq -od output_dir --meta
+```
+Note that you cannot mix regimes. <br>Do not use the <i>--pathracer</i> flag with the illumina fastq files quiery flags (<i>-fo</i> and <i>-re</i>). <br> Do not mix the <i>-fi</i> agrument with <i>-fo</i> and <i>-re</i> arguments for the correct running. <br> Do not mix the <i>--pathracer</i> flag and <i>--meta</i> flag. <br>Do not specify the <i>--meta</i> regime with the the <i>-fi</i> agrument. <br> Also you should use both <i>-fo</i> and <i>-re</i> argumens together. <br>Using the <i>-nu</i> flag is possible only if the <i>--annotate</i> flag is specified. <br> Note that performing anotation is not recommended for the gfa and assembly regimes, because online annotation is impossible without the accession numbers in the quiery.
 
 ### Annotation Output
 Using the <i>--annotate</i> flag will perform the NCBI-search in the ipg database for submitted accession numbers within the quiery and return gathered information in tsv-format with the following structure:
@@ -181,10 +185,10 @@ Note that all the rows, marked with -- in the first four coloumns, are identical
 
 ## References
 
-1.  Bankevich A., Nurk S., Antipov D., Gurevich A., Dvorkin M., Kulikov A. S., Lesin V., Nikolenko S., Pham S., Prjibelski A., Pyshkin A., Sirotkin A., Vyahhi N., Tesler G., Alekseyev M. A., Pevzner P. A. SPAdes: A New Genome Assembly Algorithm and Its Applications to Single-Cell Sequencing. Journal of Computational Biology, 2012 
-2.  Buchfink B.,  Xie C. &  Huson D.H. Fast and Sensitive Protein Alignment using DIAMOND. Nature Methods, 2015
-3. Nurk S., Meleshko D., Korobeynikov A., Pevzner P. A. metaSPAdes: a new versatile de novo metagenomics assembler. Genome Research, 2017 
-4. Finn R.D., Clements J.,  Eddy S.R. HMMER Web Server: Interactive Sequence Similarity Searching. Nucleic Acids Research, 2011.
+1. Bankevich A., Nurk S., Antipov D., Gurevich A., Dvorkin M., Kulikov A. S., Lesin V., Nikolenko S., Pham S., Prjibelski A., Pyshkin A., Sirotkin A., Vyahhi N., Tesler G., Alekseyev M. A., Pevzner P. A. SPAdes: A New Genome Assembly Algorithm and Its Applications to Single-Cell Sequencing. Journal of Computational Biology, 2012 
+2. Buchfink B.,  Xie C. &  Huson D.H. Fast and Sensitive Protein Alignment using DIAMOND. Nature Methods, 2015
+3. Finn R.D., Clements J.,  Eddy S.R. HMMER Web Server: Interactive Sequence Similarity Searching. Nucleic Acids Research, 2011.
+4. Nurk S., Meleshko D., Korobeynikov A., Pevzner P. A. metaSPAdes: a new versatile de novo metagenomics assembler. Genome Research, 2017
 
 ## Author
 

@@ -7,4 +7,4 @@ python:
 
 script:
 
-   - "cry_processor --help"
+   - "python3 cry_processor.py --help"

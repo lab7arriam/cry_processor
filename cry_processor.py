@@ -575,16 +575,15 @@ class CryProcessor:
         
         #diamond should have a database file in the same directory with the quiery. 
         #copying database for pefrorming blastp
-        cmd_pre_dia = subprocess.call('cd /{0}/{1}/cry_extraction; \
-                                       cp {2}/data/diamond_data/cry_nomenclature.dmnd .; \
-                                       touch diamond.log'.format(self.main_dir,
-                                       self.quiery_dir,
-                                       self.home_dir), 
+        cmd_pre_dia = subprocess.call('cd {0}; \
+                                       cp {1} .; \
+                                       touch diamond.log'.format(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction"),
+os.path.realpath(os.path.join('data',"diamond_data","cry_nomenclature.dmnd"))), 
                                        shell=True) 
         #performing diamond blastp, save only the first hit
 
 
-        cmd_dia = subprocess.call('cd {0};ls -l; echo {1}; {1} --help;\
+        cmd_dia = subprocess.call('cd {0};\
                                    {1} blastp \
                                     -d cry_nomenclature \
                                     -q raw_full_{2}.fasta \

@@ -233,11 +233,12 @@ class CryProcessor:
         self.dom_dict=defaultdict(list)
         for i in range(1,4):
             #open all the fasta-files after hmmsearch and save them to the dictionary
-            for record in SeqIO.parse(open('{3}/{2}/cry_extraction/{0}/{1}'.format('domains',
-                                      self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+
-                                      '_D{}_extracted.fasta'.format(i),
-                                      self.quiery_dir,
-                                      self.main_dir)),"fasta"):
+            for record in SeqIO.parse('{3}/{2}/cry_extraction/{0}/{1}'.format('domains',
+                                           self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+
+                                           '_D{}_extracted.fasta'.format(i),
+                                           self.quiery_dir,
+                                           self.main_dir),
+                                           "fasta"):
                 #transform the sequence name by combining its id and description
                 if '|' in record.id:
                     name = record.id.split('|')[1].split('/')[0] + '|' + \
@@ -283,11 +284,11 @@ class CryProcessor:
                 check_flag=0
                 for i in range(dom_start,4):
                     #iterate over fasta fles with domains
-                    for record in SeqIO.parse(open('{3}/{2}/cry_extraction/{0}/{1}'.format('domains',
+                    for record in SeqIO.parse('{3}/{2}/cry_extraction/{0}/{1}'.format('domains',
                                            self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+
                                            '_D{}_extracted.fasta'.format(i),
                                            self.quiery_dir,
-                                           self.main_dir)),
+                                           self.main_dir),
                                            "fasta"):
                         dom_list=list()
                         if '|' in record.id:
@@ -332,7 +333,7 @@ class CryProcessor:
                 for key in final_id_list:
                     self.coordinate_dict[key]=dummy_dict[key]  
                 self.three_dom_count = len(final_id_list)
-                for record in SeqIO.parse(open(self.cry_quiery),"fasta"):
+                for record in SeqIO.parse(self.cry_quiery,"fasta"):
                     if record.description != record.id:
                         name = record.id + '|' +'|'.join('|'.join(record.description.split(' ')[1:]).split('_'))
                     else:
@@ -416,17 +417,17 @@ class CryProcessor:
                 ids_check_set=set()
                 check_flag=0
                 self.first_filter_count = len(list(SeqIO.parse(
-                                           open("{0}/{1}/cry_extraction/{2}.fasta".format(self.main_dir,
+                                           "{0}/{1}/cry_extraction/{2}.fasta".format(self.main_dir,
                                            self.quiery_dir,
-                                           self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
+                                           self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                                            "fasta")))
                 dom_start=int(self.processing_flag)
                 for i in range(dom_start,4):
-                    for record in SeqIO.parse(open('{3}/{2}/cry_extraction/{0}/{1}'.format('domains',
+                    for record in SeqIO.parse('{3}/{2}/cry_extraction/{0}/{1}'.format('domains',
                                            self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+
                                            '_D{}_extracted.fasta'.format(i),
                                            self.quiery_dir,
-                                           self.main_dir)),
+                                           self.main_dir),
                                            "fasta"):
                         if '|' in record.id:
                             name = record.id.split('|')[1].split('/')[0] + '|' +\
@@ -461,9 +462,9 @@ class CryProcessor:
                 for key in final_id_list:
                     self.coordinate_dict[key]=dummy_dict[key] 
                 self.three_dom_count = len(final_id_list)
-                for record in SeqIO.parse(open("{0}/{1}/cry_extraction/{2}.fasta".format(self.main_dir,
+                for record in SeqIO.parse("{0}/{1}/cry_extraction/{2}.fasta".format(self.main_dir,
                                        self.quiery_dir,
-                                       self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
+                                       self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                                        "fasta"):
                     if record.description != record.id:
                         name = record.id + '|' +'|'.join('|'.join(record.description.split(' ')[1:]).split('_'))
@@ -633,9 +634,9 @@ class CryProcessor:
                     un_count+=1
         #extract unique sequences from the raw sequences
         for init_rec in SeqIO.parse(
-                          open('/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(self.main_dir,
+                          '/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format(self.main_dir,
                           self.quiery_dir,
-                          self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
+                          self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                           "fasta"):
            if init_rec.id in self.new_ids.keys():
                new_records.append(SeqRecord(Seq(str(init_rec.seq),
@@ -692,10 +693,10 @@ class CryProcessor:
                                      self.quiery_dir,
                                      self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
                                      shell = True)
-        for init_rec in SeqIO.parse(open('/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format
+        for init_rec in SeqIO.parse('/{0}/{1}/cry_extraction/raw_processed_{2}.fasta'.format
                                      (self.main_dir,
                                      self.quiery_dir,
-                                     self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
+                                     self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                                      "fasta"):
           #save initial information about the sequence
            if init_rec.id in summary_dict.keys():

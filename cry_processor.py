@@ -507,24 +507,44 @@ class CryProcessor:
                 my_writer.writerow(init_row)
                 for key in self.coordinate_dict:
                     #iterate over starting indicies in the dictionary of coordinates
-                    for i in range(0,5,2):
-                        if i==0:
-                            row=[key.split('|')[0],
-                             'domain {}'.format(1),
-                              int(self.coordinate_dict[key][i])-int(self.coordinate_dict[key][0]),
-                              int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1, 
-                              " ".join(key.split('|')[1:])] 
-                        else:
-                            if i==2:
-                                dn=2
+                    if self.processing_flag!="2":
+                        for i in range(0,5,2):
+                            if i==0:
+                                row=[key.split('|')[0],
+                                 'domain {}'.format(1),
+                                  int(self.coordinate_dict[key][i])-int(self.coordinate_dict[key][0]),
+                                  int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1, 
+                                  " ".join(key.split('|')[1:])] 
                             else:
-                                dn=3
-                            row=[key.split('|')[0],
-                             'domain {}'.format(dn),
-                             int(self.coordinate_dict[key][i])-int(self.coordinate_dict[key][0])-1,
-                             int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1, 
-                             " ".join(key.split('|')[1:])] 
-                        my_writer.writerow(row)
+                                if i==2:
+                                    dn=2
+                                else:
+                                    dn=3
+                                row=[key.split('|')[0],
+                                 'domain {}'.format(dn),
+                                 int(self.coordinate_dict[key][i])-int(self.coordinate_dict[key][0])-1,
+                                 int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1, 
+                                 " ".join(key.split('|')[1:])] 
+                            my_writer.writerow(row)
+                    else:
+                        for i in range(0,3,2):
+                            if i==0:
+                                row=[key.split('|')[0],
+                                 'domain {}'.format(2),
+                                  int(self.coordinate_dict[key][i])-int(self.coordinate_dict[key][0]),
+                                  int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1, 
+                                  " ".join(key.split('|')[1:])]  
+                            else:
+                                if i==2:
+                                    dn=3
+                                row=[key.split('|')[0],
+                                 'domain {}'.format(dn),
+                                 int(self.coordinate_dict[key][i])-int(self.coordinate_dict[key][0])-1,
+                                 int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1, 
+                                 " ".join(key.split('|')[1:])]  
+                            my_writer.writerow(row)
+
+
 
             #create a bed-file with the full protein mappings
             with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'proteins_domain_mapping_full_{}.bed'.format(
@@ -533,24 +553,44 @@ class CryProcessor:
                 init_row = ['id','domain' ,'start', 'stop', 'description']
                 my_writer.writerow(init_row)
                 for key in self.coordinate_dict:
-                    for i in range(0,5,2):
-                        if i==0:
-                            row=[key.split('|')[0],
-                             'domain {}'.format(1),
-                              int(self.coordinate_dict[key][i]),
-                              int(self.coordinate_dict[key][i+1])-1, 
-                              " ".join(key.split('|')[1:])] 
-                        else:
-                            if i==2:
-                                dn=2
+                    if self.processing_flag!="2":
+                        for i in range(0,5,2):
+                            if i==0:
+                                row=[key.split('|')[0],
+                                 'domain {}'.format(1),
+                                  int(self.coordinate_dict[key][i]),
+                                  int(self.coordinate_dict[key][i+1])-1, 
+                                  " ".join(key.split('|')[1:])] 
                             else:
-                                dn=3
-                            row=[key.split('|')[0],
-                             'domain {}'.format(dn),
-                             int(self.coordinate_dict[key][i])-1,
-                             int(self.coordinate_dict[key][i+1])-1, 
-                             " ".join(key.split('|')[1:])] 
-                        my_writer.writerow(row)
+                                if i==2:
+                                    dn=2
+                                else:
+                                    dn=3
+                                row=[key.split('|')[0],
+                                 'domain {}'.format(dn),
+                                 int(self.coordinate_dict[key][i])-1,
+                                 int(self.coordinate_dict[key][i+1])-1, 
+                                 " ".join(key.split('|')[1:])] 
+
+                        
+                            my_writer.writerow(row)
+                    else:
+                        for i in range(0,3,2):
+                            if i==0:
+                                row=[key.split('|')[0],
+                                 'domain {}'.format(2),
+                                  int(self.coordinate_dict[key][i]),
+                                  int(self.coordinate_dict[key][i+1])-1, 
+                                  " ".join(key.split('|')[1:])] 
+                            else:
+                                if i==2:
+                                    dn=3
+                                row=[key.split('|')[0],
+                                 'domain {}'.format(dn),
+                                 int(self.coordinate_dict[key][i])-1,
+                                 int(self.coordinate_dict[key][i+1])-1, 
+                                 " ".join(key.split('|')[1:])] 
+                            my_writer.writerow(row)
 
             #save the original dictionary of coordinates for checking
             with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'coordinate_matches_{}.txt'.format(
@@ -656,8 +696,7 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                 summary_dict[row[0]]=defaultdict(list)
                 summary_dict[row[0]]['init']=row[1:3]
         #create a tsv-file with metadata
-        making_smb = subprocess.call("touch {}".format(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'annotation_table_{}.tsv'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
-                                     shell = True)
+        making_smb = subprocess.call("touch {}".format(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'annotation_table_{}.tsv'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))), shell = True)
         for init_rec in SeqIO.parse(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'raw_processed_{}.fasta'.format(
                         self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
                         "fasta"):
@@ -680,8 +719,8 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                     'strain',
                     'assembly\n']
         #write rows for the each sequence 
-        f = open(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'annotation_table_{}.tsv'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
+        f = open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'annotation_table_{}.tsv'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
                  "w")
         f.write('\t'.join(init_row))
         f.close() 
@@ -712,8 +751,8 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                     else:
                         #mark other hits as additional
                         row=['--']*4+summary_dict[key]['hit'+str(i)][1:]
-                    f = open(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'annotation_table_{}.tsv'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
+                    f = open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'annotation_table_{}.tsv'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
                              "a+")
                     f.write('\t'.join(row) + '\n') 
                     f.close()
@@ -738,12 +777,14 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
         keys_for_nucl = defaultdict(list)
         #a dictionary for domain positions from the protein domain mappings
         domain_coord_dict = defaultdict(list)
-        with open("/{0}/{1}/cry_extraction/coordinate_matches_{2}.txt".format(self.main_dir,self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'r') as csv_file:
+        with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'coordinate_matches_{}.txt'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 'r') as csv_file:
             my_reader = csv.reader(csv_file, delimiter='\t')
             for row in my_reader:
                  domain_coord_dict[row[0]]=row[1:]
         init_count=0
-        with open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(self.main_dir,self.quiery_dir,self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 'r') as csvfile:
+        with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'annotation_table_{}.tsv'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 'r') as csvfile:
              my_reader = csv.reader(csvfile, delimiter='\t') 
              for row in my_reader:
                  #search nucleotide sequences only for the initial sequences from the tsv-file
@@ -910,17 +951,13 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                                          '(' + keys_for_nucl[key][1]+ ')') 
                      
 
-            SeqIO.write(p_nuc_recs,
-                         "/{0}/{1}/cry_extraction/{2}_processed_nucl.fna".format(self.main_dir,
-                         self.quiery_dir,
-                         self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
+            SeqIO.write(p_nuc_recs,os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'{}_processed_nucl.fna'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
                          "fasta")
 
-            SeqIO.write(f_nuc_recs,
-                        "/{0}/{1}/cry_extraction/{2}_full_nucl.fna".format(self.main_dir,
-                        self.quiery_dir,
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
-                        "fasta")
+            SeqIO.write(f_nuc_recs,os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'{}_full_nucl.fna'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
+                         "fasta")
         if not self.silent_mode:
             print('{} nucleotide sequences downloaded'.format(max([len(p_nuc_recs), 
                                                        len(f_nuc_recs)])))
@@ -934,18 +971,16 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
         keys_for_nucl = defaultdict(list)
         domain_coord_dict = defaultdict(list)   
         #read information about othe riginal protein coordinates for unprocessed sequences     
-        with open("/{0}/{1}/cry_extraction/coordinate_matches_{2}.txt".format(self.main_dir,
-                   self.quiery_dir,
-                   self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
+        with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'coordinate_matches_{}.txt'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
                    'r') as csv_file:
             my_reader = csv.reader(csv_file, delimiter='\t')
             for row in my_reader:
                  domain_coord_dict[row[0]]=row[1:]
         init_count=0
         #add info about stop and start of nucleotide sequences
-        with open("/{0}/{1}/cry_extraction/annotation_table_{2}.tsv".format(self.main_dir,
-                   self.quiery_dir,
-                   self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
+        with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'annotation_table_{}.tsv'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
                    'r') as csvfile:
             my_reader = csv.reader(csvfile, delimiter='\t')
             for row in my_reader:
@@ -957,19 +992,19 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
             for key in keys_for_nucl:
                 keys_for_nucl[key][0]=keys_for_nucl[key][0]+'|'+keys_for_nucl[key][0]
         #mappings for processed sequences
-        with open("/{0}/{1}/cry_extraction/nucl_domain_mapping_processed_{2}.bed".format(self.main_dir,
-                   self.quiery_dir,
-                   self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
+        with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'nucl_domain_mapping_processed_{}.bed'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
                    'w') as csvfile:
              my_writer = csv.writer(csvfile, delimiter='\t') 
              init_row = ['id','domain', 'start', 'stop', 'description']
              my_writer.writerow(init_row)
              for key in keys_for_nucl:
                  try:
-                     for i in range(0,5,2):
-                         if i==0:
+                     if self.processing_flag!="2":
+                         for i in range(0,5,2):
+                             if i==0:
                             #substract coordinates of the first domain start to get the mappings for processed sequences
-                            row=[keys_for_nucl[key][5]+
+                                row=[keys_for_nucl[key][5]+
                                  '('+keys_for_nucl[key][6]+')'+'_'+
                                  keys_for_nucl[key][0].split('|')[0],
                                  'domain {}'.format(1),
@@ -978,12 +1013,12 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                                  int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-
                                  (int(domain_coord_dict[keys_for_nucl[key][0]][0])-1)*3-1,
                                   " ".join(keys_for_nucl[key][0].split('|'))]  
-                         else:
-                            if i==2:
-                                dn=2
-                            else:
-                                dn=3
-                            row=[keys_for_nucl[key][5]+
+                             else:
+                                if i==2:
+                                    dn=2
+                                else:
+                                    dn=3
+                                row=[keys_for_nucl[key][5]+
                                 '('+keys_for_nucl[key][6]+')'+'_'+
                                 keys_for_nucl[key][0].split('|')[0],
                                 'domain {}'.format(dn),
@@ -992,41 +1027,87 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                                 int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-
                                 (int(domain_coord_dict[keys_for_nucl[key][0]][0])-1)*3-1, 
                                 " ".join(keys_for_nucl[key][0].split('|'))]      
-                         my_writer.writerow(row)
+                             my_writer.writerow(row)
+                     else:
+                         for i in range(0,3,2):
+                             if i==0:
+                                row=[keys_for_nucl[key][5]+
+                                 '('+keys_for_nucl[key][6]+')'+'_'+
+                                 keys_for_nucl[key][0].split('|')[0],
+                                 'domain {}'.format(2),
+                                 (int(domain_coord_dict[keys_for_nucl[key][0]][i])-1)*3-
+                                 (int(domain_coord_dict[keys_for_nucl[key][0]][0])-1)*3,
+                                 int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-
+                                 (int(domain_coord_dict[keys_for_nucl[key][0]][0])-1)*3-1,
+                                  " ".join(keys_for_nucl[key][0].split('|'))]  
+                             else:
+                                if i==2:
+                                    dn=3
+                                row=[keys_for_nucl[key][5]+
+                                '('+keys_for_nucl[key][6]+')'+'_'+
+                                keys_for_nucl[key][0].split('|')[0],
+                                'domain {}'.format(dn),
+                                (int(domain_coord_dict[keys_for_nucl[key][0]][i])-1)*3-
+                                (int(domain_coord_dict[keys_for_nucl[key][0]][0])-1)*3-1,
+                                int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-
+                                (int(domain_coord_dict[keys_for_nucl[key][0]][0])-1)*3-1, 
+                                " ".join(keys_for_nucl[key][0].split('|'))]      
+                             my_writer.writerow(row)
                  except:
                      pass
         #save mappings for full nucleotide sequences
-        with open("/{0}/{1}/cry_extraction/nucl_domain_mapping_full_{2}.bed".format(self.main_dir,
-                   self.quiery_dir,
-                   self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
+        with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'nucl_domain_mapping_full_{}.bed'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
                    'w') as csvfile:
              my_writer = csv.writer(csvfile, delimiter='\t') 
              init_row = ['id','domain', 'start', 'stop', 'description']
              my_writer.writerow(init_row)
              for key in keys_for_nucl:
                  try:
-                     for i in range(0,5,2):
-                         if i==0:
-                            row=[keys_for_nucl[key][5]+
+                     if self.processing_flag!="2":
+                         for i in range(0,5,2):
+                             if i==0:
+                                row=[keys_for_nucl[key][5]+
                                  '('+keys_for_nucl[key][6]+')'+'_'+
                                  keys_for_nucl[key][0].split('|')[0],
                                  'domain {}'.format(1),
                                  (int(domain_coord_dict[keys_for_nucl[key][0]][i])-1)*3,
                                  int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-1,
                                   " ".join(keys_for_nucl[key][0].split('|'))]  
-                         else:
-                            if i==2:
-                                dn=2
-                            else:
-                                dn=3
-                            row=[keys_for_nucl[key][5]+
+                             else:
+                                if i==2:
+                                    dn=2
+                                else:
+                                    dn=3
+                                row=[keys_for_nucl[key][5]+
                                 '('+keys_for_nucl[key][6]+')'+'_'+
                                 keys_for_nucl[key][0].split('|')[0],
                                 'domain {}'.format(dn),
                                 (int(domain_coord_dict[keys_for_nucl[key][0]][i])-1)*3-1,
                                 int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-1, 
                                 " ".join(keys_for_nucl[key][0].split('|'))]      
-                         my_writer.writerow(row)
+                             my_writer.writerow(row)
+                     else:
+                         for i in range(0,5,2):
+                             if i==0:
+                                row=[keys_for_nucl[key][5]+
+                                 '('+keys_for_nucl[key][6]+')'+'_'+
+                                 keys_for_nucl[key][0].split('|')[0],
+                                 'domain {}'.format(2),
+                                 (int(domain_coord_dict[keys_for_nucl[key][0]][i])-1)*3,
+                                 int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-1,
+                                  " ".join(keys_for_nucl[key][0].split('|'))]  
+                             else:
+                                if i==2:
+                                    dn=3
+                                row=[keys_for_nucl[key][5]+
+                                '('+keys_for_nucl[key][6]+')'+'_'+
+                                keys_for_nucl[key][0].split('|')[0],
+                                'domain {}'.format(dn),
+                                (int(domain_coord_dict[keys_for_nucl[key][0]][i])-1)*3-1,
+                                int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-1, 
+                                " ".join(keys_for_nucl[key][0].split('|'))]      
+                             my_writer.writerow(row)
                  except:
                      pass
 

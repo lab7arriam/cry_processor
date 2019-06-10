@@ -836,11 +836,9 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                                          keys_for_nucl[key][2], 
                                          '(' + keys_for_nucl[key][1]+ ')') 
 
-            SeqIO.write(f_nuc_recs,
-                        "/{0}/{1}/cry_extraction/{2}_full_nucl.fna".format(self.main_dir,
-                        self.quiery_dir,
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
-                        "fasta")
+            SeqIO.write(f_nuc_recs,os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'{}_full_nucl.fna'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
+                         "fasta")
 
         #upload full processed records if the pn flag is specified
         elif self.nucl_type == 'pn':
@@ -888,6 +886,10 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                     self.logger.warning('Warning! Download error for ', 
                                          keys_for_nucl[key][2], 
                                          '(' + keys_for_nucl[key][1]+ ')') 
+            SeqIO.write(p_nuc_recs,os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'{}_processed_nucl.fna'.format(
+                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
+                         "fasta")
+        
 
         #upload both full and processed records if the an flag is specified
         elif self.nucl_type == 'an':

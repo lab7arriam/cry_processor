@@ -16,4 +16,5 @@ script:
    - "python3 cry_processor.py -fi test/small.faa  -od fd_test_pr -r fd -pr 2"
    - "python3 cry_processor.py -fi test/small.faa  -od fd_test_pr_a -r fd -pr 2 -s -a -nu an"
    - "python3 cry_processor.py -fi test/small.faa  -od fd_test_pr_a -r fd -pr 2 -a -nu an"
-   - "python3 cry_processor.py -fi test/small.faa  -od fd_test_pr_a -r fd -pr 1 -a -nu fn"
+   - "python3 cry_processor.py -fi test/small.faa  -od fd_test_pr_a -r fd -pr 1 -a -nu fn"  
+   - "python3 cry_processor.py -fi test/small.faa  -od fd_test_pr_a -r fd -pr 2 -a -nu pn"

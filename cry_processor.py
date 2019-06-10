@@ -1090,6 +1090,7 @@ class CryProcessor:
                                          '('+keys_for_nucl[key][6]+
                                          ')'+'_'+keys_for_nucl[key][0].split('|')[0], 
                                          description=" ".join(keys_for_nucl[key][0].split('|'))))
+                    time.sleep(3)
                 except:
                     if not self.silent_mode:
                         print('Warning! Download error for ', 
@@ -1145,6 +1146,7 @@ class CryProcessor:
                                      '('+keys_for_nucl[key][6]+
                                      ')'+'_'+keys_for_nucl[key][0].split('|')[0], 
                                      description=" ".join(keys_for_nucl[key][0].split('|'))))
+                    time.sleep(3)
                 except:
                     if not self.silent_mode:
                         print('Warning! Download error for ', 
@@ -1213,7 +1215,8 @@ class CryProcessor:
                                       id=keys_for_nucl[key][5]+
                                       '('+keys_for_nucl[key][6]+
                                       ')'+'_'+keys_for_nucl[key][0].split('|')[0], 
-                                      description=" ".join(keys_for_nucl[key][0].split('|'))))
+                                      description=" ".join(keys_for_nucl[key][0].split('|')))) 
+                    time.sleep(3)
                 except:
                     if not self.silent_mode:
                         print('Warning! Download error for ', 
@@ -1244,6 +1247,7 @@ class CryProcessor:
                                                        len(f_nuc_recs)])))
         self.logger.info('{} nucleotide sequences downloaded'.format(max([len(p_nuc_recs), 
                                                        len(f_nuc_recs)])))
+        self.nuc_count=max([len(p_nuc_recs),len(f_nuc_recs)])
 
     def map_nucl(self):
         """
@@ -1630,7 +1634,8 @@ if __name__ == '__main__':
                 cr.make_summary_table()
             if nu:
                 cr.upload_nucl()
-                cr.map_nucl()
+                if cr.nuc_count!=0:
+                    cr.map_nucl()
     elif mra and not fr:
         #pipeline for the gfa file
         cr.launch_racer(k)
@@ -1645,7 +1650,8 @@ if __name__ == '__main__':
                     cr.make_summary_table()
                 if nu:
                     cr.upload_nucl()
-                    cr.map_nucl()
+                    if cr.nuc_count!=0:
+                        cr.map_nucl()
         else:
             if not s:
                 print('No toxins found in the assembly graph')
@@ -1667,7 +1673,8 @@ if __name__ == '__main__':
                     cr.make_summary_table()
                 if nu:
                     cr.upload_nucl()
-                    cr.map_nucl()
+                    if cr.nuc_count!=0:
+                        cr.map_nucl()
         else:
             if not s:
                 print('No toxins found in the assembly graph')

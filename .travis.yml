@@ -18,5 +18,3 @@ script:
    - "python3 cry_processor.py -fi test/small.faa  -od fd_test_pr_a -r fd -pr 2 -a -nu an"
    - "python3 cry_processor.py -fi test/small.faa  -od fd_test_pr_a -r fd -pr 1 -a -nu fn"  
    - "mkdir test_dir; cd test_dir; python3 ../cry_processor.py -fi ../test/small.faa  -od double_test -r fd -pr 1"
-   - "cd; cd ..; python3 cry_processor/cry_processor.py -fi cry_processor/test/small.faa  -od last_dir_test -r fd -pr 1"
-

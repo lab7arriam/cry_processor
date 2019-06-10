@@ -75,7 +75,7 @@ class CryProcessor:
                                                       fi; \
                 if [ ! -d {0}/cry_extraction/logs ]; \
                  then mkdir {0}/cry_extraction/logs; \
-                                                      fi'.format(os.path.join(os.path.dirname(__file__),self.quiery_dir)), shell=True)
+                                                      fi'.format(os.path.realpath(self.quiery_dir)), shell=True)
         #current working directory
         self.main_dir = re.sub("b",'',
                         re.sub("\'",'',
@@ -103,83 +103,187 @@ class CryProcessor:
             cmd_make_dirs = subprocess.call('cd {0}; \
                                             if [ ! -d {1} ]; \
                                             then mkdir {1}; \
-                                            fi'.format(os.path.join(os.path.dirname(__file__),quiery_dir,"cry_extraction"),dir_flag), 
+                                            fi'.format(os.path.join(
+                                            os.path.realpath(
+                                            quiery_dir),
+                                            "cry_extraction"),
+                                            dir_flag), 
                                             shell=True)
             #perform hmmsearch
-            cmd_search = subprocess.call('{0}/binaries/hmmsearch \
-                                          --cpu {5} \
-                                          -A {1} \
-                                          {6}/data/models/{2} \
-                                          {3} >> $PWD/{7}/cry_extraction/logs/{4}.log'.format(self.hmmer_dir,
-                                          '$PWD/{0}/cry_extraction/'.format(self.quiery_dir) + 
-                                           dir_flag + '/'+ 
-                                           queiry.split('/')[len(queiry.split('/'))-1].split('.')[0] + 
-                                           out_index,
-                                           model_type,
-                                           queiry,
-                                           log, 
-                                           hm_threads, 
-                                           self.home_dir,
-                                           self.quiery_dir), 
-                                           shell=True) 
+           # cmd_search = subprocess.call('{0}/binaries/hmmsearch \
+           #                               --cpu {5} \
+           #                               -A {1} \
+           #                               {6}/data/models/{2} \
+           #                               {3} >> $PWD/{7}/cry_extraction/logs/{4}.log'.format(self.hmmer_dir,
+           #                               '$PWD/{0}/cry_extraction/'.format(self.quiery_dir) + 
+           #                                dir_flag + '/'+ 
+           #                                queiry.split('/')[len(queiry.split('/'))-1].split('.')[0] + 
+           #                                out_index,
+           #                                model_type,
+           #                                queiry,
+           #                                log, 
+           #                                hm_threads, 
+           #                                self.home_dir,
+           #                                self.quiery_dir), 
+           #                                shell=True) 
+
+            cmd_search = subprocess.call('{0} \
+                                          --cpu {1} \
+                                          -A {2} \
+                                          {3} \
+                                          {4} >> {5}'.format(os.path.join(
+                                                             os.path.realpath(self.hmmer_dir),
+                                                             "binaries",
+                                                             "hmmsearch"),
+                                                              hm_threads,
+                                                             os.path.join(
+                                                             os.path.os.path.realpath(
+                                                             self.quiery_dir),
+                                                             'cry_extraction',
+                                                              dir_flag,
+                                                             self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+ 
+                                                             out_index),
+                                                             os.path.join(os.path.realpath
+                                                             (__file__),
+                                                              'data',
+                                                              'models',
+                                                              model_type),
+                                                              os.path.realpath(queiry), 
+                                                              os.path.join(os.path.os.path.realpath(self.quiery_dir),
+                                                              'cry_extraction',
+                                                              "logs", 
+                                                               log+'.log')), 
+                                                               shell=True) 
             #converting to fasta files
-            cmd_fasta = subprocess.call('if [  -s {1} ]; \
-                                         then {0}/binaries/esl-reformat fasta {1} > {2};\
-                                         fi'.format(self.hmmer_dir,
-                                        '$PWD/{0}/cry_extraction/'.format(self.quiery_dir)+
-                                         dir_flag+ '/'+
-                                         queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+
-                                         out_index, 
-                                         '$PWD/{0}/cry_extraction/'.format(self.quiery_dir)+
-                                         dir_flag+ '/'+
-                                         queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+
-                                         out_index.replace('sto','fasta')), 
-                                         shell=True) 
+           # cmd_fasta = subprocess.call('if [  -s {1} ]; \
+           #                              then {0}/binaries/esl-reformat fasta {1} > {2};\
+            #                             fi'.format(self.hmmer_dir,
+             #                           '$PWD/{0}/cry_extraction/'.format(self.quiery_dir)+
+             #                            dir_flag+ '/'+
+             #                            queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+
+             #                            out_index, 
+             #                            '$PWD/{0}/cry_extraction/'.format(self.quiery_dir)+
+             #                            dir_flag+ '/'+
+             #                            queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+
+             #                            out_index.replace('sto','fasta')), 
+             #                            shell=True) 
+
+            cmd_fasta = subprocess.call('if [ -s {0} ];\
+                                         then {2} fasta {0} > {1};\
+                                         fi'.format(os.path.join(
+                                              os.path.realpath(
+                                              self.quiery_dir),
+                                              'cry_extraction',
+                                              dir_flag,
+                                              self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+ 
+                                              out_index), 
+                                              os.path.join(
+                                              os.path.realpath(
+                                              self.quiery_dir),
+                                              'cry_extraction',
+                                              dir_flag,
+                                              self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+ 
+                                              out_index.replace('sto','fasta')),
+                                              os.path.join(os.path.realpath(self.hmmer_dir),
+                                              "binaries","esl-reformat")), 
+                                              shell=True)
+
 
         else:
             cmd_make_dirs = subprocess.call('cd {0}; \
                                             if [ ! -d {1} ]; \
                                             then mkdir {1}; \
-                                            fi'.format(os.path.join(os.path.dirname(__file__),quiery_dir,"cry_extraction"),dir_flag), 
+                                            fi'.format(os.path.join(
+                                            os.path.realpath(quiery_dir),
+                                            "cry_extraction"),
+                                            dir_flag), 
                                             shell=True)
 
-            cmd_search = subprocess.call('{7}hmmsearch \
-                                          --cpu {4} \
-                                           -A {0} \
-                                          {5}/data/models/{1} \
-                                          {2} >> $PWD/{6}/cry_extraction/logs/{3}.log'.format('$PWD/{0}/cry_extraction/'.format(self.quiery_dir)
-                                          +dir_flag + '/'+
-                                          queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+
-                                          out_index,
-                                          model_type,
-                                          queiry,
-                                          log, 
-                                          hm_threads, 
-                                          self.home_dir, 
-                                          self.quiery_dir,
-                                          self.home_dir+'/include/'), 
+            #cmd_search = subprocess.call('{7}hmmsearch \
+            #                              --cpu {4} \
+            #                               -A {0} \
+            #                              {5}/data/models/{1} \
+            #                              {2} >> $PWD/{6}/cry_extraction/logs/{3}.log'.format('$PWD/{0}/cry_extraction/'.format(self.quiery_dir)
+            #                              +dir_flag + '/'+
+            #                              queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+
+             #                             out_index,
+            #                              model_type,
+            #                              queiry,
+            #                              log, 
+            #                              hm_threads, 
+            #                              self.home_dir, 
+            #                              self.quiery_dir,
+            #                              self.home_dir+'/include/'), 
+            #
+
+
+
+
+
+#                              shell=True) 
+            
+            cmd_search = subprocess.call('{0} \
+                                          --cpu {1} \
+                                          -A {2} \
+                                          {3} \
+                                          {4} >> {5}'.format(
+                                          os.path.join(
+                                          os.path.os.path.dirname(__file__),
+                                          "include",
+                                          "hmmsearch"),
+                                          hm_threads,
+                                          os.path.join(
+                                          os.path.os.path.realpath(
+                                          self.quiery_dir),
+                                          'cry_extraction',
+                                          dir_flag,
+                                          self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+ 
+                                          out_index),
+                                          os.path.join(
+                                          os.path.dirname(__file__),
+                                          'data',
+                                          'models',
+                                          model_type),
+                                          os.path.realpath(queiry),
+                                          os.path.join(
+                                          os.path.os.path.realpath(
+                                          self.quiery_dir),
+                                          'cry_extraction',
+                                          "logs", 
+                                          log+'.log')), 
                                           shell=True) 
 
             cmd_fasta = subprocess.call('if [ -s {0} ];\
-                                         then {2}esl-reformat fasta {0} > {1};\
-                                         fi'.format('$PWD/{0}/cry_extraction/'.format(self.quiery_dir)
-                                        +dir_flag+ '/'+
-                                        queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+
-                                        out_index, '$PWD/{0}/cry_extraction/'.format(self.quiery_dir)+
-                                        dir_flag+ '/'+
-                                        queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+
-                                        out_index.replace('sto','fasta'),
-                                        self.home_dir+'/include/'), 
-                                        shell=True) 
+                                         then {2} fasta {0} > {1};\
+                                         fi'.format(os.path.join(
+                                         os.path.realpath(self.quiery_dir),
+                                         'cry_extraction',
+                                         dir_flag,
+                                         self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+ 
+                                         out_index), 
+                                         os.path.join(
+                                         os.path.realpath(
+                                         self.quiery_dir),
+                                         'cry_extraction',
+                                         dir_flag,
+                                         self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+ 
+                                         out_index.replace('sto','fasta')),
+                                         os.path.join(os.path.dirname(__file__),
+                                         "include",
+                                         "esl-reformat")), 
+                                         shell=True) 
         exist_check_flag = re.sub("b",'',
                                   re.sub("\'",'', 
-                                  str(subprocess.check_output("cd $PWD/{0}/cry_extraction/{1}; \
-                                  if [ ! -s {2} ];\
+                                  str(subprocess.check_output("cd {0}; \
+                                  if [ ! -s {1} ];\
                                   then echo 'no'; \
-                                  fi".format(self.quiery_dir,
-                                  dir_flag,
-                                   queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+
-                                   out_index),
+                                  fi".format(os.path.join(
+                                  os.path.os.path.realpath(
+                                  self.quiery_dir),
+                                  'cry_extraction',
+                                  dir_flag),
+                                  queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+
+                                  out_index),
                                   shell =True).strip())))
         if exist_check_flag == 'no':
             self.hmmer_result_flag = 1
@@ -233,10 +337,14 @@ class CryProcessor:
         self.dom_dict=defaultdict(list)
         for i in range(1,4):
             #open all the fasta-files after hmmsearch and save them to the dictionary
-            for record in SeqIO.parse(os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','domains',
-                                           self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+
-                                           '_D{}_extracted.fasta'.format(i)),
-                                           "fasta"):
+            for record in SeqIO.parse(os.path.join(
+                                      os.path.realpath(
+                                      self.quiery_dir),
+                                      'cry_extraction',
+                                      'domains',
+                                      self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+
+                                      '_D{}_extracted.fasta'.format(i)),
+                                      "fasta"):
                 #transform the sequence name by combining its id and description
                 if '|' in record.id:
                     name = record.id.split('|')[1].split('/')[0] + '|' + \
@@ -282,10 +390,14 @@ class CryProcessor:
                 check_flag=0
                 for i in range(dom_start,4):
                     #iterate over fasta fles with domains
-                    for record in SeqIO.parse(os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','domains',
-                                           self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+
-                                           '_D{}_extracted.fasta'.format(i)),
-                                           "fasta"):
+                    for record in SeqIO.parse(os.path.join(
+                                              os.path.realpath(
+                                              self.quiery_dir),
+                                              'cry_extraction',
+                                              'domains',
+                                              self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+
+                                              '_D{}_extracted.fasta'.format(i)),
+                                              "fasta"):
                         dom_list=list()
                         if '|' in record.id:
                             name = record.id.split('|')[1].split('/')[0] + '|' + \
@@ -352,11 +464,19 @@ class CryProcessor:
                                             description=" ".join(name.split('|')[1:])))
                 #save full and processed sequences
                 SeqIO.write(new_rec_list,
-                        os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'raw_processed_{}.fasta'.format(
+                        os.path.join(
+                        os.path.realpath(
+                        self.quiery_dir),
+                        "cry_extraction",
+                        'raw_processed_{}.fasta'.format(
                         self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
                         "fasta")
                 SeqIO.write(full_rec_list,
-                        os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'raw_full_{}.fasta'.format(
+                        os.path.join(
+                        os.path.realpath(
+                        self.quiery_dir),
+                        "cry_extraction",
+                        'raw_full_{}.fasta'.format(
                         self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
                         "fasta")
                 if check_flag==1:
@@ -386,8 +506,6 @@ class CryProcessor:
                 #launch the search for the full potential cry-toxins
                 #extract the fasta-file after hmmsearch and use it as a quiery for the domain search 
                 #process the hmmsearch output with sed
-#os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','full_toxins',
-#                                           '{}_full_extracted.fasta'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])
                 cmd_take_file = subprocess.call("cp {0} \
                                             {1}; \
                                             mv {2} \
@@ -395,11 +513,37 @@ class CryProcessor:
                                             sed -i 's/[0-9]*|//g' {3}; \
                                             sed -i 's/\/[0-9]*-[0-9]*//g' {3}; \
                                             sed -i 's/ \[subseq from]\ / /g' \
-                                            {3}".format(os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','full_toxins',
-                                           '{}_full_extracted.fasta'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction/'), os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','{}_full_extracted.fasta'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','{}.fasta'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))),shell=True)
-
+                                            {3}".format(os.path.join(
+                                            os.path.realpath(
+                                            self.quiery_dir),
+                                            'cry_extraction',
+                                            'full_toxins',
+                                           '{}_full_extracted.fasta'.format(
+                                            self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
+                                            os.path.join(
+                                            os.path.realpath(
+                                            self.quiery_dir),
+                                            'cry_extraction/'), 
+                                            os.path.join(
+                                            os.path.realpath(
+                                            self.quiery_dir),
+                                            'cry_extraction',
+                                            '{}_full_extracted.fasta'.format(
+                                            self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
+                                            os.path.join(os.path.realpath(
+                                            self.quiery_dir),
+                                            'cry_extraction',
+                                            '{}.fasta'.format(
+                                            self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))),
+                                            shell=True)
                 #lauch the domain search
-                self.find_domains('{}'.format(os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','{}.fasta'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))))
+                self.find_domains('{}'.format(
+                                       os.path.join(
+                                       os.path.realpath(
+                                       self.quiery_dir),
+                                       'cry_extraction',
+                                       '{}.fasta'.format(
+                                       self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))))
                 #further steps are identical to do_regime and are described above
                 self.id_list = self.cry_3D_ids_extractor()
                 final_id_list=list()
@@ -410,14 +554,24 @@ class CryProcessor:
                 pre_dict=defaultdict(dict)
                 ids_check_set=set()
                 check_flag=0
-                self.first_filter_count = len(list(SeqIO.parse('{}'.format(os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','{}.fasta'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))),
-                                           "fasta")))
+                self.first_filter_count = len(list(SeqIO.parse('{}'.format(
+                                              os.path.join(
+                                              os.path.realpath(
+                                              self.quiery_dir),
+                                              'cry_extraction',
+                                              '{}.fasta'.format(
+                                              self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))),
+                                              "fasta")))
                 dom_start=int(self.processing_flag)
                 for i in range(dom_start,4):
-                    for record in SeqIO.parse(os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','domains',
-                                           self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+
-                                           '_D{}_extracted.fasta'.format(i)),
-                                           "fasta"):
+                    for record in SeqIO.parse(os.path.join(
+                                              os.path.realpath(
+                                              self.quiery_dir),
+                                              'cry_extraction',
+                                              'domains',
+                                              self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+
+                                              '_D{}_extracted.fasta'.format(i)),
+                                              "fasta"):
                         if '|' in record.id:
                             name = record.id.split('|')[1].split('/')[0] + '|' +\
                                '|'.join('|'.join(record.description.split('] ')[1].split(' ')).split('_'))
@@ -451,8 +605,13 @@ class CryProcessor:
                 for key in final_id_list:
                     self.coordinate_dict[key]=dummy_dict[key] 
                 self.three_dom_count = len(final_id_list)
-                for record in SeqIO.parse('{}'.format(os.path.join(os.path.dirname(__file__),self.quiery_dir,'cry_extraction','{}.fasta'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))),
-                                           "fasta"):
+                for record in SeqIO.parse('{}'.format(os.path.join(
+                                                      os.path.realpath(
+                                                      self.quiery_dir),
+                                                      'cry_extraction',
+                                                      '{}.fasta'.format(
+                                                      self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))),
+                                                      "fasta"):
                     if record.description != record.id:
                         name = record.id + '|' +'|'.join('|'.join(record.description.split(' ')[1:]).split('_'))
                     else:
@@ -472,11 +631,19 @@ class CryProcessor:
                                           id=name.split('|')[0], 
                                           description=" ".join(name.split('|')[1:])))
                 SeqIO.write(new_rec_list,
-                        os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'raw_processed_{}.fasta'.format(
+                        os.path.join(
+                        os.path.realpath(
+                        self.quiery_dir),
+                        "cry_extraction",
+                        'raw_processed_{}.fasta'.format(
                         self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
                         "fasta")
                 SeqIO.write(full_rec_list,
-                        os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'raw_full_{}.fasta'.format(
+                        os.path.join(
+                        os.path.realpath(
+                        self.quiery_dir),
+                        "cry_extraction",
+                        'raw_full_{}.fasta'.format(
                         self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
                         "fasta")
                 if check_flag==1:
@@ -499,8 +666,12 @@ class CryProcessor:
         #create a file with the domain mappings for the each cry-toxin, posessing all 3 domains
         if self.hmmer_result_flag !=1:
             #create a mapping file only if the hmmsearch output is not empty
-            with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'proteins_domain_mapping_processed_{}.bed'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),'w') as csv_file:
+            with open(os.path.join(
+                      os.path.realpath(
+                      self.quiery_dir),
+                      "cry_extraction",
+                      'proteins_domain_mapping_processed_{}.bed'.format(
+                      self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),'w') as csv_file:
                 my_writer = csv.writer(csv_file, delimiter='\t') 
                 #create a bed-file for mapping to specify start and stop coordinates, id and description
                 init_row = ['id','domain' ,'start', 'stop', 'description']
@@ -547,7 +718,11 @@ class CryProcessor:
 
 
             #create a bed-file with the full protein mappings
-            with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'proteins_domain_mapping_full_{}.bed'.format(
+            with open(os.path.join(
+                      os.path.realpath(
+                      self.quiery_dir),
+                      "cry_extraction",
+                      'proteins_domain_mapping_full_{}.bed'.format(
                         self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),'w') as csv_file:
                 my_writer = csv.writer(csv_file, delimiter='\t') 
                 init_row = ['id','domain' ,'start', 'stop', 'description']
@@ -593,8 +768,12 @@ class CryProcessor:
                             my_writer.writerow(row)
 
             #save the original dictionary of coordinates for checking
-            with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'coordinate_matches_{}.txt'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),'w') as csv_file:
+            with open(os.path.join(
+                      os.path.realpath(
+                      self.quiery_dir),
+                      "cry_extraction",
+                      'coordinate_matches_{}.txt'.format(
+                      self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),'w') as csv_file:
                 my_writer = csv.writer(csv_file, delimiter='\t') 
                 for key in self.coordinate_dict:
                     my_writer.writerow([key]+self.coordinate_dict[key])
@@ -617,8 +796,17 @@ class CryProcessor:
         #copying database for pefrorming blastp
         cmd_pre_dia = subprocess.call('cd {0}; \
                                        cp {1} .; \
-                                       touch diamond.log'.format(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction"),
-os.path.realpath(os.path.join('data',"diamond_data","cry_nomenclature.dmnd"))), 
+                                       touch diamond.log'.format(
+                                       os.path.join(
+                                       os.path.realpath(
+                                       self.quiery_dir),
+                                       "cry_extraction"),
+                                       os.path.realpath(
+                                       os.path.join(
+                                       os.path.dirname(__file__),
+                                       'data',
+                                       "diamond_data",
+                                       "cry_nomenclature.dmnd"))), 
                                        shell=True) 
         #performing diamond blastp, save only the first hit
 
@@ -634,12 +822,25 @@ os.path.realpath(os.path.join('data',"diamond_data","cry_nomenclature.dmnd"))),
                                     --log --verbose 2>> diamond.log; \
                                     rm cry_nomenclature.dmnd; \
                                     mv *.log logs/; \
-                                    mv *gned* logs/'.format(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction"),os.path.realpath(os.path.join(os.path.dirname(__file__),"include","diamond")),
-self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
+                                    mv *gned* logs/'.format(
+                                    os.path.join(
+                                    os.path.realpath(
+                                    self.quiery_dir),
+                                    "cry_extraction"),
+                                    os.path.realpath(
+                                    os.path.join(
+                                    os.path.dirname(__file__),
+                                    "include",
+                                    "diamond")),
+                                    self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]), 
                                     shell=True)
         #analyse diamond matches to get new toxins
-        with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'diamond_matches_{}.txt'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),'r') as csv_file:
+        with open(os.path.join(
+                  os.path.realpath(
+                  self.quiery_dir),
+                  "cry_extraction",
+                  'diamond_matches_{}.txt'.format(
+                  self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),'r') as csv_file:
             my_reader = csv.reader(csv_file, delimiter='\t') 
             for row in my_reader:
                 total_count+=1
@@ -647,9 +848,13 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                     self.new_ids[row[0]]=row[1]+'|'+ str(row[2])
                     un_count+=1
         #extract unique sequences from the raw sequences
-        for init_rec in SeqIO.parse(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'raw_processed_{}.fasta'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
-                        "fasta"):
+        for init_rec in SeqIO.parse(os.path.join(
+                                    os.path.realpath(
+                                    self.quiery_dir),
+                                    "cry_extraction",
+                                    'raw_processed_{}.fasta'.format(
+                                    self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
+                                    "fasta"):
            if init_rec.id in self.new_ids.keys():
                new_records.append(SeqRecord(Seq(str(init_rec.seq),
                                    generic_protein),
@@ -662,20 +867,42 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
             print('{} toxins different from the database found'.format(un_count))
         self.logger.info('{} sequences matched with the database'.format(total_count)) 
         self.logger.info('{} toxins different from the database found'.format(un_count)) 
-        SeqIO.write(new_records,os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'unique_{}.fasta'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
-                        "fasta")
+        SeqIO.write(new_records,os.path.join(
+                                os.path.realpath(
+                                self.quiery_dir),
+                                "cry_extraction",
+                                'unique_{}.fasta'.format(
+                                self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
+                                "fasta")
         #move intermediate files to the log directory if the annotation flag is not specified
         if self.regime == 'fd':
-            cmd_clean_up = subprocess.call("mv {0}/{1}/cry_extraction/{2}.fasta \
-                                    {0}/{1}/cry_extraction/first_search_{2}.fasta;".format(self.main_dir,
-                                    self.quiery_dir,
-                                    self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
-                                    shell=True)
+            #cmd_clean_up = subprocess.call("mv {0}/{1}/cry_extraction/{2}.fasta \
+            #                        {0}/{1}/cry_extraction/first_search_{2}.fasta;".format(self.main_dir,
+            #                        self.quiery_dir,
+            #                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
+            #                        shell=True)
+            cmd_clean_up = subprocess.call("mv {0} \
+                                               {1};".format(os.path.join(
+                                                      os.path.realpath(
+                                                      self.quiery_dir),
+                                                      'cry_extraction',
+                                                      '{}.fasta'.format(
+                                                      self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
+                                                      "fasta",os.path.join(
+                                                      os.path.realpath(
+                                                      self.quiery_dir),
+                                                      'cry_extraction',
+                                                      'first_search_{}.fasta'.format(
+                                                      self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
+                                                      "fasta"),
+                                               shell=True)
         if not self.nucl_type and not self.annot_flag:
-            cmd_clean_up = subprocess.call('cd $PWD/{0}/cry_extraction; \
+            cmd_clean_up = subprocess.call('cd {0}; \
                                             mv *coordinate_matches* logs/;\
-                                            mv *diamond_matches* logs/'.format(self.quiery_dir), 
+                                            mv *diamond_matches* logs/'.format(os.path.join(
+                                                      os.path.realpath(
+                                                      self.quiery_dir),
+                                                      'cry_extraction')), 
                                             shell=True)
        
     def make_summary_table(self):
@@ -689,17 +916,31 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
         Entrez.email = "{}".format(self.email)
         summary_dict=defaultdict(dict)
         #load information from the diamond blastp search
-        with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'diamond_matches_{}.txt'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),'r') as csv_file:
+        with open(os.path.join(
+                  os.path.realpath(
+                  self.quiery_dir),
+                  "cry_extraction",
+                  'diamond_matches_{}.txt'.format(
+                   self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),'r') as csv_file:
             my_reader = csv.reader(csv_file, delimiter='\t') 
             for row in my_reader:
                 summary_dict[row[0]]=defaultdict(list)
                 summary_dict[row[0]]['init']=row[1:3]
         #create a tsv-file with metadata
-        making_smb = subprocess.call("touch {}".format(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'annotation_table_{}.tsv'.format(self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))), shell = True)
-        for init_rec in SeqIO.parse(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'raw_processed_{}.fasta'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
-                        "fasta"):
+        making_smb = subprocess.call("touch {}".format(os.path.join(
+                                                       os.path.realpath(
+                                                      self.quiery_dir),
+                                                      "cry_extraction",
+                                                      'annotation_table_{}.tsv'.format(
+                                                      self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]))), 
+                                                      shell = True)
+        for init_rec in SeqIO.parse(os.path.join(
+                                    os.path.realpath(
+                                    self.quiery_dir),
+                                    "cry_extraction",
+                                    'raw_processed_{}.fasta'.format(
+                                    self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
+                                    "fasta"):
           #save initial information about the sequence
            if init_rec.id in summary_dict.keys():
                summary_dict[init_rec.id]['init'].append(init_rec.description)
@@ -719,8 +960,12 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                     'strain',
                     'assembly\n']
         #write rows for the each sequence 
-        f = open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'annotation_table_{}.tsv'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
+        f = open(os.path.join(
+                 os.path.realpath(
+                 self.quiery_dir),
+                 "cry_extraction",
+                 'annotation_table_{}.tsv'.format(
+                 self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
                  "w")
         f.write('\t'.join(init_row))
         f.close() 
@@ -751,8 +996,12 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                     else:
                         #mark other hits as additional
                         row=['--']*4+summary_dict[key]['hit'+str(i)][1:]
-                    f = open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'annotation_table_{}.tsv'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
+                    f = open(os.path.join(
+                             os.path.realpath(
+                             self.quiery_dir),
+                             "cry_extraction",
+                             'annotation_table_{}.tsv'.format(
+                             self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
                              "a+")
                     f.write('\t'.join(row) + '\n') 
                     f.close()
@@ -763,7 +1012,13 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                 self.logger.warning('Warning! Bad link for!', key) 
         #clean from intermediate files if no nucleotide uploadings are specified
         if not self.nucl_type:
-            cmd_clean_up = subprocess.call('cd $PWD/{0}/cry_extraction; mv *coordinate_matches* logs/;mv *diamond_matches* logs/'.format(self.quiery_dir), shell=True)
+            cmd_clean_up = subprocess.call('cd {0}; \
+                                           mv *coordinate_matches* logs/;\
+                                           mv *diamond_matches* logs/'.format(os.path.join(
+                                           os.path.realpath(
+                                           self.quiery_dir),
+                                           'cry_extraction')), 
+                                           shell=True)
 
     def upload_nucl(self):
         """
@@ -777,14 +1032,22 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
         keys_for_nucl = defaultdict(list)
         #a dictionary for domain positions from the protein domain mappings
         domain_coord_dict = defaultdict(list)
-        with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'coordinate_matches_{}.txt'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 'r') as csv_file:
+        with open(os.path.join(
+                  os.path.realpath(
+                  self.quiery_dir),
+                  "cry_extraction",
+                  'coordinate_matches_{}.txt'.format(
+                   self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 'r') as csv_file:
             my_reader = csv.reader(csv_file, delimiter='\t')
             for row in my_reader:
                  domain_coord_dict[row[0]]=row[1:]
         init_count=0
-        with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'annotation_table_{}.tsv'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 'r') as csvfile:
+        with open(os.path.join(
+                  os.path.realpath(
+                  self.quiery_dir),
+                  "cry_extraction",
+                  'annotation_table_{}.tsv'.format(
+                  self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 'r') as csvfile:
              my_reader = csv.reader(csvfile, delimiter='\t') 
              for row in my_reader:
                  #search nucleotide sequences only for the initial sequences from the tsv-file
@@ -836,9 +1099,13 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                                          keys_for_nucl[key][2], 
                                          '(' + keys_for_nucl[key][1]+ ')') 
 
-            SeqIO.write(f_nuc_recs,os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'{}_full_nucl.fna'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
-                         "fasta")
+            SeqIO.write(f_nuc_recs,os.path.join(
+                                   os.path.realpath(
+                                   self.quiery_dir),
+                                   "cry_extraction",
+                                   '{}_full_nucl.fna'.format(
+                                   self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
+                                   "fasta")
 
         #upload full processed records if the pn flag is specified
         elif self.nucl_type == 'pn':
@@ -886,9 +1153,13 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                     self.logger.warning('Warning! Download error for ', 
                                          keys_for_nucl[key][2], 
                                          '(' + keys_for_nucl[key][1]+ ')') 
-            SeqIO.write(p_nuc_recs,os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'{}_processed_nucl.fna'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
-                         "fasta")
+            SeqIO.write(p_nuc_recs,os.path.join(
+                                   os.path.realpath(
+                                   self.quiery_dir),
+                                   "cry_extraction",
+                                   '{}_processed_nucl.fna'.format(
+                                   self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
+                                   "fasta")
         
 
         #upload both full and processed records if the an flag is specified
@@ -953,13 +1224,21 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                                          '(' + keys_for_nucl[key][1]+ ')') 
                      
 
-            SeqIO.write(p_nuc_recs,os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'{}_processed_nucl.fna'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
-                         "fasta")
+            SeqIO.write(p_nuc_recs,os.path.join(
+                                   os.path.realpath(
+                                   self.quiery_dir),
+                                   "cry_extraction",
+                                   '{}_processed_nucl.fna'.format(
+                                   self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
+                                   "fasta")
 
-            SeqIO.write(f_nuc_recs,os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'{}_full_nucl.fna'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
-                         "fasta")
+            SeqIO.write(f_nuc_recs,os.path.join(
+                                   os.path.realpath(
+                                   self.quiery_dir),
+                                   "cry_extraction",
+                                   '{}_full_nucl.fna'.format(
+                                   self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
+                                   "fasta")
         if not self.silent_mode:
             print('{} nucleotide sequences downloaded'.format(max([len(p_nuc_recs), 
                                                        len(f_nuc_recs)])))
@@ -973,17 +1252,25 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
         keys_for_nucl = defaultdict(list)
         domain_coord_dict = defaultdict(list)   
         #read information about othe riginal protein coordinates for unprocessed sequences     
-        with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'coordinate_matches_{}.txt'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
-                   'r') as csv_file:
+        with open(os.path.join(
+                  os.path.realpath(
+                  self.quiery_dir),
+                  "cry_extraction",
+                  'coordinate_matches_{}.txt'.format(
+                  self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
+                  'r') as csv_file:
             my_reader = csv.reader(csv_file, delimiter='\t')
             for row in my_reader:
                  domain_coord_dict[row[0]]=row[1:]
         init_count=0
         #add info about stop and start of nucleotide sequences
-        with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'annotation_table_{}.tsv'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
-                   'r') as csvfile:
+        with open(os.path.join(
+                  os.path.realpath(
+                  self.quiery_dir),
+                  "cry_extraction",
+                  'annotation_table_{}.tsv'.format(
+                  self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])),
+                  'r') as csvfile:
             my_reader = csv.reader(csvfile, delimiter='\t')
             for row in my_reader:
                 if row[0]!= '--' and row[0]!='protein_id':                          
@@ -994,7 +1281,11 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
             for key in keys_for_nucl:
                 keys_for_nucl[key][0]=keys_for_nucl[key][0]+'|'+keys_for_nucl[key][0]
         #mappings for processed sequences
-        with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'nucl_domain_mapping_processed_{}.bed'.format(
+        with open(os.path.join(
+                  os.path.realpath(
+                  self.quiery_dir),
+                  "cry_extraction",
+                  'nucl_domain_mapping_processed_{}.bed'.format(
                         self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
                    'w') as csvfile:
              my_writer = csv.writer(csvfile, delimiter='\t') 
@@ -1058,8 +1349,12 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                  except:
                      pass
         #save mappings for full nucleotide sequences
-        with open(os.path.join(os.path.dirname(__file__),self.quiery_dir,"cry_extraction",'nucl_domain_mapping_full_{}.bed'.format(
-                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
+        with open(os.path.join(
+                  os.path.realpath(
+                  self.quiery_dir),
+                  "cry_extraction",
+                  'nucl_domain_mapping_full_{}.bed'.format(
+                   self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0])), 
                    'w') as csvfile:
              my_writer = csv.writer(csvfile, delimiter='\t') 
              init_row = ['id','domain', 'start', 'stop', 'description']
@@ -1113,10 +1408,13 @@ self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
                  except:
                      pass
 
-        cmd_clean_up = subprocess.call('cd $PWD/{0}/cry_extraction; \
+        cmd_clean_up = subprocess.call('cd {}; \
                                         mv *coordinate_matches* logs/;\
-                                        mv *diamond_matches* logs/'.format(self.quiery_dir), 
-                                        shell=True)
+                                        mv *diamond_matches* logs/'.format(os.path.join(
+                                                      os.path.realpath(
+                                                      self.quiery_dir),
+                                                      'cry_extraction')), 
+                                                      shell=True)
 
     def launch_racer(self,kmer):
         """

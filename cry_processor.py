@@ -31,15 +31,15 @@ class CryProcessor:
                  forw,
                  rev,
                  silent_mode):
+        #initialize the logger
         self.logger = logging.getLogger("cry_processor")
         self.logger.setLevel(logging.INFO)
         fh = logging.FileHandler("cry_processor.log")
+        #set the formatter for the logger
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         fh.setFormatter(formatter)
         self.logger.addHandler(fh)
         self.logger.info("Initializing...")
-        #script directory
-        self.home_dir = ('/').join(os.path.realpath(__file__).split('/')[0:len(os.path.realpath(__file__).split('/'))-1])
         self.cry_quiery = cry_quiery
         self.hmmer_dir = hmmer_dir
         self.processing_flag = processing_flag
@@ -75,13 +75,9 @@ class CryProcessor:
                                                       fi; \
                 if [ ! -d {0}/cry_extraction/logs ]; \
                  then mkdir {0}/cry_extraction/logs; \
-                                                      fi'.format(os.path.realpath(self.quiery_dir)), shell=True)
-        #current working directory
-        self.main_dir = re.sub("b",'',
-                        re.sub("\'",'',
-                        str(subprocess.Popen(['pwd'], 
-                        stdout=subprocess.PIPE, 
-                        stderr=subprocess.PIPE).communicate()[0].strip())))
+                                                      fi'.format(os.path.realpath(
+                                                                 self.quiery_dir)), 
+                                                                 shell=True)
 
 
     def run_hmmer(self,queiry,out_index,model_type,dir_flag,log,hm_threads,quiery_dir):
@@ -109,64 +105,41 @@ class CryProcessor:
                                             "cry_extraction"),
                                             dir_flag), 
                                             shell=True)
-            #perform hmmsearch
-           # cmd_search = subprocess.call('{0}/binaries/hmmsearch \
-           #                               --cpu {5} \
-           #                               -A {1} \
-           #                               {6}/data/models/{2} \
-           #                               {3} >> $PWD/{7}/cry_extraction/logs/{4}.log'.format(self.hmmer_dir,
-           #                               '$PWD/{0}/cry_extraction/'.format(self.quiery_dir) + 
-           #                                dir_flag + '/'+ 
-           #                                queiry.split('/')[len(queiry.split('/'))-1].split('.')[0] + 
-           #                                out_index,
-           #                                model_type,
-           #                                queiry,
-           #                                log, 
-           #                                hm_threads, 
-           #                                self.home_dir,
-           #                                self.quiery_dir), 
-           #                                shell=True) 
+            #perform hmmsearch 
 
             cmd_search = subprocess.call('{0} \
                                           --cpu {1} \
                                           -A {2} \
                                           {3} \
                                           {4} >> {5}'.format(os.path.join(
-                                                             os.path.realpath(self.hmmer_dir),
+                                                             os.path.realpath(
+                                                             self.hmmer_dir),
                                                              "binaries",
                                                              "hmmsearch"),
                                                               hm_threads,
                                                              os.path.join(
-                                                             os.path.os.path.realpath(
+                                                             os.path.realpath(
                                                              self.quiery_dir),
                                                              'cry_extraction',
                                                               dir_flag,
                                                              self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+ 
                                                              out_index),
-                                                             os.path.join(os.path.realpath
+                                                             os.path.join(
+                                                             os.path.dirname
                                                              (__file__),
                                                               'data',
                                                               'models',
                                                               model_type),
-                                                              os.path.realpath(queiry), 
-                                                              os.path.join(os.path.os.path.realpath(self.quiery_dir),
+                                                              os.path.realpath(
+                                                              queiry), 
+                                                              os.path.join(
+                                                              os.path.realpath(
+                                                              self.quiery_dir),
                                                               'cry_extraction',
                                                               "logs", 
-                                                               log+'.log')), 
-                                                               shell=True) 
+                                                              log+'.log')), 
+                                                              shell=True) 
             #converting to fasta files
-           # cmd_fasta = subprocess.call('if [  -s {1} ]; \
-           #                              then {0}/binaries/esl-reformat fasta {1} > {2};\
-            #                             fi'.format(self.hmmer_dir,
-             #                           '$PWD/{0}/cry_extraction/'.format(self.quiery_dir)+
-             #                            dir_flag+ '/'+
-             #                            queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+
-             #                            out_index, 
-             #                            '$PWD/{0}/cry_extraction/'.format(self.quiery_dir)+
-             #                            dir_flag+ '/'+
-             #                            queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+
-             #                            out_index.replace('sto','fasta')), 
-             #                            shell=True) 
 
             cmd_fasta = subprocess.call('if [ -s {0} ];\
                                          then {2} fasta {0} > {1};\
@@ -184,7 +157,8 @@ class CryProcessor:
                                               dir_flag,
                                               self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+ 
                                               out_index.replace('sto','fasta')),
-                                              os.path.join(os.path.realpath(self.hmmer_dir),
+                                              os.path.join(os.path.realpath(
+                                              self.hmmer_dir),
                                               "binaries","esl-reformat")), 
                                               shell=True)
 
@@ -194,59 +168,40 @@ class CryProcessor:
                                             if [ ! -d {1} ]; \
                                             then mkdir {1}; \
                                             fi'.format(os.path.join(
-                                            os.path.realpath(quiery_dir),
+                                            os.path.realpath(
+                                            quiery_dir),
                                             "cry_extraction"),
                                             dir_flag), 
                                             shell=True)
 
-            #cmd_search = subprocess.call('{7}hmmsearch \
-            #                              --cpu {4} \
-            #                               -A {0} \
-            #                              {5}/data/models/{1} \
-            #                              {2} >> $PWD/{6}/cry_extraction/logs/{3}.log'.format('$PWD/{0}/cry_extraction/'.format(self.quiery_dir)
-            #                              +dir_flag + '/'+
-            #                              queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+
-             #                             out_index,
-            #                              model_type,
-            #                              queiry,
-            #                              log, 
-            #                              hm_threads, 
-            #                              self.home_dir, 
-            #                              self.quiery_dir,
-            #                              self.home_dir+'/include/'), 
-            #
-
-
-
-
-
-#                              shell=True) 
-            
             cmd_search = subprocess.call('{0} \
                                           --cpu {1} \
                                           -A {2} \
                                           {3} \
                                           {4} >> {5}'.format(
                                           os.path.join(
-                                          os.path.os.path.dirname(__file__),
+                                          os.path.dirname(
+                                          __file__),
                                           "include",
                                           "hmmsearch"),
                                           hm_threads,
                                           os.path.join(
-                                          os.path.os.path.realpath(
+                                          os.path.realpath(
                                           self.quiery_dir),
                                           'cry_extraction',
                                           dir_flag,
                                           self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+ 
                                           out_index),
                                           os.path.join(
-                                          os.path.dirname(__file__),
+                                          os.path.dirname(
+                                          __file__),
                                           'data',
                                           'models',
                                           model_type),
-                                          os.path.realpath(queiry),
+                                          os.path.realpath(
+                                          queiry),
                                           os.path.join(
-                                          os.path.os.path.realpath(
+                                          os.path.realpath(
                                           self.quiery_dir),
                                           'cry_extraction',
                                           "logs", 
@@ -256,7 +211,8 @@ class CryProcessor:
             cmd_fasta = subprocess.call('if [ -s {0} ];\
                                          then {2} fasta {0} > {1};\
                                          fi'.format(os.path.join(
-                                         os.path.realpath(self.quiery_dir),
+                                         os.path.realpath(
+                                         self.quiery_dir),
                                          'cry_extraction',
                                          dir_flag,
                                          self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+ 
@@ -268,7 +224,9 @@ class CryProcessor:
                                          dir_flag,
                                          self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]+ 
                                          out_index.replace('sto','fasta')),
-                                         os.path.join(os.path.dirname(__file__),
+                                         os.path.join(
+                                         os.path.dirname(
+                                         __file__),
                                          "include",
                                          "esl-reformat")), 
                                          shell=True) 
@@ -278,7 +236,7 @@ class CryProcessor:
                                   if [ ! -s {1} ];\
                                   then echo 'no'; \
                                   fi".format(os.path.join(
-                                  os.path.os.path.realpath(
+                                  os.path.realpath(
                                   self.quiery_dir),
                                   'cry_extraction',
                                   dir_flag),
@@ -876,11 +834,6 @@ class CryProcessor:
                                 "fasta")
         #move intermediate files to the log directory if the annotation flag is not specified
         if self.regime == 'fd':
-            #cmd_clean_up = subprocess.call("mv {0}/{1}/cry_extraction/{2}.fasta \
-            #                        {0}/{1}/cry_extraction/first_search_{2}.fasta;".format(self.main_dir,
-            #                        self.quiery_dir,
-            #                        self.cry_quiery.split('/')[len(self.cry_quiery.split('/'))-1].split('.')[0]),
-            #                        shell=True)
             cmd_clean_up = subprocess.call("mv {0} \
                                                {1};".format(os.path.join(
                                                       os.path.realpath(
@@ -1431,53 +1384,74 @@ class CryProcessor:
             print('Searching for the sequences from the gfa file')
         self.logger.info('Searching for the sequences from the gfa file')
         #launch pathracer
-        cmd_race = subprocess.call('{0}/pathracer \
-                                  {6}/data/models/Complete.hmm \
-                                  {1} {5} \
+        cmd_race = subprocess.call('{0} \
+                                  {1} \
+                                  {2} {3} \
                                   -l 0.3 \
-                                  --output $PWD/{3}/cry_extraction/pathracer_output \
-                                  -t {2}  > /dev/null'.format(self.home_dir+'/include',
-                                  self.cry_quiery,
-                                  self.hm_threads,
-                                  self.quiery_dir,
-                                  'pathracer',
-                                  kmer,
-                                  self.home_dir), 
-                                  shell=True) 
+                                  --output {4} \
+                                  -t {5}  > /dev/null'.format(
+                                          os.path.join(
+                                          os.path.dirname(
+                                          __file__),
+                                          "include",
+                                          "pathracer"),
+                                          os.path.join(
+                                          os.path.dirname(
+                                          __file__),
+                                          'data',
+                                          'models',
+                                          'Complete.hmm'),
+                                           os.path.realpath(
+                                           self.cry_quiery),
+                                           kmer,
+                                           os.path.join(
+                                           os.path.realpath(
+                                           self.quiery_dir),
+                                           'cry_extraction',
+                                           'pathracer_output'),
+                                           self.hm_threads), 
+                                           shell=True)
+
+
         #save all the sequences and the pathracer log
-        cmd_merge = subprocess.call('cd $PWD/{3}/cry_extraction/pathracer_output; \
+        cmd_merge = subprocess.call('cd {0}; \
                                    if [  -f *seqs.fa ]; \
                                    then cat *seqs.fa >> mearged.fasta;\
                                    fi;\
                                    cp pathracer.log ../logs/;\
-                                   '.format(self.home_dir+'/include',
-                                   self.cry_quiery,
-                                   self.hm_threads,
-                                   self.quiery_dir,
-                                   'pathracer',
-                                   kmer,
-                                   self.home_dir), 
-                                   shell=True) 
+                                   '.format(os.path.join(
+                                           os.path.realpath(
+                                           self.quiery_dir),
+                                           'cry_extraction',
+                                           'pathracer_output')), 
+                                           shell=True) 
         exist_check_flag = re.sub("b",'',
                                   re.sub("\'",'', 
-                                  str(subprocess.check_output("cd $PWD/{}/cry_extraction/pathracer_output; \
+                                  str(subprocess.check_output("cd {}; \
                                   if [ ! -f mearged.fasta ];\
                                   then echo 'no'; \
-                                  fi".format(self.quiery_dir),
-                                  shell =True).strip())))
+                                  fi".format(os.path.join(
+                                           os.path.realpath(
+                                           self.quiery_dir),
+                                           'cry_extraction',
+                                           'pathracer_output')),
+                                            shell =True).strip())))
         if exist_check_flag == 'no':
             self.racer_flag = 1
         if self.racer_flag == 0:
             #rename ids from the pathracer output
             #double {} is used in awk to exclude it from string formating
-            cmd_rename = subprocess.call("cd $PWD/{}/cry_extraction/pathracer_output; \
+            cmd_rename = subprocess.call("cd {}; \
                                    if [  -s mearged.fasta ]; \
                                    then awk \'/^>/{{print \">seq\" ++i; next}}{{print}}\' mearged.fasta > tmp ;\
                                    rm mearged.fasta;\
                                    mv tmp mearged.fasta;\
                                    echo 'done';\
-                                   fi".format(
-                                   self.quiery_dir), 
+                                   fi".format(os.path.join(
+                                           os.path.realpath(
+                                           self.quiery_dir),
+                                           'cry_extraction',
+                                           'pathracer_output')), 
                                    shell=True)
       
 
@@ -1490,31 +1464,75 @@ class CryProcessor:
         self.logger.info('Building the assembly graph')
         if str(self.meta_flag)=='True': 
             #use mataspades if the --meta flag is specified
-            cmd_spades = subprocess.call('{0}/SPAdes-3.13.1-Linux/bin/spades.py \
+            #cmd_spades = subprocess.call('{0}/SPAdes-3.13.1-Linux/bin/spades.py \
+             #                            --meta \
+              #                           -1 {1} -2 {2} \
+               #                          -o $PWD/{3}/cry_extraction/assembly \
+                #                         -t {4} > /dev/null'.format(self.home_dir+'/include', 
+                 #                        self.forw, 
+                  #                       self.rev, 
+                   #                      self.quiery_dir, 
+                    #                     self.hm_threads),
+                     #                    shell=True) 
+            cmd_spades = subprocess.call('{0} \
                                          --meta \
                                          -1 {1} -2 {2} \
-                                         -o $PWD/{3}/cry_extraction/assembly \
-                                         -t {4} > /dev/null'.format(self.home_dir+'/include', 
-                                         self.forw, 
-                                         self.rev, 
-                                         self.quiery_dir, 
-                                         self.hm_threads),
-                                         shell=True) 
-            cmd_merge = subprocess.call('cd $PWD/{0}/cry_extraction/assembly; \
-                                         cp *.log ../logs/'.format(self.quiery_dir),
-                                         shell=True)
+                                         -o {3} \
+                                         -t {4} > /dev/null'.format(
+                                          os.path.join(
+                                          os.path.dirname(
+                                          __file__),
+                                          "SPAdes-3.13.1-Linux",
+                                          "bin",
+                                          "spades.py"),
+                                          os.path.realpath(
+                                          self.forw),
+                                          os.path.realpath(
+                                          self.rev),
+                                          os.path.join(
+                                          os.path.realpath(
+                                          self.quiery_dir),
+                                          'cry_extraction',
+                                          'assembly'),
+                                          self.hm_threads),
+                                          shell=True) 
+
+            cmd_merge = subprocess.call('cd {}; \
+                                         cp *.log ../logs/'.format(
+                                          os.path.join(
+                                          os.path.realpath(
+                                          self.quiery_dir),
+                                          'cry_extraction',
+                                          'assembly')),
+                                          shell=True)
         else:
-            cmd_spades = subprocess.call('{0}/SPAdes-3.13.1-Linux/bin/spades.py \
+            cmd_spades = subprocess.call('{0} \
                                          -1 {1} -2 {2} \
-                                         -o $PWD/{3}/cry_extraction/assembly \
-                                         -t {4} > /dev/null'.format(self.home_dir+'/include', 
-                                         self.forw, 
-                                         self.rev,
-                                         self.quiery_dir, 
-                                         self.hm_threads), 
+                                         -o {3} \
+                                         -t {4} > /dev/null'.format(
+                                          os.path.join(
+                                          os.path.dirname(
+                                          __file__),
+                                          "SPAdes-3.13.1-Linux",
+                                          "bin",
+                                          "spades.py"),
+                                          os.path.realpath(
+                                          self.forw),
+                                          os.path.realpath(
+                                          self.rev),
+                                          os.path.join(
+                                          os.path.realpath(
+                                          self.quiery_dir),
+                                          'cry_extraction',
+                                          'assembly'),
+                                          self.hm_threads)), 
                                          shell=True) 
-            cmd_merge = subprocess.call('cd $PWD/{0}/cry_extraction/assembly; \
-                                         cp *.log ../logs/'.format(self.quiery_dir), 
+            cmd_merge = subprocess.call('cd {}; \
+                                         cp *.log ../logs/'.format(os.path.join(
+                                          os.path.realpath(
+                                          self.quiery_dir),
+                                          'cry_extraction',
+                                          'assembly')), 
                                          shell=True)       
 
 if __name__ == '__main__':
@@ -1603,7 +1621,7 @@ if __name__ == '__main__':
         if not mra:
             fasta_flag = re.sub("b",'',
                                 re.sub("\'",'', 
-                                str(subprocess.check_output("grep '>' {} | wc -l".format(fi), 
+                                str(subprocess.check_output("grep '>' {} | wc -l".format(os.path.realpath(fi)), 
                                 shell =True).strip())))
             if int(fasta_flag)==0:
                 raise Exception('No records are present in the fasta file')  
@@ -1611,7 +1629,7 @@ if __name__ == '__main__':
     #check if regimes are not mixed 
     if (mra and fr) or (fr and fi) or (fi and re and fr) or (fi and re and fr and mra):
         raise Exception('You should not mix the --pathracer regime with the assembly regime and the fasta-serching regime; choose only the one option')
-    #check if only one file with reads is specified
+    #check if only the one file with reads is specified
     if fr and not rr or rr and not fr:
         raise Exception('Specify both forward and reverse reads')
     if fr:
@@ -1622,7 +1640,7 @@ if __name__ == '__main__':
             raise Exception('The File with reverse reads does not exists')
         elif not os.path.isfile(fr):
             raise Exception('The File with forward reads does not exists')
-    #initialize cry processor class
+    #initialize CryProcessor class
     cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr,s)
     if not mra and not fr:
         #pipeline for the protein fasta file
@@ -1641,7 +1659,11 @@ if __name__ == '__main__':
         cr.launch_racer(k)
         if cr.racer_flag != 1:
             #go to the next step only if the pathracer output is not empty
-            fi = od + '/cry_extraction/pathracer_output/mearged.fasta'
+            fi = os.path.join(os.path.realpath(
+                              self.quiery_dir),
+                              'cry_extraction',
+                              'pathracer_output',
+                              'mearged.fasta')
             cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr,s)
             cr.cry_digestor()
             if cr.hmmer_result_flag != 1:
@@ -1658,13 +1680,23 @@ if __name__ == '__main__':
             cr.logger.info('No toxins found in the assembly graph')
 
     elif fr:
-        #full pipeline for with spades assembly
+        #full pipeline with spades assembly
         cr.use_spades()
-        fi = od + '/cry_extraction/assembly/assembly_graph_with_scaffolds.gfa'
+        fi = os.path.join(
+                          os.path.realpath(
+                          self.quiery_dir),
+                          'cry_extraction',
+                          'assembly',
+                          'assembly_graph_with_scaffolds.gfa') 
         cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr,s)
         cr.launch_racer(k)
         if cr.racer_flag != 1:
-            fi = od + '/cry_extraction/pathracer_output/mearged.fasta'
+            fi = os.path.join(
+                              os.path.realpath(
+                              self.quiery_dir),
+                              'cry_extraction',
+                              'pathracer_output',
+                              'mearged.fasta')
             cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr,s)
             cr.cry_digestor()
             if cr.hmmer_result_flag != 1:
@@ -1682,5 +1714,9 @@ if __name__ == '__main__':
     if not s:
         print('CryProcessor has finished, thanks for using us!')
     cr.logger.info('CryProcessor has finished, thanks for using us!')
-    move_log = subprocess.call('mv cry_processor.log $PWD/{}/cry_extraction/logs '.format(cr.quiery_dir), 
+    move_log = subprocess.call('mv cry_processor.log {}'.format(os.path.join(
+                              os.path.realpath(
+                              self.quiery_dir),
+                              'cry_extraction',
+                              'logs')), 
                                shell=True)

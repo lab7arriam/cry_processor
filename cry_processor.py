@@ -1716,7 +1716,7 @@ if __name__ == '__main__':
     cr.logger.info('CryProcessor has finished, thanks for using us!')
     move_log = subprocess.call('mv cry_processor.log {}'.format(os.path.join(
                               os.path.realpath(
-                              self.quiery_dir),
+                              od),
                               'cry_extraction',
                               'logs')), 
                                shell=True)

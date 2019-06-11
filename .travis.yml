@@ -18,4 +18,4 @@ script:
    - "python3 cry_processor.py -fi test/small.faa  -od fd_test_pr_a -r fd -pr 2 -a -nu an"
    - "python3 cry_processor.py -fi test/small.faa  -od fd_test_pr_a -r fd -pr 1 -a -nu fn"  
    - "mkdir test_dir; cd test_dir; python3 ../cry_processor.py -fi ../test/small.faa  -od double_test -r fd -pr 1"
-   - "python3 cry_processor.py -fi test/graph_with_hmm_paths.gfa -od pathracer_test -r fd"
+   - "cd; python3 cry_processor.py -fi test/graph_with_hmm_paths.gfa -od pathracer_test -r fd"

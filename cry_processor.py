@@ -1452,7 +1452,7 @@ class CryProcessor:
                                            self.quiery_dir),
                                            'cry_extraction',
                                            'pathracer_output')), 
-                                   shell=True)
+                                            shell=True)
       
 
     def use_spades(self):
@@ -1526,14 +1526,14 @@ class CryProcessor:
                                           'cry_extraction',
                                           'assembly'),
                                           self.hm_threads)), 
-                                         shell=True) 
+                                          shell=True) 
             cmd_merge = subprocess.call('cd {}; \
                                          cp *.log ../logs/'.format(os.path.join(
                                           os.path.realpath(
                                           self.quiery_dir),
                                           'cry_extraction',
                                           'assembly')), 
-                                         shell=True)       
+                                          shell=True)       
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Example usage: pyhton3 cry_processor.py -fi <input.fasta> -od <the output directory>')

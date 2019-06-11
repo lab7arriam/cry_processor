@@ -1525,7 +1525,7 @@ class CryProcessor:
                                           self.quiery_dir),
                                           'cry_extraction',
                                           'assembly'),
-                                          self.hm_threads)), 
+                                          self.hm_threads), 
                                           shell=True) 
             cmd_merge = subprocess.call('cd {}; \
                                          cp *.log ../logs/'.format(os.path.join(

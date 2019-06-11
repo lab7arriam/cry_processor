@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/anton-shikov/cry_processor.svg?branch=master)](https://travis-ci.com/anton-shikov/cry_processor) ![python3.5](https://img.shields.io/badge/language-python%203.5-blue.svg)
+![image](https://img.shields.io/badge/Platforms-linux--64-orange.svg)
 
 # CryProcessor
 CryProcessor is a high-troughtput tool for the Cry toxins mining from the fasta-files or directly from the illumina reads.
@@ -230,9 +231,10 @@ In the output directory, specified with the <i>-od</i> flag, the <i>cry_extracti
   </li>
   <li>cry_extraction/first_search_&lt;input&gt;.fasta - the result of <i>hmmsearch</i> with the full model on the quiery in the fasta format. This file is later used as a queiry for the domains search; </li>
   <li>cry_extraction/raw_full_&lt;input&gt;.fasta. This file containes the full protein sequences of the Cry toxins possesing all three domains; </li>
-  <li>cry_extraction/raw_processed_&lt;input&gt;.fasta. This file containes the processed protein sequences (without left and right lanking parts) of the Cry toxins possesing all three domains; </li>
+  <li>cry_extraction/raw_processed_&lt;input&gt;.fasta -this file containes the processed protein sequences (without left and right lanking parts) of the Cry toxins possesing all three domains; </li>
   <li>cry_extraction/proteins_domain_mapping_full_&lt;input&gt;.bed - the file in the bed format, containing the domain coordinate mappings for the uprocessed protein sequences; </li>
   <li>cry_extraction/proteins_domain_mapping_processed_&lt;input&gt;.bed - the file in the bed format, containing the domain coordinate mappings for the processed protein sequences; </li>
+  <li>cry_extraction/unique_&lt;input&gt;.fasta - this file containes the potentially new Cry toxins, differing from Bt nnomenclature afrer <i>diamond blastp</i>; </li>
   <li>cry_extraction/annotation_table_&lt;input&gt;.tsv - the result of the ipg annotation of the found toxins (the structure of the file is described above); </li>
   <li>cry_extraction/&lt;input&gt;_full_nucl.fna - the full nucleotide sequences for the found toxins; </li>
   <li>cry_extraction/&lt;input&gt;_processed_nucl.fna - the processed nucleotide sequences for the found toxins; </li>
@@ -240,7 +242,7 @@ In the output directory, specified with the <i>-od</i> flag, the <i>cry_extracti
   <li>cry_extraction/nucl_domain_mapping_processed_&lt;input&gt;.bed - the file in the bed format, containing the domain coordinate mappings for the processed nucleotide sequences; </li>
 </ul>
 
-Note, that in the files, marked with the <i>raw</i> prefix the initial accession numbers from the quiery are used as ids, while in the files, obtained after the <i>diamond blastp</i> (&lt;input&gt;_full_nucl.fna, &lt;input&gt;_processed_nucl.fna and annotation_table_&lt;input&gt;.tsv) the id structure is modified in the following way: <br>
+Note, that in the files, marked with the <i>raw</i> prefix the initial accession numbers from the quiery are used as ids, while in the files, obtained after <i>diamond blastp</i> (&lt;input&gt;_full_nucl.fna, &lt;input&gt;_processed_nucl.fna and cry_extraction/unique_&lt;input&gt;.fasta) the id structure is modified in the following way: <br>
 <ul>
 <li>Cry53Aa1(40.7)_WP_103591149.1 </li>
 <li>&lt;top Cry protein hit from Bt nomenclature&gt;(&lt;the identity score with this hit&gt;)_&lt;the initial accession number&gt;</li>

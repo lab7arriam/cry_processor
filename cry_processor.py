@@ -841,7 +841,6 @@ class CryProcessor:
             if key.split("|")[0] in self.new_ids.keys():
                 print(self.new_ids[key.split("|")[0]].split('|')[0] +"("+self.new_ids[key.split("|")[0]].split('|')[1]+")_"+key.split("|")[0])
                 new_coord_dict[self.new_ids[key.split("|")[0]].split('|')[0] +"("+self.new_ids[key.split("|")[0]].split('|')[1]+")_"+key.split("|")[0]]=self.coordinate_dict[key]
-        print(new_coord_dict)
         with open(os.path.join(
                       os.path.realpath(
                       self.query_dir),

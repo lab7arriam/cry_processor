@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.com/anton-shikov/cry_processor.svg?branch=master)](https://travis-ci.com/anton-shikov/cry_processor) ![python3.5](https://img.shields.io/badge/language-python%203.5-blue.svg)
 ![image](https://img.shields.io/badge/Platforms-linux--64-orange.svg)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 # CryProcessor
 CryProcessor is a high-troughtput tool for the Cry toxins mining from the fasta-files or directly from the illumina reads.

@@ -80,12 +80,12 @@ class CryProcessor:
                                                                  shell=True)
 
 
-    def run_hmmer(self,queiry,out_index,model_type,dir_flag,log,hm_threads,query_dir):
+    def run_hmmer(self,query,out_index,model_type,dir_flag,log,hm_threads,query_dir):
         """
-        Runs hmmsearch on queiry
+        Runs hmmsearch on query
         Args
         =====
-        queiry: fasta file for performing search
+        query: fasta file for performing search
         out_index: postfix for .sto output file
         model_type: which hmm-model to use
         dir_flag: output directory for search
@@ -131,7 +131,7 @@ class CryProcessor:
                                                               'models',
                                                               model_type),
                                                               os.path.realpath(
-                                                              queiry), 
+                                                              query), 
                                                               os.path.join(
                                                               os.path.realpath(
                                                               self.query_dir),
@@ -199,7 +199,7 @@ class CryProcessor:
                                           'models',
                                           model_type),
                                           os.path.realpath(
-                                          queiry),
+                                          query),
                                           os.path.join(
                                           os.path.realpath(
                                           self.query_dir),
@@ -240,7 +240,7 @@ class CryProcessor:
                                   self.query_dir),
                                   'cry_extraction',
                                   dir_flag),
-                                  queiry.split('/')[len(queiry.split('/'))-1].split('.')[0]+
+                                  query.split('/')[len(query.split('/'))-1].split('.')[0]+
                                   out_index),
                                   shell =True).strip())))
         if exist_check_flag == 'no':
@@ -251,7 +251,7 @@ class CryProcessor:
         Launches run_hmmer function on full unprocessed toxins (Complete.hmm model in data/models)
         Args
         =====
-        queiry: fasta file for performing search
+        query: fasta file for performing search
         """
         if not self.silent_mode:
             print('Searching for the unprocessed Cry toxins')
@@ -269,7 +269,7 @@ class CryProcessor:
         Launches run_hmmer function on full domains of cry-toxins (D1.hmm, D2.hmm and D3.hmm models in data/models)
         Args
         =====
-        queiry: fasta file for performing search
+        query: fasta file for performing search
         """
         # loop over domain indicies
         for i in range(1,4):
@@ -439,8 +439,8 @@ class CryProcessor:
                         "fasta")
                 if check_flag==1:
                     if not self.silent_mode:
-                        print('Warning! Identical ids in the queiry, the uncertain mapping can occur')
-                    self.logger.warning('Warning! Identical ids in the queiry, the uncertain mapping can occur')
+                        print('Warning! Identical ids in the query, the uncertain mapping can occur')
+                    self.logger.warning('Warning! Identical ids in the query, the uncertain mapping can occur')
                 if not self.silent_mode:
                     print('{} sequences recieved'.format(self.init_count))
                     print('{} potential Cry toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
@@ -607,8 +607,8 @@ class CryProcessor:
                         "fasta")
                 if check_flag==1:
                     if not self.silent_mode:
-                        print('Warning! Identical ids in the queiry, the uncertain mapping can occur')
-                    self.logger.warning('Warning! Identical ids in the queiry, the uncertain mapping can occur')
+                        print('Warning! Identical ids in the query, the uncertain mapping can occur')
+                    self.logger.warning('Warning! Identical ids in the query, the uncertain mapping can occur')
                 if not self.silent_mode:
                     print('{} sequences recieved'.format(self.init_count))
                     print('{} potential Cry toxins found'.format(self.one_dom_count+self.two_dom_count+self.three_dom_count))
@@ -633,15 +633,15 @@ class CryProcessor:
                       self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),'w') as csv_file:
                 my_writer = csv.writer(csv_file, delimiter='\t') 
                 #create a bed-file for mapping to specify start and stop coordinates, id and description
-                init_row = ['id','domain' ,'start', 'stop', 'description']
-                my_writer.writerow(init_row)
+                #init_row = ['id','domain' ,'start', 'stop', 'description']
+                #my_writer.writerow(init_row)
                 for key in self.coordinate_dict:
                     #iterate over starting indicies in the dictionary of coordinates
                     if self.processing_flag!="2":
                         for i in range(0,5,2):
                             if i==0:
                                 row=[key.split('|')[0],
-                                 'domain {}'.format(1),
+                                 'domain_{}'.format(1)+'_'+key.split('|')[0],
                                   int(self.coordinate_dict[key][i])-int(self.coordinate_dict[key][0]),
                                   int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1, 
                                   " ".join(key.split('|')[1:])] 
@@ -651,7 +651,7 @@ class CryProcessor:
                                 else:
                                     dn=3
                                 row=[key.split('|')[0],
-                                 'domain {}'.format(dn),
+                                 'domain_{}'.format(dn)+'_'+key.split('|')[0],
                                  int(self.coordinate_dict[key][i])-int(self.coordinate_dict[key][0])-1,
                                  int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1, 
                                  " ".join(key.split('|')[1:])] 
@@ -660,7 +660,7 @@ class CryProcessor:
                         for i in range(0,3,2):
                             if i==0:
                                 row=[key.split('|')[0],
-                                 'domain {}'.format(2),
+                                 'domain_{}'.format(2)+'_'+key.split('|')[0],
                                   int(self.coordinate_dict[key][i])-int(self.coordinate_dict[key][0]),
                                   int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1, 
                                   " ".join(key.split('|')[1:])]  
@@ -668,7 +668,7 @@ class CryProcessor:
                                 if i==2:
                                     dn=3
                                 row=[key.split('|')[0],
-                                 'domain {}'.format(dn),
+                                 'domain_{}'.format(dn)+'_'+key.split('|')[0],
                                  int(self.coordinate_dict[key][i])-int(self.coordinate_dict[key][0])-1,
                                  int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1, 
                                  " ".join(key.split('|')[1:])]  
@@ -684,14 +684,14 @@ class CryProcessor:
                       'proteins_domain_mapping_full_{}.bed'.format(
                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),'w') as csv_file:
                 my_writer = csv.writer(csv_file, delimiter='\t') 
-                init_row = ['id','domain' ,'start', 'stop', 'description']
-                my_writer.writerow(init_row)
+                #init_row = ['id','domain' ,'start', 'stop', 'description']
+                #my_writer.writerow(init_row)
                 for key in self.coordinate_dict:
                     if self.processing_flag!="2":
                         for i in range(0,5,2):
                             if i==0:
                                 row=[key.split('|')[0],
-                                 'domain {}'.format(1),
+                                 'domain_{}'.format(1)+'_'+key.split('|')[0],
                                   int(self.coordinate_dict[key][i]),
                                   int(self.coordinate_dict[key][i+1])-1, 
                                   " ".join(key.split('|')[1:])] 
@@ -701,7 +701,7 @@ class CryProcessor:
                                 else:
                                     dn=3
                                 row=[key.split('|')[0],
-                                 'domain {}'.format(dn),
+                                 'domain_{}'.format(dn)+'_'+key.split('|')[0],
                                  int(self.coordinate_dict[key][i])-1,
                                  int(self.coordinate_dict[key][i+1])-1, 
                                  " ".join(key.split('|')[1:])] 
@@ -712,7 +712,7 @@ class CryProcessor:
                         for i in range(0,3,2):
                             if i==0:
                                 row=[key.split('|')[0],
-                                 'domain {}'.format(2),
+                                 'domain_{}'.format(2)+'_'+key.split('|')[0],
                                   int(self.coordinate_dict[key][i]),
                                   int(self.coordinate_dict[key][i+1])-1, 
                                   " ".join(key.split('|')[1:])] 
@@ -720,7 +720,7 @@ class CryProcessor:
                                 if i==2:
                                     dn=3
                                 row=[key.split('|')[0],
-                                 'domain {}'.format(dn),
+                                 'domain_{}'.format(dn)+'_'+key.split('|')[0],
                                  int(self.coordinate_dict[key][i])-1,
                                  int(self.coordinate_dict[key][i+1])-1, 
                                  " ".join(key.split('|')[1:])] 
@@ -833,6 +833,62 @@ class CryProcessor:
                                 'unique_{}.fasta'.format(
                                 self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 
                                 "fasta")
+
+        new_coord_dict = defaultdict(list)
+        #print(self.coordinate_dict)
+        #print(self.new_ids)
+        for key in self.coordinate_dict:
+            if key.split("|")[0] in self.new_ids.keys():
+                print(self.new_ids[key.split("|")[0]].split('|')[0] +"("+self.new_ids[key.split("|")[0]].split('|')[1]+")_"+key.split("|")[0])
+                new_coord_dict[self.new_ids[key.split("|")[0]].split('|')[0] +"("+self.new_ids[key.split("|")[0]].split('|')[1]+")_"+key.split("|")[0]]=self.coordinate_dict[key]
+        print(new_coord_dict)
+        with open(os.path.join(
+                      os.path.realpath(
+                      self.query_dir),
+                      "cry_extraction",
+                      'unique_proteins_domain_mapping_{}.bed'.format(
+                        self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),'w') as csv_file:
+                my_writer = csv.writer(csv_file, delimiter='\t') 
+                for key in new_coord_dict:
+                    if self.processing_flag!="2":
+                        for i in range(0,5,2):
+                            if i==0:
+                                row=[key.split('|')[0],
+                                 'domain_{}'.format(1)+'_'+key.split('|')[0],
+                                  int(new_coord_dict[key][i])-int(new_coord_dict[key][0]),
+                                  int(new_coord_dict[key][i+1])-1-int(new_coord_dict[key][0]), 
+                                  " ".join(key.split('|')[1:])] 
+                            else:
+                                if i==2:
+                                    dn=2
+                                else:
+                                    dn=3
+                                row=[key.split('|')[0],
+                                 'domain_{}'.format(dn)+'_'+key.split('|')[0],
+                                 int(new_coord_dict[key][i])-1-int(new_coord_dict[key][0]),
+                                 int(new_coord_dict[key][i+1])-1-int(new_coord_dict[key][0]), 
+                                 " ".join(key.split('|')[1:])] 
+
+                        
+                            my_writer.writerow(row)
+                    else:
+                        for i in range(0,3,2):
+                            if i==0:
+                                row=[key.split('|')[0],
+                                 'domain_{}'.format(2)+'_'+key.split('|')[0],
+                                  int(new_coord_dict[key][i])-int(new_coord_dict[key][0]),
+                                  int(new_coord_dict[key][i+1])-1-int(new_coord_dict[key][0]), 
+                                  " ".join(key.split('|')[1:])] 
+                            else:
+                                if i==2:
+                                    dn=3
+                                row=[key.split('|')[0],
+                                 'domain_{}'.format(dn)+'_'+key.split('|')[0],
+                                 int(new_coord_dict[key][i])-1-int(new_coord_dict[key][0]),
+                                 int(new_coord_dict[key][i+1])-1-int(new_coord_dict[key][0]), 
+                                 " ".join(key.split('|')[1:])] 
+                            my_writer.writerow(row)
+
         #move intermediate files to the log directory if the annotation flag is not specified
         if self.mode == 'fd':
             cmd_clean_up = subprocess.call("mv {0} \
@@ -973,6 +1029,8 @@ class CryProcessor:
                                            self.query_dir),
                                            'cry_extraction')), 
                                            shell=True)
+
+           
 
     def upload_nucl(self):
         """
@@ -1247,8 +1305,8 @@ class CryProcessor:
                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 
                    'w') as csvfile:
              my_writer = csv.writer(csvfile, delimiter='\t') 
-             init_row = ['id','domain', 'start', 'stop', 'description']
-             my_writer.writerow(init_row)
+             #init_row = ['id','domain', 'start', 'stop', 'description']
+             #my_writer.writerow(init_row)
              for key in keys_for_nucl:
                  try:
                      if self.processing_flag!="2":
@@ -1258,7 +1316,7 @@ class CryProcessor:
                                 row=[keys_for_nucl[key][5]+
                                  '('+keys_for_nucl[key][6]+')'+'_'+
                                  keys_for_nucl[key][0].split('|')[0],
-                                 'domain {}'.format(1),
+                                 'domain {}'.format(1)+'_'+key.split('|')[0],
                                  (int(domain_coord_dict[keys_for_nucl[key][0]][i])-1)*3-
                                  (int(domain_coord_dict[keys_for_nucl[key][0]][0])-1)*3,
                                  int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-
@@ -1272,7 +1330,7 @@ class CryProcessor:
                                 row=[keys_for_nucl[key][5]+
                                 '('+keys_for_nucl[key][6]+')'+'_'+
                                 keys_for_nucl[key][0].split('|')[0],
-                                'domain {}'.format(dn),
+                                'domain {}'.format(dn)+'_'+key.split('|')[0],
                                 (int(domain_coord_dict[keys_for_nucl[key][0]][i])-1)*3-
                                 (int(domain_coord_dict[keys_for_nucl[key][0]][0])-1)*3-1,
                                 int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-
@@ -1285,7 +1343,7 @@ class CryProcessor:
                                 row=[keys_for_nucl[key][5]+
                                  '('+keys_for_nucl[key][6]+')'+'_'+
                                  keys_for_nucl[key][0].split('|')[0],
-                                 'domain {}'.format(2),
+                                 'domain {}'.format(2)+'_'+key.split('|')[0],
                                  (int(domain_coord_dict[keys_for_nucl[key][0]][i])-1)*3-
                                  (int(domain_coord_dict[keys_for_nucl[key][0]][0])-1)*3,
                                  int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-
@@ -1297,7 +1355,7 @@ class CryProcessor:
                                 row=[keys_for_nucl[key][5]+
                                 '('+keys_for_nucl[key][6]+')'+'_'+
                                 keys_for_nucl[key][0].split('|')[0],
-                                'domain {}'.format(dn),
+                                'domain {}'.format(dn)+'_'+key.split('|')[0],
                                 (int(domain_coord_dict[keys_for_nucl[key][0]][i])-1)*3-
                                 (int(domain_coord_dict[keys_for_nucl[key][0]][0])-1)*3-1,
                                 int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-
@@ -1315,8 +1373,8 @@ class CryProcessor:
                    self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 
                    'w') as csvfile:
              my_writer = csv.writer(csvfile, delimiter='\t') 
-             init_row = ['id','domain', 'start', 'stop', 'description']
-             my_writer.writerow(init_row)
+             #init_row = ['id','domain', 'start', 'stop', 'description']
+             #my_writer.writerow(init_row)
              for key in keys_for_nucl:
                  try:
                      if self.processing_flag!="2":
@@ -1325,7 +1383,7 @@ class CryProcessor:
                                 row=[keys_for_nucl[key][5]+
                                  '('+keys_for_nucl[key][6]+')'+'_'+
                                  keys_for_nucl[key][0].split('|')[0],
-                                 'domain {}'.format(1),
+                                 'domain_{}'.format(1)+'_'+key.split('|')[0],
                                  (int(domain_coord_dict[keys_for_nucl[key][0]][i])-1)*3,
                                  int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-1,
                                   " ".join(keys_for_nucl[key][0].split('|'))]  
@@ -1337,7 +1395,7 @@ class CryProcessor:
                                 row=[keys_for_nucl[key][5]+
                                 '('+keys_for_nucl[key][6]+')'+'_'+
                                 keys_for_nucl[key][0].split('|')[0],
-                                'domain {}'.format(dn),
+                                'domain_{}'.format(dn)+'_'+key.split('|')[0],
                                 (int(domain_coord_dict[keys_for_nucl[key][0]][i])-1)*3-1,
                                 int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-1, 
                                 " ".join(keys_for_nucl[key][0].split('|'))]      
@@ -1348,7 +1406,7 @@ class CryProcessor:
                                 row=[keys_for_nucl[key][5]+
                                  '('+keys_for_nucl[key][6]+')'+'_'+
                                  keys_for_nucl[key][0].split('|')[0],
-                                 'domain {}'.format(2),
+                                 'domain_{}'.format(2)+'_'+key.split('|')[0],
                                  (int(domain_coord_dict[keys_for_nucl[key][0]][i])-1)*3,
                                  int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-1,
                                   " ".join(keys_for_nucl[key][0].split('|'))]  
@@ -1358,7 +1416,7 @@ class CryProcessor:
                                 row=[keys_for_nucl[key][5]+
                                 '('+keys_for_nucl[key][6]+')'+'_'+
                                 keys_for_nucl[key][0].split('|')[0],
-                                'domain {}'.format(dn),
+                                'domain_{}'.format(dn)+'_'+key.split('|')[0],
                                 (int(domain_coord_dict[keys_for_nucl[key][0]][i])-1)*3-1,
                                 int(domain_coord_dict[keys_for_nucl[key][0]][i+1])*3-1, 
                                 " ".join(keys_for_nucl[key][0].split('|'))]      
@@ -1465,16 +1523,6 @@ class CryProcessor:
         self.logger.info('Building the assembly graph')
         if str(self.meta_flag)=='True': 
             #use mataspades if the --meta flag is specified
-            #cmd_spades = subprocess.call('{0}/SPAdes-3.13.1-Linux/bin/spades.py \
-             #                            --meta \
-              #                           -1 {1} -2 {2} \
-               #                          -o $PWD/{3}/cry_extraction/assembly \
-                #                         -t {4} > /dev/null'.format(self.home_dir+'/include', 
-                 #                        self.forw, 
-                  #                       self.rev, 
-                   #                      self.query_dir, 
-                    #                     self.hm_threads),
-                     #                    shell=True) 
             cmd_spades = subprocess.call('{0} \
                                          --meta \
                                          -1 {1} -2 {2} \

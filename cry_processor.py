@@ -1603,7 +1603,7 @@ if __name__ == '__main__':
                         type=str, 
                         default=1)
     parser.add_argument('-th', 
-                        help='Number of threads for Hmmer and PathRacer', 
+                        help='Number of threads for Hmmer/PathRacer/SPAdes', 
                         metavar='Int',
                         type=str, 
                         default=8)
@@ -1626,7 +1626,7 @@ if __name__ == '__main__':
     parser.add_argument('--annotate', 
                         '-a',
                          action='store_true',
-                         help='make the final output annotation with the ipg database')
+                         help='make the final output annotation with the IPG database')
     parser.add_argument('-nu', 
                          help='Uploading the nucleotide records: fn - uploading the full sequences, \
                          pn - uploading the processed subsequences, \
@@ -1762,8 +1762,8 @@ if __name__ == '__main__':
                 print('No toxins found in the assembly graph')
             cr.logger.info('No toxins found in the assembly graph')
     if not s:
-        print('CryProcessor has finished, thanks for using us!')
-    cr.logger.info('CryProcessor has finished, thanks for using us!')
+        print('CryProcessor has finished, thanks for crying (with) us!')
+    cr.logger.info('CryProcessor has finished, thanks for crying (with) us!')
     move_log = subprocess.call('mv cry_processor.log {}'.format(os.path.join(
                               os.path.realpath(
                               od),

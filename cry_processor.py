@@ -1530,6 +1530,7 @@ class CryProcessor:
                                           os.path.join(
                                           os.path.dirname(
                                           __file__),
+                                          "include",
                                           "SPAdes-3.13.1-Linux",
                                           "bin",
                                           "spades.py"),
@@ -1561,6 +1562,7 @@ class CryProcessor:
                                           os.path.join(
                                           os.path.dirname(
                                           __file__),
+                                          "include",
                                           "SPAdes-3.13.1-Linux",
                                           "bin",
                                           "spades.py"),

@@ -70,11 +70,8 @@ class CryProcessor:
         cmd_init = subprocess.call('if [ ! -d {0} ]; \
                                      then mkdir {0}; \
                                                       fi; \
-                     if [ ! -d {0}/cry_extraction ]; \
-                      then mkdir {0}/cry_extraction; \
-                                                      fi; \
-                if [ ! -d {0}/cry_extraction/logs ]; \
-                 then mkdir {0}/cry_extraction/logs; \
+                if [ ! -d {0}/logs ]; \
+                 then mkdir {0}/logs; \
                                                       fi'.format(os.path.realpath(
                                                                  self.query_dir)), 
                                                                  shell=True)
@@ -101,8 +98,7 @@ class CryProcessor:
                                             then mkdir {1}; \
                                             fi'.format(os.path.join(
                                             os.path.realpath(
-                                            query_dir),
-                                            "cry_extraction"),
+                                            query_dir)),
                                             dir_flag), 
                                             shell=True)
             #perform hmmsearch 
@@ -120,7 +116,6 @@ class CryProcessor:
                                                              os.path.join(
                                                              os.path.realpath(
                                                              self.query_dir),
-                                                             'cry_extraction',
                                                               dir_flag,
                                                              self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
                                                              out_index),
@@ -135,7 +130,6 @@ class CryProcessor:
                                                               os.path.join(
                                                               os.path.realpath(
                                                               self.query_dir),
-                                                              'cry_extraction',
                                                               "logs", 
                                                               log+'.log')), 
                                                               shell=True) 
@@ -146,14 +140,12 @@ class CryProcessor:
                                          fi'.format(os.path.join(
                                               os.path.realpath(
                                               self.query_dir),
-                                              'cry_extraction',
                                               dir_flag,
                                               self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
                                               out_index), 
                                               os.path.join(
                                               os.path.realpath(
                                               self.query_dir),
-                                              'cry_extraction',
                                               dir_flag,
                                               self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
                                               out_index.replace('sto','fasta')),
@@ -169,8 +161,7 @@ class CryProcessor:
                                             then mkdir {1}; \
                                             fi'.format(os.path.join(
                                             os.path.realpath(
-                                            query_dir),
-                                            "cry_extraction"),
+                                            query_dir)),
                                             dir_flag), 
                                             shell=True)
 
@@ -188,7 +179,6 @@ class CryProcessor:
                                           os.path.join(
                                           os.path.realpath(
                                           self.query_dir),
-                                          'cry_extraction',
                                           dir_flag,
                                           self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
                                           out_index),
@@ -203,7 +193,6 @@ class CryProcessor:
                                           os.path.join(
                                           os.path.realpath(
                                           self.query_dir),
-                                          'cry_extraction',
                                           "logs", 
                                           log+'.log')), 
                                           shell=True) 
@@ -213,14 +202,12 @@ class CryProcessor:
                                          fi'.format(os.path.join(
                                          os.path.realpath(
                                          self.query_dir),
-                                         'cry_extraction',
                                          dir_flag,
                                          self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
                                          out_index), 
                                          os.path.join(
                                          os.path.realpath(
                                          self.query_dir),
-                                         'cry_extraction',
                                          dir_flag,
                                          self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
                                          out_index.replace('sto','fasta')),
@@ -230,21 +217,20 @@ class CryProcessor:
                                          "include",
                                          "esl-reformat")), 
                                          shell=True) 
-        exist_check_flag = re.sub("b",'',
-                                  re.sub("\'",'', 
-                                  str(subprocess.check_output("cd {0}; \
-                                  if [ ! -s {1} ];\
-                                  then echo 'no'; \
-                                  fi".format(os.path.join(
-                                  os.path.realpath(
-                                  self.query_dir),
-                                  'cry_extraction',
-                                  dir_flag),
-                                  query.split('/')[len(query.split('/'))-1].split('.')[0]+
-                                  out_index),
-                                  shell =True).strip())))
-        if exist_check_flag == 'no':
-            self.hmmer_result_flag = 1
+#        exist_check_flag = re.sub("b",'',
+#                                  re.sub("\'",'', 
+#                                  str(subprocess.check_output("cd {0}; \
+#                                  if [ ! -s {1} ];\
+#                                  then echo 'no'; \
+#                                  fi".format(os.path.join(
+#                                  os.path.realpath(
+#                                  self.query_dir),
+#                                  dir_flag),
+#                                  query.split('/')[len(query.split('/'))-1].split('.')[0]+
+#                                  out_index),
+#                                  shell =True).strip())))
+ #       if exist_check_flag == 'no':
+ #           self.hmmer_result_flag = 1
 
     def find_cry(self, qiuery):
         """
@@ -334,78 +320,60 @@ class CryProcessor:
                             self.hm_threads, 
                             self.query_dir)
 
-        mearging_cmd = subprocess.call('if [ -s {0} ] && [ -s {1} ] && [ -s {2} ] && [ -s {3} ]  && [ -s {4} ] && [ -s {5} ] && [ -s {6} ];\
-                                         then cat {0} {1} {2} {3} {4} {5} {6} > tmp_2.fasta; \
-                                         mv tmp_2.fasta {6}; rm tmp_2.fasta;   \
-                                         fi'.format(os.path.join(
+        mearging_cmd = subprocess.call("cd {0}; ls | grep '*fasta';\
+                                         cat $(ls | grep -E '*(_D2_extracted|_cry31|_long_32_11|_Endotoxin_mid|_Endotoxin_M|_extra|_cry_58).fasta') > tmp_2.fasta; \
+                                         mv tmp_2.fasta {1};   \
+                                         fi".format(os.path.join(
                                          os.path.realpath(
                                          self.query_dir),
-                                         'cry_extraction',
-                                         'domains',
+                                         'domains'),
                                          self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
-                                         '_Endotoxin_mid.fasta'),
-                                         os.path.join(
-                                         os.path.realpath(
-                                         self.query_dir),
-                                         'cry_extraction',
-                                         'domains',
-                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
-                                         '_Endotoxin_M.fasta'),
-                                         os.path.join(
-                                         os.path.realpath(
-                                         self.query_dir),
-                                         'cry_extraction',
-                                         'domains',
-                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
-                                         '_cry31.fasta'),
-                                         os.path.join(
-                                         os.path.realpath(
-                                         self.query_dir),
-                                         'cry_extraction',
-                                         'domains',
-                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
-                                         '_cry_58.fasta'),
-                                         os.path.join(
-                                         os.path.realpath(
-                                         self.query_dir),
-                                         'cry_extraction',
-                                         'domains',
-                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
-                                         '_extra.fasta'),
-                                         os.path.join(
-                                         os.path.realpath(
-                                         self.query_dir),
-                                         'cry_extraction',
-                                         'domains',
-                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
-                                         '_long_32_11.fasta'),
-                                         os.path.join(
-                                         os.path.realpath(
-                                         self.query_dir),
-                                         'cry_extraction',
-                                         'domains',
-                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
-                                         '_D2_extracted.fasta') ), 
+                                         '_D2_extracted.fasta'), 
                                          shell=True)
 
-        mearging_cmd = subprocess.call('if [ -s {0} ] && [ -s {1} ];\
-                                         then cat {0} {1} > tmp_3.fasta; \
-                                         mv tmp_3.fasta {1}; rm tmp_3.fasta;   \
-                                         fi'.format(os.path.join(
+        mearging_cmd = subprocess.call("cd {0};\
+                                         cat $(ls | grep -E '*(_D3_extracted|_extra_3).fasta') > tmp_3.fasta; \
+                                         mv tmp_3.fasta {1};   \
+                                         fi".format(os.path.join(
                                          os.path.realpath(
                                          self.query_dir),
-                                         'cry_extraction',
-                                         'domains',
+                                         'domains'),
                                          self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
-                                         '_extra_3.fasta'),
-                                         os.path.join(
-                                         os.path.realpath(
-                                         self.query_dir),
-                                         'cry_extraction',
-                                         'domains',
-                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
-                                         '_D3_extracted.fasta') ), 
+                                         '_D3_extracted.fasta'), 
                                          shell=True)
+        print(self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+'_D1_extracted.fasta')
+
+       # exist_check_flag = subprocess.call("cd {0}; \
+        #                          if [ ! -s {1} ] || [ ! -s {2} ] || [ ! -s {3} ];\
+         #                         then echo 'no'; \
+          #                        fi".format(os.path.join(
+           #                       os.path.realpath(
+            #                      self.query_dir),
+             #                     'domains'),
+              #                    self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+               #                          '_D1_extracted.fasta',
+                #                  self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                 #                        '_D2_extracted.fasta',
+                  #                self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                   #                      '_D3_extracted.fasta'), shell=True)
+        exist_check_flag = re.sub("b",'',
+                                  re.sub("\'",'', 
+                                  str(subprocess.check_output("cd {0}; \
+                                  if [ ! -s {1} ] || [ ! -s {2} ] || [ ! -s {3} ];\
+                                  then echo 'no'; \
+                                  fi".format(os.path.join(
+                                  os.path.realpath(
+                                  self.query_dir),
+                                  'domains'),
+                                  self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_D1_extracted.fasta',
+                                  self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_D2_extracted.fasta',
+                                  self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_D3_extracted.fasta'),
+                                  shell =True).strip())))
+        if exist_check_flag == 'no':
+            self.hmmer_result_flag = 1
 
         
 
@@ -423,7 +391,6 @@ class CryProcessor:
             for record in SeqIO.parse(os.path.join(
                                       os.path.realpath(
                                       self.query_dir),
-                                      'cry_extraction',
                                       'domains',
                                       self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+
                                       '_D{}_extracted.fasta'.format(i)),
@@ -475,7 +442,6 @@ class CryProcessor:
                     for record in SeqIO.parse(os.path.join(
                                               os.path.realpath(
                                               self.query_dir),
-                                              'cry_extraction',
                                               'domains',
                                               self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+
                                               '_D{}_extracted.fasta'.format(i)),
@@ -555,7 +521,6 @@ class CryProcessor:
                         os.path.join(
                         os.path.realpath(
                         self.query_dir),
-                        "cry_extraction",
                         'raw_processed_{}.fasta'.format(
                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 
                         "fasta")
@@ -563,7 +528,6 @@ class CryProcessor:
                         os.path.join(
                         os.path.realpath(
                         self.query_dir),
-                        "cry_extraction",
                         'raw_full_{}.fasta'.format(
                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 
                         "fasta")
@@ -604,24 +568,20 @@ class CryProcessor:
                                             {3}".format(os.path.join(
                                             os.path.realpath(
                                             self.query_dir),
-                                            'cry_extraction',
                                             'full_toxins',
                                            '{}_full_extracted.fasta'.format(
                                             self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),
                                             os.path.join(
                                             os.path.realpath(
-                                            self.query_dir),
-                                            'cry_extraction/'), 
+                                            self.query_dir)), 
                                             os.path.join(
                                             os.path.realpath(
                                             self.query_dir),
-                                            'cry_extraction',
                                             '{}_full_extracted.fasta'.format(
                                             self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 
                                             os.path.join(
                                             os.path.realpath(
                                             self.query_dir),
-                                            'cry_extraction',
                                             '{}.fasta'.format(
                                             self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]))),
                                             shell=True)
@@ -630,7 +590,6 @@ class CryProcessor:
                                        os.path.join(
                                        os.path.realpath(
                                        self.query_dir),
-                                       'cry_extraction',
                                        '{}.fasta'.format(
                                        self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]))))
                 #further steps are identical to do_mode and are described above
@@ -647,7 +606,6 @@ class CryProcessor:
                                               os.path.join(
                                               os.path.realpath(
                                               self.query_dir),
-                                              'cry_extraction',
                                               '{}.fasta'.format(
                                               self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]))),
                                               "fasta")))
@@ -656,7 +614,6 @@ class CryProcessor:
                     for record in SeqIO.parse(os.path.join(
                                               os.path.realpath(
                                               self.query_dir),
-                                              'cry_extraction',
                                               'domains',
                                               self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+
                                               '_D{}_extracted.fasta'.format(i)),
@@ -697,7 +654,6 @@ class CryProcessor:
                 for record in SeqIO.parse('{}'.format(os.path.join(
                                                       os.path.realpath(
                                                       self.query_dir),
-                                                      'cry_extraction',
                                                       '{}.fasta'.format(
                                                       self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]))),
                                                       "fasta"):
@@ -723,7 +679,6 @@ class CryProcessor:
                         os.path.join(
                         os.path.realpath(
                         self.query_dir),
-                        "cry_extraction",
                         'raw_processed_{}.fasta'.format(
                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 
                         "fasta")
@@ -731,7 +686,6 @@ class CryProcessor:
                         os.path.join(
                         os.path.realpath(
                         self.query_dir),
-                        "cry_extraction",
                         'raw_full_{}.fasta'.format(
                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 
                         "fasta")
@@ -758,7 +712,6 @@ class CryProcessor:
             with open(os.path.join(
                       os.path.realpath(
                       self.query_dir),
-                      "cry_extraction",
                       'proteins_domain_mapping_processed_{}.bed'.format(
                       self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),'w') as csv_file:
                 my_writer = csv.writer(csv_file, delimiter='\t') 
@@ -806,7 +759,6 @@ class CryProcessor:
             with open(os.path.join(
                       os.path.realpath(
                       self.query_dir),
-                      "cry_extraction",
                       'proteins_domain_mapping_full_{}.bed'.format(
                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),'w') as csv_file:
                 my_writer = csv.writer(csv_file, delimiter='\t') 
@@ -852,7 +804,6 @@ class CryProcessor:
             with open(os.path.join(
                       os.path.realpath(
                       self.query_dir),
-                      "cry_extraction",
                       'coordinate_matches_{}.txt'.format(
                       self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),'w') as csv_file:
                 my_writer = csv.writer(csv_file, delimiter='\t') 
@@ -880,8 +831,7 @@ class CryProcessor:
                                        touch diamond.log'.format(
                                        os.path.join(
                                        os.path.realpath(
-                                       self.query_dir),
-                                       "cry_extraction"),
+                                       self.query_dir)),
                                        os.path.realpath(
                                        os.path.join(
                                        os.path.dirname(__file__),
@@ -906,8 +856,7 @@ class CryProcessor:
                                     mv *gned* logs/'.format(
                                     os.path.join(
                                     os.path.realpath(
-                                    self.query_dir),
-                                    "cry_extraction"),
+                                    self.query_dir)),
                                     os.path.realpath(
                                     os.path.join(
                                     os.path.dirname(__file__),
@@ -919,7 +868,6 @@ class CryProcessor:
         with open(os.path.join(
                   os.path.realpath(
                   self.query_dir),
-                  "cry_extraction",
                   'diamond_matches_{}.txt'.format(
                   self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),'r') as csv_file:
             my_reader = csv.reader(csv_file, delimiter='\t') 
@@ -932,7 +880,6 @@ class CryProcessor:
         for init_rec in SeqIO.parse(os.path.join(
                                     os.path.realpath(
                                     self.query_dir),
-                                    "cry_extraction",
                                     'raw_processed_{}.fasta'.format(
                                     self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 
                                     "fasta"):
@@ -951,7 +898,6 @@ class CryProcessor:
         SeqIO.write(new_records,os.path.join(
                                 os.path.realpath(
                                 self.query_dir),
-                                "cry_extraction",
                                 'unique_{}.fasta'.format(
                                 self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 
                                 "fasta")
@@ -966,7 +912,6 @@ class CryProcessor:
         with open(os.path.join(
                       os.path.realpath(
                       self.query_dir),
-                      "cry_extraction",
                       'unique_proteins_domain_mapping_{}.bed'.format(
                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),'w') as csv_file:
                 my_writer = csv.writer(csv_file, delimiter='\t') 
@@ -1012,13 +957,11 @@ class CryProcessor:
                                                {1};".format(os.path.join(
                                                       os.path.realpath(
                                                       self.query_dir),
-                                                      'cry_extraction',
                                                       '{}.fasta'.format(
                                                       self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),
                                                       os.path.join(
                                                       os.path.realpath(
                                                       self.query_dir),
-                                                      'cry_extraction',
                                                       'first_search_{}.fasta'.format(
                                                       self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]))),
                                                shell=True)
@@ -1027,8 +970,7 @@ class CryProcessor:
                                             mv *coordinate_matches* logs/;\
                                             mv *diamond_matches* logs/'.format(os.path.join(
                                                       os.path.realpath(
-                                                      self.query_dir),
-                                                      'cry_extraction')), 
+                                                      self.query_dir))), 
                                             shell=True)
        
     def make_summary_table(self):
@@ -1045,7 +987,6 @@ class CryProcessor:
         with open(os.path.join(
                   os.path.realpath(
                   self.query_dir),
-                  "cry_extraction",
                   'diamond_matches_{}.txt'.format(
                    self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),'r') as csv_file:
             my_reader = csv.reader(csv_file, delimiter='\t') 
@@ -1056,14 +997,12 @@ class CryProcessor:
         making_smb = subprocess.call("touch {}".format(os.path.join(
                                                        os.path.realpath(
                                                       self.query_dir),
-                                                      "cry_extraction",
                                                       'annotation_table_{}.tsv'.format(
                                                       self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]))), 
                                                       shell = True)
         for init_rec in SeqIO.parse(os.path.join(
                                     os.path.realpath(
                                     self.query_dir),
-                                    "cry_extraction",
                                     'raw_processed_{}.fasta'.format(
                                     self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 
                                     "fasta"):
@@ -1089,7 +1028,6 @@ class CryProcessor:
         f = open(os.path.join(
                  os.path.realpath(
                  self.query_dir),
-                 "cry_extraction",
                  'annotation_table_{}.tsv'.format(
                  self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),
                  "w")
@@ -1125,7 +1063,6 @@ class CryProcessor:
                     f = open(os.path.join(
                              os.path.realpath(
                              self.query_dir),
-                             "cry_extraction",
                              'annotation_table_{}.tsv'.format(
                              self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),
                              "a+")
@@ -1142,8 +1079,7 @@ class CryProcessor:
                                            mv *coordinate_matches* logs/;\
                                            mv *diamond_matches* logs/'.format(os.path.join(
                                            os.path.realpath(
-                                           self.query_dir),
-                                           'cry_extraction')), 
+                                           self.query_dir))), 
                                            shell=True)
 
            
@@ -1163,7 +1099,6 @@ class CryProcessor:
         with open(os.path.join(
                   os.path.realpath(
                   self.query_dir),
-                  "cry_extraction",
                   'coordinate_matches_{}.txt'.format(
                    self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 'r') as csv_file:
             my_reader = csv.reader(csv_file, delimiter='\t')
@@ -1173,7 +1108,6 @@ class CryProcessor:
         with open(os.path.join(
                   os.path.realpath(
                   self.query_dir),
-                  "cry_extraction",
                   'annotation_table_{}.tsv'.format(
                   self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 'r') as csvfile:
              my_reader = csv.reader(csvfile, delimiter='\t') 
@@ -1231,7 +1165,6 @@ class CryProcessor:
             SeqIO.write(f_nuc_recs,os.path.join(
                                    os.path.realpath(
                                    self.query_dir),
-                                   "cry_extraction",
                                    '{}_full_nucl.fna'.format(
                                    self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),
                                    "fasta")
@@ -1286,7 +1219,6 @@ class CryProcessor:
             SeqIO.write(p_nuc_recs,os.path.join(
                                    os.path.realpath(
                                    self.query_dir),
-                                   "cry_extraction",
                                    '{}_processed_nucl.fna'.format(
                                    self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),
                                    "fasta")
@@ -1358,7 +1290,6 @@ class CryProcessor:
             SeqIO.write(p_nuc_recs,os.path.join(
                                    os.path.realpath(
                                    self.query_dir),
-                                   "cry_extraction",
                                    '{}_processed_nucl.fna'.format(
                                    self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),
                                    "fasta")
@@ -1366,7 +1297,6 @@ class CryProcessor:
             SeqIO.write(f_nuc_recs,os.path.join(
                                    os.path.realpath(
                                    self.query_dir),
-                                   "cry_extraction",
                                    '{}_full_nucl.fna'.format(
                                    self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),
                                    "fasta")
@@ -1387,7 +1317,6 @@ class CryProcessor:
         with open(os.path.join(
                   os.path.realpath(
                   self.query_dir),
-                  "cry_extraction",
                   'coordinate_matches_{}.txt'.format(
                   self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 
                   'r') as csv_file:
@@ -1399,7 +1328,6 @@ class CryProcessor:
         with open(os.path.join(
                   os.path.realpath(
                   self.query_dir),
-                  "cry_extraction",
                   'annotation_table_{}.tsv'.format(
                   self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),
                   'r') as csvfile:
@@ -1416,7 +1344,6 @@ class CryProcessor:
         with open(os.path.join(
                   os.path.realpath(
                   self.query_dir),
-                  "cry_extraction",
                   'nucl_domain_mapping_processed_{}.bed'.format(
                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 
                    'w') as csvfile:
@@ -1484,7 +1411,6 @@ class CryProcessor:
         with open(os.path.join(
                   os.path.realpath(
                   self.query_dir),
-                  "cry_extraction",
                   'nucl_domain_mapping_full_{}.bed'.format(
                    self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 
                    'w') as csvfile:
@@ -1544,8 +1470,7 @@ class CryProcessor:
                                         mv *coordinate_matches* logs/;\
                                         mv *diamond_matches* logs/'.format(os.path.join(
                                                       os.path.realpath(
-                                                      self.query_dir),
-                                                      'cry_extraction')), 
+                                                      self.query_dir))), 
                                                       shell=True)
 
     def launch_racer(self,kmer):
@@ -1582,7 +1507,6 @@ class CryProcessor:
                                            os.path.join(
                                            os.path.realpath(
                                            self.query_dir),
-                                           'cry_extraction',
                                            'pathracer_output'),
                                            self.hm_threads), 
                                            shell=True)
@@ -1597,7 +1521,6 @@ class CryProcessor:
                                    '.format(os.path.join(
                                            os.path.realpath(
                                            self.query_dir),
-                                           'cry_extraction',
                                            'pathracer_output')), 
                                            shell=True) 
         exist_check_flag = re.sub("b",'',
@@ -1608,7 +1531,6 @@ class CryProcessor:
                                   fi".format(os.path.join(
                                            os.path.realpath(
                                            self.query_dir),
-                                           'cry_extraction',
                                            'pathracer_output')),
                                             shell =True).strip())))
         if exist_check_flag == 'no':
@@ -1625,7 +1547,6 @@ class CryProcessor:
                                    fi".format(os.path.join(
                                            os.path.realpath(
                                            self.query_dir),
-                                           'cry_extraction',
                                            'pathracer_output')), 
                                             shell=True)
       
@@ -1658,7 +1579,6 @@ class CryProcessor:
                                           os.path.join(
                                           os.path.realpath(
                                           self.query_dir),
-                                          'cry_extraction',
                                           'assembly'),
                                           self.hm_threads),
                                           shell=True) 
@@ -1668,7 +1588,6 @@ class CryProcessor:
                                           os.path.join(
                                           os.path.realpath(
                                           self.query_dir),
-                                          'cry_extraction',
                                           'assembly')),
                                           shell=True)
         else:
@@ -1690,7 +1609,6 @@ class CryProcessor:
                                           os.path.join(
                                           os.path.realpath(
                                           self.query_dir),
-                                          'cry_extraction',
                                           'assembly'),
                                           self.hm_threads), 
                                           shell=True) 
@@ -1698,10 +1616,117 @@ class CryProcessor:
                                          cp *.log ../logs/'.format(os.path.join(
                                           os.path.realpath(
                                           self.query_dir),
-                                          'cry_extraction',
                                           'assembly')), 
                                           shell=True)       
 
+
+class Crylauncher:
+    def __init__(self):
+        pass
+    def LaunchProcessor(od,fi,hm,pr,th, ma, r, a, nu, mra,k,fr,rr,meta,s):
+    #check if the input file exists
+        if fi:
+            if not os.path.isfile(fi):
+                raise Exception('The input file does not exist')  
+            if not mra:
+                fasta_flag = re.sub("b",'',
+                                re.sub("\'",'', 
+                                str(subprocess.check_output("grep '>' {} | wc -l".format(os.path.realpath(fi)), 
+                                shell =True).strip())))
+                if int(fasta_flag)==0:
+                    raise Exception('No records are present in the fasta file')  
+                
+        #check if modes are not mixed 
+        if (mra and fr) or (fr and fi) or (fi and re and fr) or (fi and re and fr and mra):
+            raise Exception('You should not mix the --pathracer mode with the assembly mode and the fasta-serching mode; choose only the one option')
+        #check if only the one file with reads is specified
+        if fr and not rr or rr and not fr:
+            raise Exception('Specify both forward and reverse reads')
+        if fr:
+            #check if files with reads are present
+            if not os.path.isfile(rr) and not os.path.isfile(fr):
+                raise Exception('The Files with reverse and forward reads do not exist')
+            elif not os.path.isfile(rr):
+                raise Exception('The File with reverse reads does not exists')
+            elif not os.path.isfile(fr):
+                raise Exception('The File with forward reads does not exists')
+        #initialize CryProcessor class
+        cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr,s)
+        if not mra and not fr:
+            #pipeline for the protein fasta file
+            cr.cry_digestor()
+            if cr.hmmer_result_flag != 1:
+            #go to the next steps only if the hmmsearch result is not empty
+                cr.annotate_raw_output()
+                if a: 
+                    cr.make_summary_table()
+                if nu:
+                    cr.upload_nucl()
+                    if cr.nuc_count!=0:
+                        cr.map_nucl()
+        elif mra and not fr:
+        #pipeline for the gfa file
+            cr.launch_racer(k)
+            if cr.racer_flag != 1:
+            #go to the next step only if the pathracer output is not empty
+                fi = os.path.join(os.path.realpath(
+                              od),
+                              'pathracer_output',
+                              'mearged.fasta')
+                cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr,s)
+                cr.cry_digestor()
+                if cr.hmmer_result_flag != 1:
+                    cr.annotate_raw_output()
+                    if a: 
+                        cr.make_summary_table()
+                    if nu:
+                        cr.upload_nucl()
+                        if cr.nuc_count!=0:
+                            cr.map_nucl()
+            else:
+                if not s:
+                    print('No toxins found in the assembly graph')
+                cr.logger.info('No toxins found in the assembly graph')
+
+        elif fr:
+        #full pipeline with spades assembly
+            cr.use_spades()
+            fi = os.path.join(
+                          os.path.realpath(
+                          od),
+                          'assembly',
+                          'assembly_graph_with_scaffolds.gfa') 
+            cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr,s)
+            cr.launch_racer(k)
+            if cr.racer_flag != 1:
+                fi = os.path.join(
+                              os.path.realpath(
+                              od),
+                              'pathracer_output',
+                              'mearged.fasta')
+                cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr,s)
+                cr.cry_digestor()
+                if cr.hmmer_result_flag != 1:
+                    cr.annotate_raw_output()
+                    if a: 
+                        cr.make_summary_table()
+                    if nu:
+                        cr.upload_nucl()
+                        if cr.nuc_count!=0:
+                            cr.map_nucl()
+            else:
+                if not s:
+                    print('No toxins found in the assembly graph')
+                cr.logger.info('No toxins found in the assembly graph')
+        if not s:
+            print('CryProcessor has finished, thanks for crying (with) us!')
+        cr.logger.info('CryProcessor has finished, thanks for crying (with) us!')
+        move_log = subprocess.call('mv cry_processor.log {}'.format(os.path.join(
+                              os.path.realpath(
+                              od),
+                              'logs')), 
+                               shell=True)
+        
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Example usage: pyhton3 cry_processor.py -fi <input.fasta> -od <the output directory>')
     parser.add_argument('-fi', 
@@ -1772,7 +1797,7 @@ if __name__ == '__main__':
                         help='The k-mer size for PathRacer', 
                         metavar='Int',
                         type=str, 
-                        default=21)
+                        default=55)
     parser.add_argument('--silent',
                         '-s', 
                         action='store_true',
@@ -1781,109 +1806,5 @@ if __name__ == '__main__':
     parser.set_defaults(feature=True)
     args = parser.parse_args()
     od,fi,hm,pr,th, ma, r, a, nu, mra,k,fr,rr,meta,s = args.od, args.fi, args.hm, args.pr,args.th, args.ma, args.r, args.annotate, args.nu,args.pathracer,args.k,args.fo,args.re,args.meta,args.silent
-    #check if the input file exists
-    if fi:
-        if not os.path.isfile(fi):
-            raise Exception('The input file does not exist')  
-        if not mra:
-            fasta_flag = re.sub("b",'',
-                                re.sub("\'",'', 
-                                str(subprocess.check_output("grep '>' {} | wc -l".format(os.path.realpath(fi)), 
-                                shell =True).strip())))
-            if int(fasta_flag)==0:
-                raise Exception('No records are present in the fasta file')  
-                
-    #check if modes are not mixed 
-    if (mra and fr) or (fr and fi) or (fi and re and fr) or (fi and re and fr and mra):
-        raise Exception('You should not mix the --pathracer mode with the assembly mode and the fasta-serching mode; choose only the one option')
-    #check if only the one file with reads is specified
-    if fr and not rr or rr and not fr:
-        raise Exception('Specify both forward and reverse reads')
-    if fr:
-        #check if files with reads are present
-        if not os.path.isfile(rr) and not os.path.isfile(fr):
-            raise Exception('The Files with reverse and forward reads do not exist')
-        elif not os.path.isfile(rr):
-            raise Exception('The File with reverse reads does not exists')
-        elif not os.path.isfile(fr):
-            raise Exception('The File with forward reads does not exists')
-    #initialize CryProcessor class
-    cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr,s)
-    if not mra and not fr:
-        #pipeline for the protein fasta file
-        cr.cry_digestor()
-        if cr.hmmer_result_flag != 1:
-            #go to the next steps only if the hmmsearch result is not empty
-            cr.annotate_raw_output()
-            if a: 
-                cr.make_summary_table()
-            if nu:
-                cr.upload_nucl()
-                if cr.nuc_count!=0:
-                    cr.map_nucl()
-    elif mra and not fr:
-        #pipeline for the gfa file
-        cr.launch_racer(k)
-        if cr.racer_flag != 1:
-            #go to the next step only if the pathracer output is not empty
-            fi = os.path.join(os.path.realpath(
-                              od),
-                              'cry_extraction',
-                              'pathracer_output',
-                              'mearged.fasta')
-            cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr,s)
-            cr.cry_digestor()
-            if cr.hmmer_result_flag != 1:
-                cr.annotate_raw_output()
-                if a: 
-                    cr.make_summary_table()
-                if nu:
-                    cr.upload_nucl()
-                    if cr.nuc_count!=0:
-                        cr.map_nucl()
-        else:
-            if not s:
-                print('No toxins found in the assembly graph')
-            cr.logger.info('No toxins found in the assembly graph')
+    Crylauncher.LaunchProcessor(od,fi,hm,pr,th, ma, r, a, nu, mra,k,fr,rr,meta,s)
 
-    elif fr:
-        #full pipeline with spades assembly
-        cr.use_spades()
-        fi = os.path.join(
-                          os.path.realpath(
-                          od),
-                          'cry_extraction',
-                          'assembly',
-                          'assembly_graph_with_scaffolds.gfa') 
-        cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr,s)
-        cr.launch_racer(k)
-        if cr.racer_flag != 1:
-            fi = os.path.join(
-                              os.path.realpath(
-                              od),
-                              'cry_extraction',
-                              'pathracer_output',
-                              'mearged.fasta')
-            cr = CryProcessor(od, fi, hm,pr, th, ma, r, nu,a,k,meta,fr,rr,s)
-            cr.cry_digestor()
-            if cr.hmmer_result_flag != 1:
-                cr.annotate_raw_output()
-                if a: 
-                    cr.make_summary_table()
-                if nu:
-                    cr.upload_nucl()
-                    if cr.nuc_count!=0:
-                        cr.map_nucl()
-        else:
-            if not s:
-                print('No toxins found in the assembly graph')
-            cr.logger.info('No toxins found in the assembly graph')
-    if not s:
-        print('CryProcessor has finished, thanks for crying (with) us!')
-    cr.logger.info('CryProcessor has finished, thanks for crying (with) us!')
-    move_log = subprocess.call('mv cry_processor.log {}'.format(os.path.join(
-                              os.path.realpath(
-                              od),
-                              'cry_extraction',
-                              'logs')), 
-                               shell=True)

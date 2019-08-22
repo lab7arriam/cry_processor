@@ -217,20 +217,6 @@ class CryProcessor:
                                          "include",
                                          "esl-reformat")), 
                                          shell=True) 
-#        exist_check_flag = re.sub("b",'',
-#                                  re.sub("\'",'', 
-#                                  str(subprocess.check_output("cd {0}; \
-#                                  if [ ! -s {1} ];\
-#                                  then echo 'no'; \
-#                                  fi".format(os.path.join(
-#                                  os.path.realpath(
-#                                  self.query_dir),
-#                                  dir_flag),
-#                                  query.split('/')[len(query.split('/'))-1].split('.')[0]+
-#                                  out_index),
-#                                  shell =True).strip())))
- #       if exist_check_flag == 'no':
- #           self.hmmer_result_flag = 1
 
     def find_cry(self, qiuery):
         """
@@ -341,21 +327,6 @@ class CryProcessor:
                                          self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
                                          '_D3_extracted.fasta'), 
                                          shell=True)
-        print(self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+'_D1_extracted.fasta')
-
-       # exist_check_flag = subprocess.call("cd {0}; \
-        #                          if [ ! -s {1} ] || [ ! -s {2} ] || [ ! -s {3} ];\
-         #                         then echo 'no'; \
-          #                        fi".format(os.path.join(
-           #                       os.path.realpath(
-            #                      self.query_dir),
-             #                     'domains'),
-              #                    self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
-               #                          '_D1_extracted.fasta',
-                #                  self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
-                 #                        '_D2_extracted.fasta',
-                  #                self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
-                   #                      '_D3_extracted.fasta'), shell=True)
         exist_check_flag = re.sub("b",'',
                                   re.sub("\'",'', 
                                   str(subprocess.check_output("cd {0}; \

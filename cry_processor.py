@@ -108,7 +108,7 @@ class CryProcessor:
             #perform hmmsearch 
 
             cmd_search = subprocess.call('{0} \
-                                          --cpu {1} \
+                                          -E 50 --nonull2 --max --incE 250 --domZ 0.1 --cpu {1} \
                                           -A {2} \
                                           {3} \
                                           {4} >> {5}'.format(os.path.join(
@@ -161,7 +161,7 @@ class CryProcessor:
                                               self.hmmer_dir),
                                               "binaries","esl-reformat")), 
                                               shell=True)
-
+# -E 50 --nonull2 --max --incE 250 --domZ 0.1 
 
         else:
             cmd_make_dirs = subprocess.call('cd {0}; \
@@ -175,7 +175,7 @@ class CryProcessor:
                                             shell=True)
 
             cmd_search = subprocess.call('{0} \
-                                          --cpu {1} \
+                                          -E 50 --nonull2 --max --incE 250 --domZ 0.1 --cpu {1} \
                                           -A {2} \
                                           {3} \
                                           {4} >> {5}'.format(
@@ -283,6 +283,131 @@ class CryProcessor:
                            'domains_extraction', 
                             self.hm_threads, 
                             self.query_dir)
+        self.run_hmmer(str(qiuery),
+                           '_cry31.sto',
+                           'cry31.hmm',
+                           'domains',
+                           'domains_extraction', 
+                            self.hm_threads, 
+                            self.query_dir)
+        self.run_hmmer(str(qiuery),
+                           '_cry_58.sto',
+                           'cry_58.hmm',
+                           'domains',
+                           'domains_extraction', 
+                            self.hm_threads, 
+                            self.query_dir)
+        self.run_hmmer(str(qiuery),
+                           '_extra.sto',
+                           'extra.hmm',
+                           'domains',
+                           'domains_extraction', 
+                            self.hm_threads, 
+                            self.query_dir)
+        self.run_hmmer(str(qiuery),
+                           '_Endotoxin_M.sto',
+                           'Endotoxin_M.hmm',
+                           'domains',
+                           'domains_extraction', 
+                            self.hm_threads, 
+                            self.query_dir)
+        self.run_hmmer(str(qiuery),
+                           '_Endotoxin_mid.sto',
+                           'Endotoxin_mid.hmm',
+                           'domains',
+                           'domains_extraction', 
+                            self.hm_threads, 
+                            self.query_dir)
+
+        self.run_hmmer(str(qiuery),
+                           '_long_32_11.sto',
+                           'long_32_11.hmm',
+                           'domains',
+                           'domains_extraction', 
+                            self.hm_threads, 
+                            self.query_dir)
+        self.run_hmmer(str(qiuery),
+                           '_extra_3.sto',
+                           'extra_3.hmm',
+                           'domains',
+                           'domains_extraction', 
+                            self.hm_threads, 
+                            self.query_dir)
+
+        mearging_cmd = subprocess.call('if [ -s {0} ] && [ -s {1} ] && [ -s {2} ] && [ -s {3} ]  && [ -s {4} ] && [ -s {5} ] && [ -s {6} ];\
+                                         then cat {0} {1} {2} {3} {4} {5} {6} > tmp_2.fasta; \
+                                         mv tmp_2.fasta {6}; rm tmp_2.fasta;   \
+                                         fi'.format(os.path.join(
+                                         os.path.realpath(
+                                         self.query_dir),
+                                         'cry_extraction',
+                                         'domains',
+                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_Endotoxin_mid.fasta'),
+                                         os.path.join(
+                                         os.path.realpath(
+                                         self.query_dir),
+                                         'cry_extraction',
+                                         'domains',
+                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_Endotoxin_M.fasta'),
+                                         os.path.join(
+                                         os.path.realpath(
+                                         self.query_dir),
+                                         'cry_extraction',
+                                         'domains',
+                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_cry31.fasta'),
+                                         os.path.join(
+                                         os.path.realpath(
+                                         self.query_dir),
+                                         'cry_extraction',
+                                         'domains',
+                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_cry_58.fasta'),
+                                         os.path.join(
+                                         os.path.realpath(
+                                         self.query_dir),
+                                         'cry_extraction',
+                                         'domains',
+                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_extra.fasta'),
+                                         os.path.join(
+                                         os.path.realpath(
+                                         self.query_dir),
+                                         'cry_extraction',
+                                         'domains',
+                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_long_32_11.fasta'),
+                                         os.path.join(
+                                         os.path.realpath(
+                                         self.query_dir),
+                                         'cry_extraction',
+                                         'domains',
+                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_D2_extracted.fasta') ), 
+                                         shell=True)
+
+        mearging_cmd = subprocess.call('if [ -s {0} ] && [ -s {1} ];\
+                                         then cat {0} {1} > tmp_3.fasta; \
+                                         mv tmp_3.fasta {1}; rm tmp_3.fasta;   \
+                                         fi'.format(os.path.join(
+                                         os.path.realpath(
+                                         self.query_dir),
+                                         'cry_extraction',
+                                         'domains',
+                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_extra_3.fasta'),
+                                         os.path.join(
+                                         os.path.realpath(
+                                         self.query_dir),
+                                         'cry_extraction',
+                                         'domains',
+                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_D3_extracted.fasta') ), 
+                                         shell=True)
+
+        
 
     def cry_3D_ids_extractor(self):
         """
@@ -313,7 +438,6 @@ class CryProcessor:
 
                 if 'D{}'.format(i) not in self.dom_dict[name]:
                     self.dom_dict[name].append('D{}'.format(i))
-
         self.one_dom_count = len([key for key in self.dom_dict if len(set(self.dom_dict[key]))==1])
         self.two_dom_count = len([key for key in self.dom_dict if len(set(self.dom_dict[key]))==2])
         #returning ids for the sequences with 3 domains (possesing D1,D2,D3 as dictionary items)
@@ -388,8 +512,14 @@ class CryProcessor:
                                     ind=j
                             self.coordinate_dict[name_key].extend(pre_dict[name_key]['D'+str(i)][ind:ind+2])
                 for key in self.coordinate_dict:
+                    if int(self.coordinate_dict[key][1]) - int(self.coordinate_dict[key][0])>75 and int(self.coordinate_dict[key][3]) - int(self.coordinate_dict[key][2])>75 and int(self.coordinate_dict[key][5]) - int(self.coordinate_dict[key][4])>75:
+                        if int(self.coordinate_dict[key][4]) <= int(self.coordinate_dict[key][3]) and int(self.coordinate_dict[key][3]) - int(self.coordinate_dict[key][4]) <=55:
+                            self.coordinate_dict[key][3]=int(self.coordinate_dict[key][3])-(int(self.coordinate_dict[key][3]) - int(self.coordinate_dict[key][4]))-2
+                        if int(self.coordinate_dict[key][2]) <= int(self.coordinate_dict[key][1]) and int(self.coordinate_dict[key][1]) - int(self.coordinate_dict[key][2]) <=55:
+                            self.coordinate_dict[key][2]=int(self.coordinate_dict[key][2])+(int(self.coordinate_dict[key][1]) - int(self.coordinate_dict[key][2]))+2
+                for key in self.coordinate_dict:
                     #check if the sequece with all 3 domains is growing monotonically
-                    if all(int(x)<int(y) for x, y in zip(self.coordinate_dict[key], self.coordinate_dict[key][1:])):
+                    if all(int(x)<int(y) for x, y in zip(self.coordinate_dict[key], self.coordinate_dict[key][1:])) and int(self.coordinate_dict[key][1]) - int(self.coordinate_dict[key][0])>75 and int(self.coordinate_dict[key][3]) - int(self.coordinate_dict[key][2])>70 and int(self.coordinate_dict[key][5]) - int(self.coordinate_dict[key][4])>70:
                         final_id_list.append(key)
                 #create records for the full and processed sequences with 3 domains
                 new_rec_list=list()   
@@ -555,7 +685,7 @@ class CryProcessor:
                                     ind=j
                             self.coordinate_dict[name_key].extend(pre_dict[name_key]['D'+str(i)][ind:ind+2])
                 for key in self.coordinate_dict:
-                    if all(int(x)<int(y) for x, y in zip(self.coordinate_dict[key], self.coordinate_dict[key][1:])):
+                    if all(int(x)<int(y) for x, y in zip(self.coordinate_dict[key], self.coordinate_dict[key][1:])) and int(self.coordinate_dict[key][1]) - int(self.coordinate_dict[key][0])>75:
                         final_id_list.append(key)
                 new_rec_list=list()   
                 full_rec_list=list()
@@ -641,37 +771,33 @@ class CryProcessor:
                         for i in range(0,5,2):
                             if i==0:
                                 row=[key.split('|')[0],
-                                 'domain_{}'.format(1)+'_'+key.split('|')[0],
                                   int(self.coordinate_dict[key][i])-int(self.coordinate_dict[key][0]),
-                                  int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1, 
-                                  " ".join(key.split('|')[1:])] 
+                                  int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1,
+                                 'domain_{}'.format(1)+'_'+key.split('|')[0]] 
                             else:
                                 if i==2:
                                     dn=2
                                 else:
                                     dn=3
                                 row=[key.split('|')[0],
-                                 'domain_{}'.format(dn)+'_'+key.split('|')[0],
                                  int(self.coordinate_dict[key][i])-int(self.coordinate_dict[key][0])-1,
-                                 int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1, 
-                                 " ".join(key.split('|')[1:])] 
+                                 int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1,
+                                 'domain_{}'.format(dn)+'_'+key.split('|')[0]] 
                             my_writer.writerow(row)
                     else:
                         for i in range(0,3,2):
                             if i==0:
                                 row=[key.split('|')[0],
-                                 'domain_{}'.format(2)+'_'+key.split('|')[0],
                                   int(self.coordinate_dict[key][i])-int(self.coordinate_dict[key][0]),
-                                  int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1, 
-                                  " ".join(key.split('|')[1:])]  
+                                  int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1,
+                                 'domain_{}'.format(2)+'_'+key.split('|')[0]]  
                             else:
                                 if i==2:
                                     dn=3
                                 row=[key.split('|')[0],
-                                 'domain_{}'.format(dn)+'_'+key.split('|')[0],
                                  int(self.coordinate_dict[key][i])-int(self.coordinate_dict[key][0])-1,
-                                 int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1, 
-                                 " ".join(key.split('|')[1:])]  
+                                 int(self.coordinate_dict[key][i+1])-int(self.coordinate_dict[key][0])-1,
+                                 'domain_{}'.format(dn)+'_'+key.split('|')[0]]  
                             my_writer.writerow(row)
 
 
@@ -691,20 +817,18 @@ class CryProcessor:
                         for i in range(0,5,2):
                             if i==0:
                                 row=[key.split('|')[0],
-                                 'domain_{}'.format(1)+'_'+key.split('|')[0],
                                   int(self.coordinate_dict[key][i]),
-                                  int(self.coordinate_dict[key][i+1])-1, 
-                                  " ".join(key.split('|')[1:])] 
+                                  int(self.coordinate_dict[key][i+1])-1,
+                                 'domain_{}'.format(1)+'_'+key.split('|')[0]] 
                             else:
                                 if i==2:
                                     dn=2
                                 else:
                                     dn=3
                                 row=[key.split('|')[0],
-                                 'domain_{}'.format(dn)+'_'+key.split('|')[0],
                                  int(self.coordinate_dict[key][i])-1,
-                                 int(self.coordinate_dict[key][i+1])-1, 
-                                 " ".join(key.split('|')[1:])] 
+                                 int(self.coordinate_dict[key][i+1])-1,
+                                 'domain_{}'.format(dn)+'_'+key.split('|')[0]] 
 
                         
                             my_writer.writerow(row)
@@ -712,18 +836,16 @@ class CryProcessor:
                         for i in range(0,3,2):
                             if i==0:
                                 row=[key.split('|')[0],
-                                 'domain_{}'.format(2)+'_'+key.split('|')[0],
                                   int(self.coordinate_dict[key][i]),
-                                  int(self.coordinate_dict[key][i+1])-1, 
-                                  " ".join(key.split('|')[1:])] 
+                                  int(self.coordinate_dict[key][i+1])-1,
+                                 'domain_{}'.format(2)+'_'+key.split('|')[0]] 
                             else:
                                 if i==2:
                                     dn=3
                                 row=[key.split('|')[0],
-                                 'domain_{}'.format(dn)+'_'+key.split('|')[0],
                                  int(self.coordinate_dict[key][i])-1,
-                                 int(self.coordinate_dict[key][i+1])-1, 
-                                 " ".join(key.split('|')[1:])] 
+                                 int(self.coordinate_dict[key][i+1])-1,
+                                 'domain_{}'.format(dn)+'_'+key.split('|')[0]] 
                             my_writer.writerow(row)
 
             #save the original dictionary of coordinates for checking
@@ -839,7 +961,7 @@ class CryProcessor:
         #print(self.new_ids)
         for key in self.coordinate_dict:
             if key.split("|")[0] in self.new_ids.keys():
-                print(self.new_ids[key.split("|")[0]].split('|')[0] +"("+self.new_ids[key.split("|")[0]].split('|')[1]+")_"+key.split("|")[0])
+                #print(self.new_ids[key.split("|")[0]].split('|')[0] +"("+self.new_ids[key.split("|")[0]].split('|')[1]+")_"+key.split("|")[0])
                 new_coord_dict[self.new_ids[key.split("|")[0]].split('|')[0] +"("+self.new_ids[key.split("|")[0]].split('|')[1]+")_"+key.split("|")[0]]=self.coordinate_dict[key]
         with open(os.path.join(
                       os.path.realpath(
@@ -853,20 +975,18 @@ class CryProcessor:
                         for i in range(0,5,2):
                             if i==0:
                                 row=[key.split('|')[0],
-                                 'domain_{}'.format(1)+'_'+key.split('|')[0],
                                   int(new_coord_dict[key][i])-int(new_coord_dict[key][0]),
-                                  int(new_coord_dict[key][i+1])-1-int(new_coord_dict[key][0]), 
-                                  " ".join(key.split('|')[1:])] 
+                                  int(new_coord_dict[key][i+1])-1-int(new_coord_dict[key][0]),
+                                 'domain_{}'.format(1)+'_'+key.split('|')[0]] 
                             else:
                                 if i==2:
                                     dn=2
                                 else:
                                     dn=3
                                 row=[key.split('|')[0],
-                                 'domain_{}'.format(dn)+'_'+key.split('|')[0],
                                  int(new_coord_dict[key][i])-1-int(new_coord_dict[key][0]),
-                                 int(new_coord_dict[key][i+1])-1-int(new_coord_dict[key][0]), 
-                                 " ".join(key.split('|')[1:])] 
+                                 int(new_coord_dict[key][i+1])-1-int(new_coord_dict[key][0]),
+                                 'domain_{}'.format(dn)+'_'+key.split('|')[0]] 
 
                         
                             my_writer.writerow(row)
@@ -874,18 +994,16 @@ class CryProcessor:
                         for i in range(0,3,2):
                             if i==0:
                                 row=[key.split('|')[0],
-                                 'domain_{}'.format(2)+'_'+key.split('|')[0],
                                   int(new_coord_dict[key][i])-int(new_coord_dict[key][0]),
-                                  int(new_coord_dict[key][i+1])-1-int(new_coord_dict[key][0]), 
-                                  " ".join(key.split('|')[1:])] 
+                                  int(new_coord_dict[key][i+1])-1-int(new_coord_dict[key][0]),
+                                 'domain_{}'.format(2)+'_'+key.split('|')[0]] 
                             else:
                                 if i==2:
                                     dn=3
                                 row=[key.split('|')[0],
-                                 'domain_{}'.format(dn)+'_'+key.split('|')[0],
                                  int(new_coord_dict[key][i])-1-int(new_coord_dict[key][0]),
-                                 int(new_coord_dict[key][i+1])-1-int(new_coord_dict[key][0]), 
-                                 " ".join(key.split('|')[1:])] 
+                                 int(new_coord_dict[key][i+1])-1-int(new_coord_dict[key][0]),
+                                 'domain_{}'.format(dn)+'_'+key.split('|')[0]] 
                             my_writer.writerow(row)
 
         #move intermediate files to the log directory if the annotation flag is not specified
@@ -897,13 +1015,12 @@ class CryProcessor:
                                                       'cry_extraction',
                                                       '{}.fasta'.format(
                                                       self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),
-                                                      "fasta",os.path.join(
+                                                      os.path.join(
                                                       os.path.realpath(
                                                       self.query_dir),
                                                       'cry_extraction',
                                                       'first_search_{}.fasta'.format(
-                                                      self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),
-                                                      "fasta"),
+                                                      self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]))),
                                                shell=True)
         if not self.nucl_type and not self.annot_flag:
             cmd_clean_up = subprocess.call('cd {0}; \

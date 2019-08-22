@@ -32,7 +32,7 @@ To install <i>Biopython</i> use the following command:
 To install CryProcessor clone git repository to your PC:
 
 ```
-~$ git clone https://github.com/cry_Processor
+~$ git clone https://github.com/lab7arriam/cry_processor
 ```
 After downloading, CryProcessor is ready to use.
 

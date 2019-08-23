@@ -13,6 +13,7 @@ import sys
 import re
 import logging
 import copy
+import datetime
 
  
 class CryProcessor:
@@ -66,6 +67,9 @@ class CryProcessor:
         self.racer_flag = 0
         self.hmmer_result_flag = 0 
         self.silent_mode = silent_mode
+        if os.path.exists(os.path.realpath(self.query_dir)):
+            self.query_dir = self.query_dir + "_"+ str(datetime.datetime.now()).split('.')[0].replace(' ', '_').replace(':', '_')
+        print(self.query_dir)
         #creating output directories
         cmd_init = subprocess.call('if [ ! -d {0} ]; \
                                      then mkdir {0}; \

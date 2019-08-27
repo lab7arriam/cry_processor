@@ -36,14 +36,32 @@ To install CryProcessor clone git repository to your PC:
 ```
 After downloading, CryProcessor is ready to use.
 
+You can also add CryProcessor to the PATH typing:
+
+```
+~$ PATH=$PATH:/path/to/install
+```
+
+If you want to use prebuild Docker container with CryProcessor, pull it using the following command:
+
+```
+~$ docker pull lab7arriam/cry_processor
+```
+
 ## Running and Using Tool
 
 ### Quick Usage
 To extract Cry toxins from the protein fasta file simply execute the following command:
 ```
-~$ python3 cry_processor.py -fi input.faa  -od output_dir
+~$ /path/to/install/cry_processor.py -fi input.faa  -od output_dir
 ```
 This command will automatically search for the Cry toxins in the fasta file with amino acid sequences.
+
+If you use Docker container, you should use following command:
+
+```
+~$ docker run --rm -v /path/to/data:/data lab7arriam/cry_processor cry_processor -fi /data/<input file> -od /data/<output_dir> [args]
+```
 
 ### Supported Input Formats
 

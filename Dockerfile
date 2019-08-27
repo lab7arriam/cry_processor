@@ -8,4 +8,6 @@ ADD . / /cry_processor/
 
 ENV PATH=$PATH:/cry_processor
 
+WORKDIR /data
+
 CMD cry_processor.py

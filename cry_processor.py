@@ -14,6 +14,7 @@ import sys
 import re
 import logging
 import copy
+import datetime
 
  
 class CryProcessor:
@@ -67,6 +68,8 @@ class CryProcessor:
         self.racer_flag = 0
         self.hmmer_result_flag = 0 
         self.silent_mode = silent_mode
+        if os.path.exists(os.path.realpath(self.query_dir)):
+            self.query_dir = self.query_dir + "_"+ str(datetime.datetime.now()).split('.')[0].replace(' ', '_').replace(':', '_')
         #creating output directories
         cmd_init = subprocess.call('if [ ! -d {0} ]; \
                                      then mkdir {0}; \
@@ -614,7 +617,14 @@ class CryProcessor:
                                     ind=j
                             self.coordinate_dict[name_key].extend(pre_dict[name_key]['D'+str(i)][ind:ind+2])
                 for key in self.coordinate_dict:
-                    if all(int(x)<int(y) for x, y in zip(self.coordinate_dict[key], self.coordinate_dict[key][1:])) and int(self.coordinate_dict[key][1]) - int(self.coordinate_dict[key][0])>75:
+                    if int(self.coordinate_dict[key][1]) - int(self.coordinate_dict[key][0])>75 and int(self.coordinate_dict[key][3]) - int(self.coordinate_dict[key][2])>75 and int(self.coordinate_dict[key][5]) - int(self.coordinate_dict[key][4])>75:
+                        if int(self.coordinate_dict[key][4]) <= int(self.coordinate_dict[key][3]) and int(self.coordinate_dict[key][3]) - int(self.coordinate_dict[key][4]) <=55:
+                            self.coordinate_dict[key][3]=int(self.coordinate_dict[key][3])-(int(self.coordinate_dict[key][3]) - int(self.coordinate_dict[key][4]))-2
+                        if int(self.coordinate_dict[key][2]) <= int(self.coordinate_dict[key][1]) and int(self.coordinate_dict[key][1]) - int(self.coordinate_dict[key][2]) <=55:
+                            self.coordinate_dict[key][2]=int(self.coordinate_dict[key][2])+(int(self.coordinate_dict[key][1]) - int(self.coordinate_dict[key][2]))+2
+                for key in self.coordinate_dict:
+                    #check if the sequece with all 3 domains is growing monotonically
+                    if all(int(x)<int(y) for x, y in zip(self.coordinate_dict[key], self.coordinate_dict[key][1:])) and int(self.coordinate_dict[key][1]) - int(self.coordinate_dict[key][0])>75 and int(self.coordinate_dict[key][3]) - int(self.coordinate_dict[key][2])>70 and int(self.coordinate_dict[key][5]) - int(self.coordinate_dict[key][4])>70:
                         final_id_list.append(key)
                 new_rec_list=list()   
                 full_rec_list=list()

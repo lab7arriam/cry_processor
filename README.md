@@ -94,12 +94,12 @@ The full list of tool options:
 ### Using Tool for the Fasta Files
 To use the tool for the files in the fasta format execute the command, presented in quick usage, you can also specify the annotation (writing an e-mail address is strongly recommended):
 ```
-~$ python3 cry_processor.py -fi input.faa  -od output_dir -ma <e-mail address> --annotate
+~$ /path/to/install/cry_processor.py -fi input.faa  -od output_dir -ma <e-mail address> --annotate
 ```
 Use the <i>-nu</i> flag to download nucleotide sequences:
 
 ```
-~$ python3 cry_processor.py -fi input.faa  -od output_dir -ma <e-mail address> --annotate -nu pn
+~$ /path/to/install/cry_processor.py -fi input.faa  -od output_dir -ma <e-mail address> --annotate -nu pn
 ```
 The pipeline of searching could be performed in two modes:
 <ul>
@@ -111,18 +111,18 @@ The pipeline of searching could be performed in two modes:
 You can apply the Cry toxins search directly from the assembly graph in the gfa format with the following commad:
 
 ```
-~$ python3 cry_processor.py -fi input.gfa  -od output_dir --path_racer
+~$ /path/to/install/cry_processor.py -fi input.gfa  -od output_dir --path_racer
 ```
 ### Using Tool for the Illumina Reads
 This mode includes the reads assembly with SPAdes and the subsequent hmm-based toxins mining. To implement this use the following command:
 
 ```
-~$ python3 cry_processor.py -fo forward_reads.fastq -re reverse_reads.fastq -od output_dir 
+~$ /path/to/install/cry_processor.py -fo forward_reads.fastq -re reverse_reads.fastq -od output_dir 
 ```
 If you want to search for the Cry toxins from metagenomic reads specify <i>--meta</i> flag:
 
 ```
-~$ python3 cry_processor.py -fo forward_reads.fastq -re reverse_reads.fastq -od output_dir --meta
+~$ /path/to/install/cry_processor.py -fo forward_reads.fastq -re reverse_reads.fastq -od output_dir --meta
 ```
 ### Tips for the Correct Running
 

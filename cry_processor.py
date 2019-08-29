@@ -639,7 +639,7 @@ class CryProcessor:
                                     ind=j
                             self.coordinate_dict[name_key].extend(pre_dict[name_key]['D'+str(i)][ind:ind+2])
 
-                if self.processing_flag=='1':
+                if str(self.processing_flag)=='1':
                     for key in self.coordinate_dict:
                         if int(self.coordinate_dict[key][1]) - int(self.coordinate_dict[key][0])>75 and int(self.coordinate_dict[key][3]) - int(self.coordinate_dict[key][2])>75 and int(self.coordinate_dict[key][5]) - int(self.coordinate_dict[key][4])>75:
                             if int(self.coordinate_dict[key][4]) <= int(self.coordinate_dict[key][3]) and int(self.coordinate_dict[key][3]) - int(self.coordinate_dict[key][4]) <=55:

@@ -35,15 +35,36 @@ To install CryProcessor clone git repository to your PC:
 ~$ git clone https://github.com/lab7arriam/cry_processor
 ```
 After downloading, CryProcessor is ready to use.
+You can also add CryProcessor to the PATH typing:
+
+```
+~$ PATH=$PATH:/path/to/install
+```
+
+If you want to use prebuild Docker container with CryProcessor, pull it using the following command:
+
+```
+~$ docker pull lab7arriam/cry_processor
+```
+
+
 
 ## Running and Using Tool
 
 ### Quick Usage
 To extract Cry toxins from the protein fasta file simply execute the following command:
 ```
-~$ python3 cry_processor.py -fi input.faa  -od output_dir
+~$  /path/to/install/cry_processor.py -fi input.faa  -od output_dir
 ```
 This command will automatically search for the Cry toxins in the fasta file with amino acid sequences.
+
+If you use Docker container, you should use following command:
+
+```
+~$ docker run --rm -v /path/to/data:/data lab7arriam/cry_processor cry_processor -fi /data/<input file> -od /data/<output_dir> [args]
+```
+
+
 
 ### Supported Input Formats
 
@@ -77,12 +98,12 @@ The full list of tool options:
 ### Using Tool for the Fasta Files
 To use the tool for the files in the fasta format execute the command, presented in quick usage, you can also specify the annotation (writing an e-mail address is strongly recommended):
 ```
-~$ python3 cry_processor.py -fi input.faa  -od output_dir -ma <e-mail address> --annotate
+~$ /path/to/install/cry_processor.py -fi input.faa  -od output_dir -ma <e-mail address> --annotate
 ```
 Use the <i>-nu</i> flag to download nucleotide sequences:
 
 ```
-~$ python3 cry_processor.py -fi input.faa  -od output_dir -ma <e-mail address> --annotate -nu pn
+~$ /path/to/install/cry_processor.py  -fi input.faa  -od output_dir -ma <e-mail address> --annotate -nu pn
 ```
 The pipeline of searching could be performed in two modes:
 <ul>
@@ -94,18 +115,18 @@ The pipeline of searching could be performed in two modes:
 You can apply the Cry toxins search directly from the assembly graph in the gfa format with the following commad:
 
 ```
-~$ python3 cry_processor.py -fi input.gfa  -od output_dir --path_racer
+~$ /path/to/install/cry_processor.py -fi input.gfa  -od output_dir --path_racer
 ```
 ### Using Tool for the Illumina Reads
 This mode includes the reads assembly with SPAdes and the subsequent hmm-based toxins mining. To implement this use the following command:
 
 ```
-~$ python3 cry_processor.py -fo forward_reads.fastq -re reverse_reads.fastq -od output_dir 
+~$ /path/to/install/cry_processor.py  -fo forward_reads.fastq -re reverse_reads.fastq -od output_dir 
 ```
 If you want to search for the Cry toxins from metagenomic reads specify <i>--meta</i> flag:
 
 ```
-~$ python3 cry_processor.py -fo forward_reads.fastq -re reverse_reads.fastq -od output_dir --meta
+~$ /path/to/install/cry_processor.py  -fo forward_reads.fastq -re reverse_reads.fastq -od output_dir --meta
 ```
 ### Tips for the Correct Running
 

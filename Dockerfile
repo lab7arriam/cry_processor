@@ -1,7 +1,8 @@
-FROM python:3-alpine
+FROM python:3
 
-RUN apk add --no-cache make cmake gcc build-base && \
+RUN apt update && apt install -y make cmake gcc build-essential && \
 	pip install biopython && \
+	rm -rf /var/lib/apt/lists/* && \
 	mkdir /cry_processor
 
 ENV PATH=$PATH:/cry_processor

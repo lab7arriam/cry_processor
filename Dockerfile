@@ -13,4 +13,4 @@ ADD . / /cry_processor/
 
 RUN chmod 775 /cry_processor/cry_processor.py
 
-CMD cry_processor.py
+ENTRYPOINT ["cry_processor.py"]

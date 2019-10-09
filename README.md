@@ -61,7 +61,7 @@ This command will automatically search for the Cry toxins in the fasta file with
 If you use Docker container, you should use following command:
 
 ```
-~$ docker run --rm -v /path/to/data:/data lab7arriam/cry_processor cry_processor -fi /data/<input file> -od /data/<output_dir> [args]
+~$ docker run --rm -v /path/to/data:/data lab7arriam/cry_processor -fi /data/<input file> -od /data/<output_dir> [args]
 ```
 
 

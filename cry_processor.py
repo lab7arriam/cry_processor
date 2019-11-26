@@ -313,7 +313,32 @@ class CryProcessor:
                             self.hm_threads, 
                             self.query_dir)
 
-        mearging_cmd = subprocess.call("cd {0}; ls | grep '*fasta';\
+        D2_check_flag = re.sub("b",'',
+                                  re.sub("\'",'', 
+                                  str(subprocess.check_output("cd {0}; \
+                                  if [ ! -s {1} ] || [ ! -s {2} ] || [ ! -s {3} ] || [ ! -s {4} ] || [ ! -s {5} ] || [ ! -s {6} ] || [ ! -s {7} ];\
+                                  then echo 'no'; \
+                                  fi".format(os.path.join(
+                                  os.path.realpath(
+                                  self.query_dir),
+                                  'domains'),
+                                  self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_D2_extracted.fasta',
+                                  self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_cry31.fasta',
+                                  self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_long_32_11.fasta',
+                                  self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_Endotoxin_mid.fasta',
+                                  self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_Endotoxin_M.fasta',
+                                  self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_extra.fasta',
+                                  self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_cry_58.fasta'),
+                                  shell =True).strip())))
+        if D2_check_flag!='no':
+            mearging_cmd = subprocess.call("cd {0}; ls | grep '*fasta';\
                                          cat $(ls | grep -E '*(_D2_extracted|_cry31|_long_32_11|_Endotoxin_mid|_Endotoxin_M|_extra|_cry_58).fasta') > tmp_2.fasta; \
                                          mv tmp_2.fasta {1};   \
                                          ".format(os.path.join(
@@ -324,7 +349,34 @@ class CryProcessor:
                                          '_D2_extracted.fasta'), 
                                          shell=True)
 
-        mearging_cmd = subprocess.call("cd {0};\
+        else:
+            making_cmd = subprocess.call("cd {0}; touch {1};   \
+                                         ".format(os.path.join(
+                                         os.path.realpath(
+                                         self.query_dir),
+                                         'domains'),
+                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_D2_extracted.fasta'), 
+                                         shell=True)
+
+
+        D3_check_flag = re.sub("b",'',
+                                  re.sub("\'",'', 
+                                  str(subprocess.check_output("cd {0}; \
+                                  if [ ! -s {1} ] || [ ! -s {2} ];\
+                                  then echo 'no'; \
+                                  fi".format(os.path.join(
+                                  os.path.realpath(
+                                  self.query_dir),
+                                  'domains'),
+                                  self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_D3_extracted.fasta',
+                                  self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_extra_3'),
+                                  shell =True).strip())))
+
+        if D3_check_flag!='no':
+            mearging_cmd = subprocess.call("cd {0};\
                                          cat $(ls | grep -E '*(_D3_extracted|_extra_3).fasta') > tmp_3.fasta; \
                                          mv tmp_3.fasta {1};   \
                                          ".format(os.path.join(
@@ -334,6 +386,16 @@ class CryProcessor:
                                          self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
                                          '_D3_extracted.fasta'), 
                                          shell=True)
+        else:
+            making_cmd = subprocess.call("cd {0}; touch {1};   \
+                                         ".format(os.path.join(
+                                         os.path.realpath(
+                                         self.query_dir),
+                                         'domains'),
+                                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]+ 
+                                         '_D3_extracted.fasta'), 
+                                         shell=True)        
+
 
         cleaning_cmd = subprocess.call("cd {0};\
                                          rm $(ls | grep -E '*(_cry31|_long_32_11|_Endotoxin_mid|_Endotoxin_M|_extra|_cry_58|_extra_3).(fasta|sto)')    \
@@ -838,13 +900,41 @@ class CryProcessor:
         self.new_ids=dict()
         un_count=0
         total_count=0
-        if not self.silent_mode:
-            print("Annotating the raw output with diamond") 
-        self.logger.info("Annotating the raw output with diamond") 
+
         
         #diamond should have a database file in the same directory with the query. 
         #copying database for pefrorming blastp
-        cmd_pre_dia = subprocess.call('cd {0}; \
+
+        raw_full_check_flag = re.sub("b",'',
+                                  re.sub("\'",'', 
+                                  str(subprocess.check_output("cd {0}; \
+                                  if [ ! -s raw_full_{1}.fasta ] ;\
+                                  then echo 'no'; \
+                                  fi".format(os.path.join(
+                                  os.path.realpath(
+                                  self.query_dir)),
+                                  self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]),
+                                  shell =True).strip())))
+
+        if  raw_full_check_flag == 'no':
+            cmd_empty = subprocess.call('cd {0}; \
+                                       touch diamond_matches_{1}.txt'.format(
+                                       os.path.join(
+                                       os.path.realpath(
+                                       self.query_dir)),
+                                       self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]),
+                                       shell=True)
+            if not self.silent_mode:
+                print("No 3D Cry toxins found") 
+            self.logger.info("No 3D Cry toxins found") 
+
+        else:
+
+            if not self.silent_mode:
+                print("Annotating the raw output with diamond") 
+            self.logger.info("Annotating the raw output with diamond") 
+
+            cmd_pre_dia = subprocess.call('cd {0}; \
                                        cp {1} .; \
                                        touch diamond.log'.format(
                                        os.path.join(
@@ -860,7 +950,8 @@ class CryProcessor:
         #performing diamond blastp, save only the first hit
 
 
-        cmd_dia = subprocess.call('cd {0};\
+
+            cmd_dia = subprocess.call('cd {0};\
                                    {1} blastp \
                                     -d cry_nomenclature \
                                     -q raw_full_{2}.fasta \
@@ -883,95 +974,95 @@ class CryProcessor:
                                     self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]), 
                                     shell=True)
         #analyse diamond matches to get new toxins
-        with open(os.path.join(
+            with open(os.path.join(
                   os.path.realpath(
                   self.query_dir),
                   'diamond_matches_{}.txt'.format(
                   self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),'r') as csv_file:
-            my_reader = csv.reader(csv_file, delimiter='\t') 
-            for row in my_reader:
-                total_count+=1
-                if float(row[2])<100.0:
-                    self.new_ids[row[0]]=row[1]+'|'+ str(row[2])
-                    un_count+=1
+                my_reader = csv.reader(csv_file, delimiter='\t') 
+                for row in my_reader:
+                    total_count+=1
+                    if float(row[2])<100.0:
+                        self.new_ids[row[0]]=row[1]+'|'+ str(row[2])
+                        un_count+=1
         #extract unique sequences from the raw sequences
-        for init_rec in SeqIO.parse(os.path.join(
+            for init_rec in SeqIO.parse(os.path.join(
                                     os.path.realpath(
                                     self.query_dir),
                                     'raw_processed_{}.fasta'.format(
                                     self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 
                                     "fasta"):
-           if init_rec.id in self.new_ids.keys():
-               new_records.append(SeqRecord(Seq(str(init_rec.seq),
+               if init_rec.id in self.new_ids.keys():
+                   new_records.append(SeqRecord(Seq(str(init_rec.seq),
                                    generic_protein),
                                    id=self.new_ids[init_rec.id].split('|')[0]+'(' + 
                                    self.new_ids[init_rec.id].split('|')[1]+')'+
                                    '_'+init_rec.description.split()[0],
                                    description=init_rec.description))
-        if not self.silent_mode:
-            print('{} sequences matched with the database'.format(total_count))
-            print('{} toxins different from the database found'.format(un_count))
-        self.logger.info('{} sequences matched with the database'.format(total_count)) 
-        self.logger.info('{} toxins different from the database found'.format(un_count)) 
-        SeqIO.write(new_records,os.path.join(
+            if not self.silent_mode:
+                print('{} sequences matched with the database'.format(total_count))
+                print('{} toxins different from the database found'.format(un_count))
+            self.logger.info('{} sequences matched with the database'.format(total_count)) 
+            self.logger.info('{} toxins different from the database found'.format(un_count)) 
+            SeqIO.write(new_records,os.path.join(
                                 os.path.realpath(
                                 self.query_dir),
                                 'unique_{}.fasta'.format(
                                 self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 
                                 "fasta")
 
-        new_coord_dict = defaultdict(list)
+            new_coord_dict = defaultdict(list)
         #print(self.coordinate_dict)
         #print(self.new_ids)
-        for key in self.coordinate_dict:
-            if key.split("|")[0] in self.new_ids.keys():
+            for key in self.coordinate_dict:
+                if key.split("|")[0] in self.new_ids.keys():
                 #print(self.new_ids[key.split("|")[0]].split('|')[0] +"("+self.new_ids[key.split("|")[0]].split('|')[1]+")_"+key.split("|")[0])
-                new_coord_dict[self.new_ids[key.split("|")[0]].split('|')[0] +"("+self.new_ids[key.split("|")[0]].split('|')[1]+")_"+key.split("|")[0]]=self.coordinate_dict[key]
-        with open(os.path.join(
+                    new_coord_dict[self.new_ids[key.split("|")[0]].split('|')[0] +"("+self.new_ids[key.split("|")[0]].split('|')[1]+")_"+key.split("|")[0]]=self.coordinate_dict[key]
+            with open(os.path.join(
                       os.path.realpath(
                       self.query_dir),
                       'unique_proteins_domain_mapping_{}.bed'.format(
                         self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])),'w') as csv_file:
-                my_writer = csv.writer(csv_file, delimiter='\t') 
-                for key in new_coord_dict:
-                    if self.processing_flag!="2":
-                        for i in range(0,5,2):
-                            if i==0:
-                                row=[key.split('|')[0],
+                    my_writer = csv.writer(csv_file, delimiter='\t') 
+                    for key in new_coord_dict:
+                        if self.processing_flag!="2":
+                            for i in range(0,5,2):
+                                if i==0:
+                                    row=[key.split('|')[0],
                                   int(new_coord_dict[key][i])-int(new_coord_dict[key][0]),
                                   int(new_coord_dict[key][i+1])-1-int(new_coord_dict[key][0]),
                                  'domain_{}'.format(1)+'_'+key.split('|')[0]] 
-                            else:
-                                if i==2:
-                                    dn=2
                                 else:
-                                    dn=3
-                                row=[key.split('|')[0],
+                                    if i==2:
+                                        dn=2
+                                    else:
+                                        dn=3
+                                    row=[key.split('|')[0],
                                  int(new_coord_dict[key][i])-1-int(new_coord_dict[key][0]),
                                  int(new_coord_dict[key][i+1])-1-int(new_coord_dict[key][0]),
                                  'domain_{}'.format(dn)+'_'+key.split('|')[0]] 
 
                         
-                            my_writer.writerow(row)
-                    else:
-                        for i in range(0,3,2):
-                            if i==0:
-                                row=[key.split('|')[0],
+                                my_writer.writerow(row)
+                        else:
+                            for i in range(0,3,2):
+                                if i==0:
+                                    row=[key.split('|')[0],
                                   int(new_coord_dict[key][i])-int(new_coord_dict[key][0]),
                                   int(new_coord_dict[key][i+1])-1-int(new_coord_dict[key][0]),
                                  'domain_{}'.format(2)+'_'+key.split('|')[0]] 
-                            else:
-                                if i==2:
-                                    dn=3
-                                row=[key.split('|')[0],
+                                else:
+                                    if i==2:
+                                        dn=3
+                                    row=[key.split('|')[0],
                                  int(new_coord_dict[key][i])-1-int(new_coord_dict[key][0]),
                                  int(new_coord_dict[key][i+1])-1-int(new_coord_dict[key][0]),
                                  'domain_{}'.format(dn)+'_'+key.split('|')[0]] 
-                            my_writer.writerow(row)
+                                my_writer.writerow(row)
 
         #move intermediate files to the log directory if the annotation flag is not specified
-        if self.mode == 'fd':
-            cmd_clean_up = subprocess.call("mv {0} \
+            if self.mode == 'fd':
+                cmd_clean_up = subprocess.call("mv {0} \
                                                {1};".format(os.path.join(
                                                       os.path.realpath(
                                                       self.query_dir),
@@ -1635,7 +1726,19 @@ class CryProcessor:
                                           os.path.realpath(
                                           self.query_dir),
                                           'assembly')), 
-                                          shell=True)       
+                                          shell=True)     
+
+    def make_empty_output(self):
+       raw_full_check_flag = subprocess.call('cd {0}; \
+                                         touch raw_full_{1}.fasta; \
+                                         touch diamond_matches_{1}.txt; \
+                                         mv *diamond_matches* logs/; \
+                                         touch proteins_domain_mapping_full_{1}.bed '.format(os.path.join(
+                                          os.path.realpath(
+                                          self.query_dir)),
+                                          self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0]), 
+                                          shell=True)  
+
 
 
 class Crylauncher:
@@ -1703,6 +1806,7 @@ class Crylauncher:
                         if cr.nuc_count!=0:
                             cr.map_nucl()
             else:
+                cr.make_empty_output()
                 if not s:
                     print('No toxins found in the assembly graph')
                 cr.logger.info('No toxins found in the assembly graph')
@@ -1736,6 +1840,7 @@ class Crylauncher:
                         if cr.nuc_count!=0:
                             cr.map_nucl()
             else:
+                cr.make_empty_output()
                 if not s:
                     print('No toxins found in the assembly graph')
                 cr.logger.info('No toxins found in the assembly graph')

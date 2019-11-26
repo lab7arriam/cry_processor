@@ -1785,6 +1785,8 @@ class Crylauncher:
                     cr.upload_nucl()
                     if cr.nuc_count!=0:
                         cr.map_nucl()
+            else:
+              cr.make_empty_output() 
         elif mra and not fr:
         #pipeline for the gfa file
             cr.launch_racer(k)
@@ -1805,6 +1807,8 @@ class Crylauncher:
                         cr.upload_nucl()
                         if cr.nuc_count!=0:
                             cr.map_nucl()
+                else:
+                  cr.make_empty_output()  
             else:
                 cr.make_empty_output()
                 if not s:
@@ -1839,6 +1843,8 @@ class Crylauncher:
                         cr.upload_nucl()
                         if cr.nuc_count!=0:
                             cr.map_nucl()
+                else:
+                  cr.make_empty_output() 
             else:
                 cr.make_empty_output()
                 if not s:

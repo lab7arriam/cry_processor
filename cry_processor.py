@@ -316,7 +316,7 @@ class CryProcessor:
         D2_check_flag = re.sub("b",'',
                                   re.sub("\'",'', 
                                   str(subprocess.check_output("cd {0}; \
-                                  if [ ! -s {1} ] || [ ! -s {2} ] || [ ! -s {3} ] || [ ! -s {4} ] || [ ! -s {5} ] || [ ! -s {6} ] || [ ! -s {7} ];\
+                                  if [ ! -s {1} ] && [ ! -s {2} ] && [ ! -s {3} ] && [ ! -s {4} ] && [ ! -s {5} ] && [ ! -s {6} ] && [ ! -s {7} ];\
                                   then echo 'no'; \
                                   fi".format(os.path.join(
                                   os.path.realpath(
@@ -363,7 +363,7 @@ class CryProcessor:
         D3_check_flag = re.sub("b",'',
                                   re.sub("\'",'', 
                                   str(subprocess.check_output("cd {0}; \
-                                  if [ ! -s {1} ] || [ ! -s {2} ];\
+                                  if [ ! -s {1} ] && [ ! -s {2} ];\
                                   then echo 'no'; \
                                   fi".format(os.path.join(
                                   os.path.realpath(

@@ -3,7 +3,7 @@ import subprocess
 import argparse
 from Bio import SeqIO, Entrez
 from Bio.Seq import Seq
-from Bio.Alphabet import generic_protein, generic_dna
+#from Bio.Alphabet import generic_protein, generic_dna
 from Bio.SeqRecord import SeqRecord
 from collections import defaultdict
 import csv
@@ -568,12 +568,10 @@ class CryProcessor:
                          #substract 1 from the starting index because the hmmer output is 1-based
                          start = min([int(x) for x in self.coordinate_dict[name]])-1
                          stop = max([int(x) for x in self.coordinate_dict[name]])
-                         full_rec_list.append(SeqRecord(Seq(str(record.seq),
-                                           generic_protein),
+                         full_rec_list.append(SeqRecord(Seq(str(record.seq)),
                                            id=name.split('|')[0], 
                                            description=" ".join(name.split('|')[1:])))
-                         new_rec_list.append(SeqRecord(Seq(str(record.seq[start:stop]),
-                                           generic_protein),
+                         new_rec_list.append(SeqRecord(Seq(str(record.seq[start:stop])),
                                            id=name.split('|')[0], 
                                             description=" ".join(name.split('|')[1:])))
                 #save full and processed sequences
@@ -747,12 +745,10 @@ class CryProcessor:
                          ids_check_set.add(record.id)
                          start = min([int(x) for x in self.coordinate_dict[name]])-1
                          stop = max([int(x) for x in self.coordinate_dict[name]])
-                         new_rec_list.append(SeqRecord(Seq(str(record.seq[start:stop].upper()),
-                                          generic_protein),
+                         new_rec_list.append(SeqRecord(Seq(str(record.seq[start:stop].upper())),
                                           id=name.split('|')[0], 
                                           description=" ".join(name.split('|')[1:])))
-                         full_rec_list.append(SeqRecord(Seq(str(record.seq),
-                                          generic_protein),
+                         full_rec_list.append(SeqRecord(Seq(str(record.seq)),
                                           id=name.split('|')[0], 
                                           description=" ".join(name.split('|')[1:])))
                 SeqIO.write(new_rec_list,
@@ -993,8 +989,7 @@ class CryProcessor:
                                     self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0])), 
                                     "fasta"):
                if init_rec.id in self.new_ids.keys():
-                   new_records.append(SeqRecord(Seq(str(init_rec.seq),
-                                   generic_protein),
+                   new_records.append(SeqRecord(Seq(str(init_rec.seq)),
                                    id=self.new_ids[init_rec.id].split('|')[0]+'(' + 
                                    self.new_ids[init_rec.id].split('|')[1]+')'+
                                    '_'+init_rec.description.split()[0],
@@ -1247,16 +1242,14 @@ class CryProcessor:
                     #perform reverse complement if strand is -
                     if keys_for_nucl[key][4] == '+':
                         f_nuc_recs.append(SeqRecord(Seq(str(fasta_rec.seq[int(keys_for_nucl[key][2])-
-                                          1:int(keys_for_nucl[key][3])]),
-                                          generic_dna),
+                                          1:int(keys_for_nucl[key][3])])),
                                           id=keys_for_nucl[key][5]+
                                           '('+keys_for_nucl[key][6]+
                                           ')'+'_'+keys_for_nucl[key][0].split('|')[0], 
                                           description=" ".join(keys_for_nucl[key][0].split('|'))))
                     elif keys_for_nucl[key][4] == '-':
                         f_nuc_recs.append(SeqRecord(Seq(str(fasta_rec.seq[int(keys_for_nucl[key][2])-
-                                         1:int(keys_for_nucl[key][3])].reverse_complement()),
-                                         generic_dna),
+                                         1:int(keys_for_nucl[key][3])].reverse_complement())),
                                          id=keys_for_nucl[key][5]+
                                          '('+keys_for_nucl[key][6]+
                                          ')'+'_'+keys_for_nucl[key][0].split('|')[0], 
@@ -1296,8 +1289,7 @@ class CryProcessor:
                         p_nuc_recs.append(SeqRecord(
                                         Seq(dum_seq[(
                                         min([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])-1)*3:
-                                        max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3],
-                                        generic_dna),
+                                        max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3]),
                                         id=keys_for_nucl[key][5]+
                                         '('+keys_for_nucl[key][6]+
                                         ')'+'_'+keys_for_nucl[key][0].split('|')[0], 
@@ -1305,13 +1297,11 @@ class CryProcessor:
                     elif keys_for_nucl[key][4] == '-':
                         dum_seq = str(Seq(
                                       str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:
-                                      int(keys_for_nucl[key][3])].reverse_complement()),
-                                      generic_dna))
+                                      int(keys_for_nucl[key][3])].reverse_complement())))
                         p_nuc_recs.append(SeqRecord(
                                       Seq(dum_seq[(
                                       min([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])-1)*3:
-                                      max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3],
-                                      generic_dna),
+                                      max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3]),
                                       id=keys_for_nucl[key][5]+
                                      '('+keys_for_nucl[key][6]+
                                      ')'+'_'+keys_for_nucl[key][0].split('|')[0], 
@@ -1349,29 +1339,25 @@ class CryProcessor:
                         p_nuc_recs.append(SeqRecord(
                                        Seq(dum_seq[(
                                        min([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])-1)*3:
-                                       max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3],
-                                       generic_dna),
+                                       max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3]),
                                        id=keys_for_nucl[key][5]+
                                        '('+keys_for_nucl[key][6]+
                                        ')'+'_'+keys_for_nucl[key][0].split('|')[0], 
                                        description=" ".join(keys_for_nucl[key][0].split('|'))))
                         f_nuc_recs.append(SeqRecord(
                                        Seq(str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:
-                                       int(keys_for_nucl[key][3])]),
-                                       generic_dna),
+                                       int(keys_for_nucl[key][3])])),
                                        id=keys_for_nucl[key][5]+
                                        '('+keys_for_nucl[key][6]+
                                        ')'+'_'+keys_for_nucl[key][0].split('|')[0], 
                                        description=" ".join(keys_for_nucl[key][0].split('|'))))
                     elif keys_for_nucl[key][4] == '-':
                         dum_seq = str(Seq(str(fasta_rec.seq[int(keys_for_nucl[key][2])-1:
-                                      int(keys_for_nucl[key][3])].reverse_complement()),
-                                      generic_dna))
+                                      int(keys_for_nucl[key][3])].reverse_complement())))
                         p_nuc_recs.append(SeqRecord(
                                       Seq(dum_seq[(
                                       min([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])-1)*3:
-                                      max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3],
-                                      generic_dna),
+                                      max([int(x) for x in domain_coord_dict[keys_for_nucl[key][0]]])*3]),
                                       id=keys_for_nucl[key][5]+
                                       '('+keys_for_nucl[key][6]+
                                       ')'+'_'+keys_for_nucl[key][0].split('|')[0], 
@@ -1379,8 +1365,7 @@ class CryProcessor:
                         f_nuc_recs.append(SeqRecord(
                                       Seq(str(fasta_rec.seq[int(
                                       keys_for_nucl[key][2])-1:
-                                      int(keys_for_nucl[key][3])].reverse_complement()),
-                                      generic_dna),
+                                      int(keys_for_nucl[key][3])].reverse_complement())),
                                       id=keys_for_nucl[key][5]+
                                       '('+keys_for_nucl[key][6]+
                                       ')'+'_'+keys_for_nucl[key][0].split('|')[0], 

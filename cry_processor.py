@@ -59,7 +59,8 @@ class CryProcessor:
                 self.two_dom_count = 0
                 self.three_dom_count = 0
 
-        self.out_name = '.'.join(self.cry_query.split('/')[len(self.cry_query.split('/'))-1].split('.')[0:cry_query.count('.')])
+        self.input_file = self.cry_query.split('/')[len(self.cry_query.split('/'))-1]
+        self.out_name = '.'.join(self.input_file.split('.')[0:self.input_file.count('.')])
         self.email = email
         self.mode = mode
         self.nucl_type = nucl_type
